@@ -4,32 +4,24 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class User extends Model
+class Account extends Authenticatable
 {
-    use HasApiTokens;
     use HasFactory;
-    use Notifiable;
 
     protected $guarded = [
         'id',
+        'role'
     ];
 
     protected $hidden = [
         'password',
         'remember_token',
     ];
-
+    
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'password' => 'hashed',
     ];
-
-    protected function casts(): array
-    {
-        return [
-            'gender' => GenderType::class
-        ];
-    }
 }
