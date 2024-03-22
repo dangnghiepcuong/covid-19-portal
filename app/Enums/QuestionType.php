@@ -4,5 +4,9 @@ namespace App\Enums;
 
 class QuestionType
 {
-    public const QUESTION_TYPE = ['TrueFalse' => 'True or False', 'MultipleChoices' => 'Multiple choices', 'Text' => 'Text'];
+    public const QUESTION_TYPE = [
+        'TrueFalse' => 'True or False',
+        'MultipleChoices' => 'Multiple choices',
+        'Text' => 'Text',
+    ];
 }
