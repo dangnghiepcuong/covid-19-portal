@@ -18,7 +18,7 @@ class CreateFormsTable extends Migration
             $table->timestamps();
             $table->unsignedBigInteger('user_id');
             $table->dateTime('filled_time');
-            
+
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }

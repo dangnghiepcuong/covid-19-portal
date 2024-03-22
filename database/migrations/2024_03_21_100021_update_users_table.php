@@ -29,7 +29,7 @@ class UpdateUsersTable extends Migration
             $table->string('address', 50);
             $table->string('contact', 15);
             $table->string('e_certificate', 15);
-            
+
             $table->foreign('account_id')->references('id')->on('accounts')->onDelete('cascade');
             $table->index(['last_name', 'first_name']);
             $table->index('first_name');

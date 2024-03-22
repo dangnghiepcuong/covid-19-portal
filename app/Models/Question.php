@@ -10,13 +10,13 @@ class Question extends Model
     use HasFactory;
 
     protected $guarded = [
-        'id'
+        'id',
     ];
 
     protected function casts(): array
     {
         return [
-            'type' => QuestionType::class
+            'type' => QuestionType::class,
         ];
     }
 }

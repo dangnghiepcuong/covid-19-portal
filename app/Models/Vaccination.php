@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Vaccination extends Model
 {
     use HasFactory;
-    
+
     protected $guarded = [
         'id',
     ];
@@ -16,7 +16,7 @@ class Vaccination extends Model
     protected function casts(): array
     {
         return [
-            'shot_name' => ShotType::class
+            'shot_name' => ShotType::class,
         ];
     }
 }

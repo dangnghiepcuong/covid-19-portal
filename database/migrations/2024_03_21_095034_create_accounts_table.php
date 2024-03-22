@@ -21,7 +21,7 @@ class CreateAccountsTable extends Migration
             $table->string('email')->unique();
             $table->string('password');
             $table->unsignedBigInteger('role');
-            
+
             $table->foreign('role')->references('id')->on('roles');
         });
     }

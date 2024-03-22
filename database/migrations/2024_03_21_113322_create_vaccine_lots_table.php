@@ -23,7 +23,7 @@ class CreateVaccineLotsTable extends Migration
             $table->integer('quantity');
             $table->date('import_date');
             $table->date('expiry_date');
-            
+
             $table->foreign('vaccine_id')->references('id')->on('vaccines');
             $table->foreign('business_id')->references('id')->on('businesses')->onDelete('cascade');
         });

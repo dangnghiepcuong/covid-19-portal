@@ -10,6 +10,6 @@ class Form extends Model
     use HasFactory;
 
     protected $guarded = [
-        'id'
+        'id',
     ];
 }

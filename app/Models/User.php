@@ -29,7 +29,7 @@ class User extends Model
     protected function casts(): array
     {
         return [
-            'gender' => GenderType::class
+            'gender' => GenderType::class,
         ];
     }
 }

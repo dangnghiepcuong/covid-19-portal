@@ -17,7 +17,7 @@ class FormAnswer extends Model
     protected function casts(): array
     {
         return [
-            'answer_multiple_choices' => MultipleChoices::class
+            'answer_multiple_choices' => MultipleChoices::class,
         ];
     }
 }

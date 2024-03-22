@@ -25,7 +25,7 @@ class CreateBusinessesTable extends Migration
             $table->string('addr_ward', 30);
             $table->string('address', 50);
             $table->string('contact', 15);
-            
+
             $table->foreign('account_id')->references('id')->on('accounts')->onDelete('cascade');
             $table->index('name');
             $table->index('tax_id');

@@ -26,7 +26,7 @@ class CreateSchedulesTable extends Migration
             $table->smallInteger('day_shift_registration');
             $table->smallInteger('noon_shift_registration');
             $table->smallInteger('night_shift_registration');
-            
+
             $table->foreign('business_id')->references('id')->on('businesses')->onDelete('cascade');
             $table->foreign('vaccine_lot_id')->references('id')->on('vaccine_lots');
         });

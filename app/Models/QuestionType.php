@@ -1,7 +1,8 @@
 <?php
+
 namespace App\Models;
 
-enum QuestionType: string 
+enum QuestionType: string
 {
     case TrueFalse = 'True or False';
     case MultipleChoices = 'Multiple choices';

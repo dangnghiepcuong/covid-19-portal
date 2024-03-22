@@ -20,7 +20,7 @@ class CreateRegistrationsTable extends Migration
             $table->unsignedBigInteger('user_id');
             $table->smallInteger('number_order');
             $table->string('status', 50);
-            
+
             $table->foreign('schedule_id')->references('id')->on('schedules')->onDelete('cascade');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });

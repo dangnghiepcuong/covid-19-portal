@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class VaccineLot extends Model
 {
     use HasFactory;
-    
+
     protected $guarded = [
         'id',
     ];
