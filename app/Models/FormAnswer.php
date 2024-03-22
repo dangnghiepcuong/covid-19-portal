@@ -13,11 +13,4 @@ class FormAnswer extends Model
     protected $guarded = [
         'id',
     ];
-
-    protected function casts(): array
-    {
-        return [
-            'answer_multiple_choices' => MultipleChoices::class,
-        ];
-    }
 }

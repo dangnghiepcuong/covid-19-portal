@@ -12,11 +12,4 @@ class Vaccination extends Model
     protected $guarded = [
         'id',
     ];
-
-    protected function casts(): array
-    {
-        return [
-            'shot_name' => ShotType::class,
-        ];
-    }
 }
