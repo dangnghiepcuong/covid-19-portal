@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
+#[ScopedBy([ActiveScope::class])]
 class User extends Model
 {
     use HasApiTokens;
@@ -54,10 +55,5 @@ class User extends Model
     public function getFullNameAttribute($value)
     {
         return "{$this->last_name} {$this->first_name}";
-    }
-
-    protected static function booted()
-    {
-        static::addGlobalScope(new ActiveScope);
     }
 }
