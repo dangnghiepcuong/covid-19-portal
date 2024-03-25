@@ -15,11 +15,11 @@ class FormAnswer extends Model
 
     public function form()
     {
-        return $this->belongsTo('App\Form');
+        return $this->belongsTo(Form::class);
     }
 
     public function question()
     {
-        return $this->belongsTo('App\Question');
+        return $this->belongsTo(Question::class);
     }
 }

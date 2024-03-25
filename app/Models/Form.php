@@ -15,11 +15,11 @@ class Form extends Model
 
     public function user()
     {
-        return $this->belongsTo('App\User');
+        return $this->belongsTo(User::class);
     }
 
     public function formAnswers()
     {
-        return $this->hasMany('App\FormAnswer');
+        return $this->hasMany(FormAnswer::class);
     }
 }

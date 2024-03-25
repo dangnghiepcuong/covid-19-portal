@@ -28,16 +28,16 @@ class Account extends Authenticatable
 
     public function roles()
     {
-        return $this->belongsTo('App\Role');
+        return $this->belongsTo(Role::class);
     }
 
     public function user()
     {
-        return $this->hasOne('App\User');
+        return $this->hasOne(User::class);
     }
 
     public function business()
     {
-        return $this->hasOne('App\Business');
+        return $this->hasOne(Business::class);
     }
 }

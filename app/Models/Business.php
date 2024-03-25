@@ -17,16 +17,16 @@ class Business extends Model
 
     public function account()
     {
-        return $this->belongsTo('App\Account');
+        return $this->belongsTo(Account::class);
     }
 
     public function vaccineLots()
     {
-        return $this->hasMany('App\VaccineLot');
+        return $this->hasMany(VaccineLot::class);
     }
 
     public function schedules()
     {
-        return $this->hasMany('App\Schedule');
+        return $this->hasMany(Schedule::class);
     }
 }

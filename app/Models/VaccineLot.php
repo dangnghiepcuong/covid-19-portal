@@ -17,16 +17,16 @@ class VaccineLot extends Model
 
     public function vaccine()
     {
-        return $this->belongsTo('App\Vaccine');
+        return $this->belongsTo(Vaccine::class);
     }
 
     public function business()
     {
-        return $this->belongsTo('App\Business');
+        return $this->belongsTo(Business::class);
     }
 
     public function schedules()
     {
-        return $this->hasMany('App\Schedule');
+        return $this->hasMany(Schedule::class);
     }
 }

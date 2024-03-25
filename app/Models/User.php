@@ -30,23 +30,23 @@ class User extends Model
 
     public function account()
     {
-        return $this->belongsTo('App\Account');
+        return $this->belongsTo(Account::class);
     }
 
     public function forms()
     {
-        return $this->hasMany('App\Form');
+        return $this->hasMany(Form::class);
     }
 
     public function schedules()
     {
-        return $this->belongsToMany('App\Schedule')
+        return $this->belongsToMany(Schedule::class)
             ->using('App\Registration')
             ->withPivot(['created_at', 'updated_at', 'number_order', 'status']);
     }
 
     public function vaccinations()
     {
-        return $this->hasMany('App\Vaccination');
+        return $this->hasMany(Vaccination::class);
     }
 }

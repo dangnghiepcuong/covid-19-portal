@@ -17,6 +17,6 @@ class Vaccine extends Model
 
     public function vaccineLots()
     {
-        return $this->hasMany('App\VaccineLot');
+        return $this->hasMany(VaccineLot::class);
     }
 }

@@ -17,6 +17,6 @@ class Question extends Model
 
     public function formAnswers()
     {
-        return $this->hasMany('App\FormAnswer');
+        return $this->hasMany(FormAnswer::class);
     }
 }

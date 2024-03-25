@@ -17,23 +17,23 @@ class Schedule extends Model
 
     public function business()
     {
-        return $this->belongsTo('App\Business');
+        return $this->belongsTo(Business::class);
     }
 
     public function vaccineLot()
     {
-        return $this->belongsTo('App\VaccineLot');
+        return $this->belongsTo(VaccineLot::class);
     }
 
     public function users()
     {
-        return $this->belongsToMany('App\User')
+        return $this->belongsToMany(User::class)
             ->using('App\Registration')
             ->withPivot(['created_at', 'updated_at', 'number_order', 'status']);
     }
 
     public function vaccinations()
     {
-        return $this->hasMany('App\Vaccination');
+        return $this->hasMany(Vaccination::class);
     }
 }

@@ -17,11 +17,11 @@ class Vaccination extends Model
 
     public function user()
     {
-        return $this->belongsTo('App\User');
+        return $this->belongsTo(User::class);
     }
 
     public function schedule()
     {
-        return $this->belongsTo('App\Schedule');
+        return $this->belongsTo(Schedule::class);
     }
 }
