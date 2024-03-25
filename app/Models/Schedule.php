@@ -27,7 +27,9 @@ class Schedule extends Model
 
     public function users()
     {
-        return $this->belongsToMany('App\User')->using('App\Registration')->withPivot(['created_at', 'updated_at', 'number_order', 'status']);
+        return $this->belongsToMany('App\User')
+        ->using('App\Registration')
+        ->withPivot(['created_at', 'updated_at', 'number_order', 'status']);
     }
 
     public function vaccinations()

@@ -10,7 +10,7 @@ class Registration extends Pivot
     use HasFactory;
 
     public $incrementing = true;
-    
+
     protected $guarded = [
         'id',
     ];
