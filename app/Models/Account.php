@@ -40,4 +40,14 @@ class Account extends Authenticatable
     {
         return $this->hasOne(Business::class);
     }
+
+    public function setEmailAttribute($value)
+    {
+        $this->attributes['email'] = strtolower($value);
+    }
+
+    public function scopeIsAdmin($query)
+    {
+        return $query->where('role', 0);
+    }
 }

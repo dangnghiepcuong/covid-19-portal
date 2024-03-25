@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Scopes\ActiveScope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -48,5 +49,15 @@ class User extends Model
     public function vaccinations()
     {
         return $this->hasMany(Vaccination::class);
+    }
+
+    public function getFullNameAttribute($value)
+    {
+        return "{$this->last_name} {$this->first_name}";
+    }
+
+    protected static function booted()
+    {
+        static::addGlobalScope(new ActiveScope);
     }
 }
