@@ -12,4 +12,14 @@ class FormAnswer extends Model
     protected $guarded = [
         'id',
     ];
+
+    public function form()
+    {
+        return $this->belongsTo(Form::class);
+    }
+
+    public function question()
+    {
+        return $this->belongsTo(Question::class);
+    }
 }
