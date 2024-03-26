@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\Role;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -39,5 +40,15 @@ class Account extends Authenticatable
     public function business()
     {
         return $this->hasOne(Business::class);
+    }
+
+    public function setEmailAttribute($value)
+    {
+        $this->attributes['email'] = strtolower($value);
+    }
+
+    public function scopeIsAdmin($query)
+    {
+        return $query->where('role', Role::ROLE['role_admin']);
     }
 }

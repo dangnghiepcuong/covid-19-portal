@@ -49,4 +49,9 @@ class User extends Model
     {
         return $this->hasMany(Vaccination::class);
     }
+
+    public function getFullNameAttribute($value)
+    {
+        return "{$this->last_name} {$this->first_name}";
+    }
 }
