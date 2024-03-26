@@ -15,7 +15,7 @@ class RoleSeeder extends Seeder
     public function run()
     {
         DB::table('roles')->insert([
-            'id' => 0,
+            'id' => 1,
             'name' => 'role_admin',
             'can_create' => true,
             'can_read' => true,
