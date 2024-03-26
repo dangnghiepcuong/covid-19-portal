@@ -4,7 +4,6 @@ use App\Http\Controllers\BusinessController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LandingPageController;
-use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
 /*
