@@ -2,14 +2,12 @@
 
 namespace App\Models;
 
-use App\Scopes\ActiveScope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
-#[ScopedBy([ActiveScope::class])]
 class User extends Model
 {
     use HasApiTokens;
