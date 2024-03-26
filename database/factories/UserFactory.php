@@ -15,7 +15,7 @@ class UserFactory extends Factory
     public function definition()
     {
         return [
-            'account_id' => Account::where('role', 2)->max('id')->id,
+            'account_id' => Account::where('role', 2)->max('id'),
             'pid' => strval($this->faker->unique()->randomDigit()),
             'first_name' => $this->faker->firstName(),
             'last_name' => $this->faker->lastName(),
