@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use App\Enums\Role;
 
 class Account extends Authenticatable
 {
@@ -48,6 +49,6 @@ class Account extends Authenticatable
 
     public function scopeIsAdmin($query)
     {
-        return $query->where('role', 0);
+        return $query->where('role', Role::ROLE['role_admin']);
     }
 }
