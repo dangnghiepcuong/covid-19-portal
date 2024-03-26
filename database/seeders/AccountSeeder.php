@@ -11,6 +11,7 @@ class AccountSeeder extends Seeder
     public function run()
     {
         DB::table('accounts')->insert([
+            'id' => 1,
             'email' => 'admin@gmail.com',
             'password' => Hash::make('123'),
             'role' => 1,

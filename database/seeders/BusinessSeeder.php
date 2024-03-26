@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Enums\Role;
 use App\Models\Account;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -16,7 +17,7 @@ class BusinessSeeder extends Seeder
     public function run()
     {
         DB::table('businesses')->insert([
-            'account_id' => Account::where('role', 1)->min('id'),
+            'account_id' => Account::where('role', Role::ROLE['role_admin'])->min('id'),
             'tax_id' => '0658465463',
             'name' => 'Bộ Y tế',
             'addr_province' => 'Hà Nội',
