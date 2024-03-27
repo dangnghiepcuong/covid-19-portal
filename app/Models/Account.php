@@ -24,7 +24,6 @@ class Account extends Authenticatable
 
     protected $casts = [
         'email_verified_at' => 'datetime',
-        'password' => 'hashed',
     ];
 
     public function roles()
@@ -49,6 +48,6 @@ class Account extends Authenticatable
 
     public function scopeIsAdmin($query)
     {
-        return $query->where('role', Role::ROLE['role_admin']);
+        return $query->where('role', Role::ROLE_ADMIN);
     }
 }

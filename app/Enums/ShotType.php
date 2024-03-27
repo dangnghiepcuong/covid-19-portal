@@ -4,9 +4,16 @@ namespace App\Enums;
 
 class ShotType
 {
-    public const SHOT_TYPE = [
-        'FirstShot' => 'Mũi đầu tiên',
-        'SecondShot' => 'Mũi thứ hai',
-        'BoosterShot' => 'Mũi tăng cường',
-    ];
+    public const FIRST_SHOT = 'Mũi đầu tiên';
+    public const SECOND_SHOT = 'Mũi thứ hai';
+    public const BOOSTER_SHOT = 'Mũi tăng cường';
+
+    public static function allCases()
+    {
+        $object = new ShotType();
+        $array = [];
+        foreach ($object as $properties => $value) {
+            array_push($array, $value);
+        }
+    }
 }
