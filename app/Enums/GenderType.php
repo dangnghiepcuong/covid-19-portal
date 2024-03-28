@@ -2,18 +2,29 @@
 
 namespace App\Enums;
 
+use ReflectionClass;
+
 class GenderType
 {
     public const FEMALE = 'Nữ';
     public const MALE = 'Nam';
     public const OTHER = 'Khác';
 
+    private static function getConstants()
+    {
+        $oClass = new ReflectionClass(self::class);
+
+        return $oClass->getConstants();
+    }
+
     public static function allCases()
     {
-        $object = new GenderType();
+        $consts = self::getConstants();
         $array = [];
-        foreach ($object as $properties => $value) {
+        foreach ($consts as $properties => $value) {
             array_push($array, $value);
         }
+
+        return $array;
     }
 }
