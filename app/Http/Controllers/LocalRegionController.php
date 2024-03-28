@@ -13,12 +13,12 @@ class LocalRegionController extends Controller
         $data = Storage::disk('local')->get('local.json');
         $local = json_decode($data, true);
 
-        $province_list = [];
+        $provinceList = [];
         foreach ($local as $province) {
-            array_push($province_list, $province['name']);
+            array_push($provinceList, $province['name']);
         }
 
-        return $province_list;
+        return $provinceList;
     }
 
     public static function getDistrictList(Request $request)
@@ -31,18 +31,18 @@ class LocalRegionController extends Controller
         $local = json_decode($data, true);
 
         try {
-            $addr_province = (int) $request->addr_province;
-            $districts = $local[$addr_province]['districts'];
+            $addrProvince = (int) $request->addr_province;
+            $districts = $local[$addrProvince]['districts'];
         } catch (ErrorException $e) {
             return [];
         }
 
-        $district_list = [];
+        $districtList = [];
         foreach ($districts as $district) {
-            array_push($district_list, $district['name']);
+            array_push($districtList, $district['name']);
         }
 
-        return $district_list;
+        return $districtList;
     }
 
     public static function getWardList(Request $request)
@@ -55,20 +55,20 @@ class LocalRegionController extends Controller
         $local = json_decode($data, true);
 
         try {
-            $addr_province = (int) $request->addr_province;
-            $addr_district = (int) substr($request->addr_district, 2);
-            $wards = $local[$addr_province]['districts'][$addr_district]['wards'];
+            $addrProvince = (int) $request->addr_province;
+            $addrDistrict = (int) substr($request->addr_district, 2);
+            $wards = $local[$addrProvince]['districts'][$addrDistrict]['wards'];
         } catch (ErrorException $e) {
             return [];
         }
 
-        $wards = $local[$addr_province]['districts'][$addr_district]['wards'];
-        $ward_list = [];
+        $wards = $local[$addrProvince]['districts'][$addrDistrict]['wards'];
+        $wardList = [];
         foreach ($wards as $ward) {
-            array_push($ward_list, $ward['name']);
+            array_push($wardList, $ward['name']);
         }
 
-        return $ward_list;
+        return $wardList;
     }
 
     public static function getProvinceCodeList()
@@ -76,14 +76,14 @@ class LocalRegionController extends Controller
         $data = Storage::disk('local')->get('local.json');
         $local = json_decode($data, true);
 
-        $province_list = [];
+        $provinceList = [];
         $i = 0;
         foreach ($local as $province) {
-            array_push($province_list, str_pad($i, 2, '0', STR_PAD_LEFT));
+            array_push($provinceList, str_pad($i, 2, '0', STR_PAD_LEFT));
             $i++;
         }
 
-        return $province_list;
+        return $provinceList;
     }
 
     public static function getDistrictCodeList(Request $request)
@@ -96,20 +96,20 @@ class LocalRegionController extends Controller
         $local = json_decode($data, true);
 
         try {
-            $addr_province = (int) $request->addr_province;
-            $districts = $local[$addr_province]['districts'];
+            $addrProvince = (int) $request->addr_province;
+            $districts = $local[$addrProvince]['districts'];
         } catch (ErrorException $e) {
             return [];
         }
 
-        $district_list = [];
+        $districtList = [];
         $i = 0;
         foreach ($districts as $district) {
-            array_push($district_list, $request->addr_province . str_pad($i, 2, '0', STR_PAD_LEFT));
+            array_push($districtList, $request->addr_province . str_pad($i, 2, '0', STR_PAD_LEFT));
             $i++;
         }
 
-        return $district_list;
+        return $districtList;
     }
 
     public static function getWardCodeList(Request $request)
@@ -122,22 +122,22 @@ class LocalRegionController extends Controller
         $local = json_decode($data, true);
 
         try {
-            $addr_province = (int) $request->addr_province;
-            $addr_district = (int) substr($request->addr_district, 2);
-            $wards = $local[$addr_province]['districts'][$addr_district]['wards'];
+            $addrProvince = (int) $request->addr_province;
+            $addrDistrict = (int) substr($request->addr_district, 2);
+            $wards = $local[$addrProvince]['districts'][$addrDistrict]['wards'];
         } catch (ErrorException $e) {
             return [];
         }
 
-        $wards = $local[$addr_province]['districts'][$addr_district]['wards'];
-        $ward_list = [];
+        $wards = $local[$addrProvince]['districts'][$addrDistrict]['wards'];
+        $wardList = [];
         $i = 0;
         foreach ($wards as $ward) {
-            array_push($ward_list, $request->addr_district . str_pad($i, 2, '0', STR_PAD_LEFT));
+            array_push($wardList, $request->addr_district . str_pad($i, 2, '0', STR_PAD_LEFT));
             $i++;
         }
 
-        return $ward_list;
+        return $wardList;
     }
 
     public static function getProvinceName($code): string
@@ -150,8 +150,8 @@ class LocalRegionController extends Controller
         $local = json_decode($data, true);
 
         try {
-            $addr_province = (int) $code;
-            $name = $local[$addr_province]['name'];
+            $addrProvince = (int) $code;
+            $name = $local[$addrProvince]['name'];
         } catch (ErrorException $e) {
             return '';
         }
@@ -169,9 +169,9 @@ class LocalRegionController extends Controller
         $local = json_decode($data, true);
 
         try {
-            $addr_province = (int) substr($code, 0, 2);
-            $addr_district = (int) substr($code, 2);
-            $name = $local[$addr_province]['districts'][$addr_district]['name'];
+            $addrProvince = (int) substr($code, 0, 2);
+            $addrDistrict = (int) substr($code, 2);
+            $name = $local[$addrProvince]['districts'][$addrDistrict]['name'];
         } catch (ErrorException $e) {
             return '';
         }
@@ -189,10 +189,10 @@ class LocalRegionController extends Controller
         $local = json_decode($data, true);
 
         try {
-            $addr_province = (int) substr($code, 0, 2);
-            $addr_district = (int) substr($code, 2, 2);
-            $addr_ward = (int) substr($code, 4);
-            $name = $local[$addr_province]['districts'][$addr_district]['wards'][$addr_ward]['name'];
+            $addrProvince = (int) substr($code, 0, 2);
+            $addrDistrict = (int) substr($code, 2, 2);
+            $addrWard = (int) substr($code, 4);
+            $name = $local[$addrProvince]['districts'][$addrDistrict]['wards'][$addrWard]['name'];
         } catch (ErrorException $e) {
             return '';
         }

@@ -44,9 +44,9 @@ class RegisteredUserController extends Controller
                 'role' => Role::ROLE_USER,
             ]);
 
-            $account_id = Account::where('email', $request->email)->first()->id;
+            $accountId = Account::where('email', $request->email)->first()->id;
             User::create([
-                'account_id' => $account_id,
+                'account_id' => $accountId,
                 'first_name' => $request->first_name,
                 'last_name' => $request->last_name,
                 'pid' => $request->pid,
