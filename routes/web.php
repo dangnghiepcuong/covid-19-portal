@@ -8,7 +8,6 @@ use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\LocalRegionController;
 use App\Http\Controllers\UserController;
 use App\Http\Middleware\CheckAdmin;
-use App\Http\Middleware\Localization;
 use Illuminate\Support\Facades\Route;
 
 /*
