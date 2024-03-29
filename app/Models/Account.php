@@ -12,10 +12,7 @@ class Account extends Authenticatable
     use HasFactory;
     use SoftDeletes;
 
-    protected $guarded = [
-        'id',
-        'role',
-    ];
+    protected $guarded = [];
 
     protected $hidden = [
         'password',
