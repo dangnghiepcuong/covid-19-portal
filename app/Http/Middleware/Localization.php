@@ -2,10 +2,10 @@
 
 namespace App\Http\Middleware;
 
-use App;
 use Closure;
 use Illuminate\Http\Request;
-use Session;
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Session;
 use Symfony\Component\HttpFoundation\Response;
 
 class Localization
