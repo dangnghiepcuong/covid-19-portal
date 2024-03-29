@@ -4,9 +4,11 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\BusinessController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LandingPageController;
+use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\LocalRegionController;
 use App\Http\Controllers\UserController;
 use App\Http\Middleware\CheckAdmin;
+use App\Http\Middleware\Localization;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -21,6 +23,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', [LandingPageController::class, 'landingPage'])->name('/');
+
+Route::get('/language/{lang}', [LanguageController::class, 'changeLanguage'])->name('locale');
 
 Route::get('/dashboard', [DashboardController::class, 'dashboard'])
     ->middleware(['auth'])
