@@ -2,7 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\Role;
+use App\Http\Requests\BusinessRequest;
+use App\Models\Account;
+use App\Models\Business;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class BusinessController extends Controller
 {
@@ -13,7 +19,9 @@ class BusinessController extends Controller
      */
     public function index()
     {
-        //
+        $businesses = Business::all();
+
+        return view('business.index', ['businesses' => $businesses]);
     }
 
     /**
@@ -23,7 +31,7 @@ class BusinessController extends Controller
      */
     public function create()
     {
-        //
+        return view('business.create');
     }
 
     /**
@@ -32,9 +40,31 @@ class BusinessController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(BusinessRequest $request)
     {
-        //
+        $request->validated();
+
+        DB::transaction(function () use ($request) {
+            Account::create([
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
+                'role' => Role::ROLE_BUSINESS,
+            ]);
+
+            $accountId = Account::where('email', $request->email)->first()->id;
+            Business::create([
+                'account_id' => $accountId,
+                'name' => $request->name,
+                'tax_id' => $request->tax_id,
+                'addr_province' => $request->addr_province,
+                'addr_district' => $request->addr_district,
+                'addr_ward' => $request->addr_ward,
+                'address' => $request->address,
+                'contact' => $request->contact,
+            ]);
+        });
+
+        return redirect()->back()->with('success', true);
     }
 
     /**
@@ -45,7 +75,11 @@ class BusinessController extends Controller
      */
     public function show($id)
     {
-        //
+        $business = Business::findOrFail($id);
+        $account = $business->account()->first();
+        $vaccineLots = $business->vaccineLots()->get();
+
+        return view('business.show', ['account' => $account, 'business' => $business, 'vaccine_lots' => $vaccineLots]);
     }
 
     /**
