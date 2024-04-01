@@ -34,13 +34,13 @@ var getProvinceList = function (addr_province) {
             let optionStr = '<option value=""></option>'
             let i = 0;
             result.forEach(element => {
-                optionStr += '<option value="' + indexToCode(i,2) + '">' + element + '</option>'
+                optionStr += '<option value="' + indexToCode(i, 2) + '">' + element + '</option>'
                 i++
             });
             $('#addr_province').html(optionStr)
             if (addr_province != null) {
                 $('#addr_province').val(addr_province)
-            } 
+            }
         },
         error: function (error) {
             $('body').html(error.responseText)
@@ -60,13 +60,13 @@ var getDistrictList = function (addr_province, addr_district) {
             let optionStr = '<option value=""></option>'
             let i = 0
             result.forEach(element => {
-                optionStr += '<option value="' + addr_province + indexToCode(i,2) + '">' + element + '</option>'
+                optionStr += '<option value="' + addr_province + indexToCode(i, 2) + '">' + element + '</option>'
                 i++
             });
             $('#addr_district').html(optionStr)
             if (addr_district != null) {
                 $('#addr_district').val(addr_district)
-            } 
+            }
         },
         error: function (error) {
             $('body').html(error.responseText)
@@ -101,7 +101,7 @@ var getWardList = function (addr_province, addr_district, addr_ward) {
     })
 }
 
-var indexToCode = function(i, code_len) {
+var indexToCode = function (i, code_len) {
     let index = i.toString()
     while (index.length < code_len) {
         index = '0' + index
