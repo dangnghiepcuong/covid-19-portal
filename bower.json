@@ -1,0 +1,21 @@
+{
+  "name": "php-fresher-2024-03-covid-vaccination-portal",
+  "description": "",
+  "main": "",
+  "authors": [
+    "cuongdn-3440 <dang.nghiep.cuong@sun-asterisk.com>"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/cuongdn-3440/php-fresher-2024-03-covid-vaccination-portal",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "^3.7.1"
+  }
+}
