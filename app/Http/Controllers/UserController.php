@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Account;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -45,7 +47,10 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        //
+        $user = User::findOrFail($id);
+        $account = Account::findOrFail($user->account_id);
+
+        return view('user.show', ['account' => $account, 'user' => $user]);
     }
 
     /**
@@ -79,6 +84,9 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $user = User::findOrFail($id);
+        Account::destroy($user->account_id);
+
+        return back();
     }
 }

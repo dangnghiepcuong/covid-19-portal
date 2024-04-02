@@ -26,20 +26,20 @@
                 <h3 class="font-med text-xl text-gray-800 dark:text-gray-200 leading-tight">{{ __('vaccine.vaccine') }}</h3>
                 <table class="table-auto w-full min-w-[500px] overflow-x-scroll table table-hover">
                     <tr>
-                        <th>#</th>
-                        <th>{{ __('vaccine.name') }}</th>
-                        <th>{{ __('vaccine.lot') }}</th>
-                        <th>{{ __('vaccine.quantity') }}</th>
-                        <th>{{ __('vaccine.import_date') }}</th>
-                        <th>{{ __('vaccine.expiry_date') }}</th>
+                        <th class="text-center">#</th>
+                        <th class="text-center">{{ __('vaccine.name') }}</th>
+                        <th class="text-center">{{ __('vaccine.lot') }}</th>
+                        <th class="text-center">{{ __('vaccine.quantity') }}</th>
+                        <th class="text-center">{{ __('vaccine.import_date') }}</th>
+                        <th class="text-center">{{ __('vaccine.expiry_date') }}</th>
                     </tr>
                     @php
                     $i = 0;
                     @endphp
                     @foreach ($vaccineLots as $vaccineLot)
                     <tr>
-                        <td>{{ ++$i }}</td>
-                        <td class="text-center">{{ $vaccineLot->$vaccineLots }}</td>
+                        <td class="text-center">{{ ++$i }}</td>
+                        <td class="text-center">{{ $vaccineLot->vaccine->name }}</td>
                         <td class="text-center">{{ $vaccineLot->lot }}</td>
                         <td class="text-center">{{ $vaccineLot->quantity }}</td>
                         <td class="text-center">{{ $vaccineLot->import_date }}</td>
@@ -53,13 +53,13 @@
                 <h3 class="font-med text-xl text-gray-800 dark:text-gray-200 leading-tight">{{ __('schedule.schedule') }}</h3>
                 <table class="table-auto w-full min-w-[500px] overflow-x-scroll table table-hover">
                     <tr>
-                        <th>#</th>
-                        <th>{{ __('schedule.on_date') }}</th>
-                        <th>{{ __('vaccine.name') }}</th>
-                        <th>{{ __('vaccine.lot') }}</th>
-                        <th>{{ __('schedule.day_shift_limit') . '/' . __('schedule.day_shift_registration') }}</th>
-                        <th>{{ __('schedule.noon_shift_limit') . '/' . __('schedule.noon_shift_registration') }}</th>
-                        <th>{{ __('schedule.night_shift_limit') . '/' . __('schedule.night_shift_registration') }}</th>
+                        <th class="text-center">#</th>
+                        <th class="text-center">{{ __('schedule.on_date') }}</th>
+                        <th class="text-center">{{ __('vaccine.name') }}</th>
+                        <th class="text-center">{{ __('vaccine.lot') }}</th>
+                        <th class="text-center">{{ __('schedule.day_shift_limit') . '/' . __('schedule.day_shift_registration') }}</th>
+                        <th class="text-center">{{ __('schedule.noon_shift_limit') . '/' . __('schedule.noon_shift_registration') }}</th>
+                        <th class="text-center">{{ __('schedule.night_shift_limit') . '/' . __('schedule.night_shift_registration') }}</th>
                     </tr>
                 </table>
             </div>

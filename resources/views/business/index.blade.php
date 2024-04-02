@@ -8,25 +8,25 @@
 
     <table class="table table-hover">
         <tr>
-            <th>
+            <th class="text-center">
                 #
             </th>
-            <th>
+            <th class="text-center">
                 {{ __('business.tax_id') }}
             </th>
-            <th>
+            <th class="text-center">
                 {{ __('business.name') }}
             </th>
-            <th>
+            <th class="text-center">
                 {{ __('business.province') }}
             </th>
-            <th>
+            <th class="text-center">
                 {{ __('business.district') }}
             </th>
-            <th>
+            <th class="text-center">
                 {{ __('business.ward') }}
             </th>
-            <th>
+            <th class="text-center">
                 {{ __('btn.action') }}
             </th>
         </tr>
@@ -36,30 +36,34 @@
         @if ($businesses !== null)
         @foreach ($businesses as $business)
         <tr>
-            <td>
+            <td class="text-center">
                 {{ $i++; }}
             </td>
-            <td>
+            <td class="text-center">
                 {{ $business->tax_id }}
             </td>
-            <td>
+            <td class="text-center">
                 {{ $business->name }}
             </td>
-            <td>
+            <td class="text-center">
                 {{ $business->addr_province }}
             </td>
-            <td>
+            <td class="text-center">
                 {{ $business->addr_district }}
             </td>
-            <td>
+            <td class="text-center">
                 {{ $business->addr_ward }}
             </td>
-            <td>
+            <td class="flex justify-center">
                 <a href="{{ route('businesses.show', $business->id) }}">{{ __('btn.view') }}</a>
-                /
+                <p>&nbsp/&nbsp</p>
                 <a href="{{ route('businesses.edit', $business->id) }}">{{ __('btn.edit') }}</a>
-                /
-                <a href="{{ route('businesses.destroy', $business->id) }}" onclick="confirm('Are you sure you want to delete?')">{{ __('btn.delete') }}</a>
+                <p>&nbsp/&nbsp</p>
+                <form method="POST" action="{{ route('businesses.destroy', $business->id) }}">
+                    @csrf
+                    @method('delete')
+                    <input type="submit" value="{{ __('btn.delete') }}" onclick="confirm('Are you sure you want to delete?')">
+                </form>
             </td>
         </tr>
         @endforeach

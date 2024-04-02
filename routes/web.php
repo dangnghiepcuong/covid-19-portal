@@ -7,7 +7,11 @@ use App\Http\Controllers\LandingPageController;
 use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\LocalRegionController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\VaccineController;
+use App\Http\Controllers\VaccineLotController;
 use App\Http\Middleware\CheckAdmin;
+use App\Http\Middleware\CheckBusiness;
+use App\Http\Middleware\CheckUser;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -37,24 +41,22 @@ Route::controller(LocalRegionController::class)->group(function () {
 
 require __DIR__ . '/auth.php';
 
-Route::prefix('admin')
-    ->controller(AdminController::class)
-    ->middleware([CheckAdmin::class])
-    ->group(function () {
-        Route::get('', 'index');
-    });
+Route::middleware('auth')->group(function () {
+    Route::prefix('admin')
+        ->controller(AdminController::class)
+        ->middleware([CheckAdmin::class])
+        ->group(function () {
+            Route::get('', 'index');
+        });
 
-Route::resource('users', UserController::class);
+    Route::resource('users', UserController::class)
+        ->middleware([CheckUser::class]);
 
-Route::prefix('businesses')
-    ->controller(BusinessController::class)
-    ->group(function () {
-        Route::get('', 'index')->name('businesses.index');
-        Route::get('create', 'create')->name('businesses.create');
-        Route::get('{id}', 'show')->name('businesses.show');
-        Route::post('', 'store')->name('businesses.store');
-        Route::get('{id}/edit', 'edit')->name('businesses.edit');
-        Route::put('{id}', 'update')->name('businesses.update');
-        Route::patch('{id}', 'update')->name('businesses.change');
-        Route::delete('{id}', 'destroy')->name('businesses.destroy');
-    });
+    Route::resource('businesses', BusinessController::class)
+        ->middleware([CheckBusiness::class]);
+
+    Route::resource('vaccines', VaccineController::class);
+
+    Route::resource('vaccine-lots', VaccineLotController::class)
+        ->middleware(([CheckBusiness::class]));
+});

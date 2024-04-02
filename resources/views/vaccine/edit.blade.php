@@ -40,8 +40,8 @@
             <!-- is_allow -->
             <div class="mt-4">
                 @php
-                $is_allow = $vaccine->is_allow === 'Allow' ? "checked" : "";
-                $not_allow = $vaccine->is_allow === 'Allow' ? "" : "checked";
+                $is_allow = $vaccine->is_allow === 'Allowed' ? "checked" : "";
+                $not_allow = $vaccine->is_allow === 'Allowed' ? "" : "checked";
                 @endphp
                 <x-label for="is_allow" :value="__('vaccine.is_allow')" />
 

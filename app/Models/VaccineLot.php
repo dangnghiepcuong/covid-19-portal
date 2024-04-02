@@ -15,6 +15,8 @@ class VaccineLot extends Model
         'id',
     ];
 
+    protected $with = ['vaccine:name,id'];
+
     public function vaccine()
     {
         return $this->belongsTo(Vaccine::class);
