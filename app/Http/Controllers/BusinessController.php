@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Enums\Role;
-use App\Http\Auth\Requests\BusinessCreateRequest;
 use App\Http\Requests\BusinessRequest;
 use App\Models\Account;
 use App\Models\Business;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
@@ -40,7 +40,7 @@ class BusinessController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(BusinessCreateRequest $request)
+    public function store(BusinessRequest $request)
     {
         $request->validated();
 
@@ -76,14 +76,10 @@ class BusinessController extends Controller
     public function show($id)
     {
         $business = Business::findOrFail($id);
-        $account = $business->account()->select('email')->first();
+        $account = $business->account()->first();
         $vaccineLots = $business->vaccineLots()->get();
 
-        return view('business.show', [
-            'account' => $account,
-            'business' => $business,
-            'vaccineLots' => $vaccineLots,
-        ]);
+        return view('business.show', ['account' => $account, 'business' => $business, 'vaccine_lots' => $vaccineLots]);
     }
 
     /**
@@ -94,13 +90,7 @@ class BusinessController extends Controller
      */
     public function edit($id)
     {
-        $account = Account::findOrFail($id);
-        $business = $account->business()->first();
-
-        return view('business.edit', [
-            'account' => $account,
-            'business' => $business,
-        ]);
+        //
     }
 
     /**
@@ -110,22 +100,9 @@ class BusinessController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(BusinessRequest $request, $id)
+    public function update(Request $request, $id)
     {
-        $request->validated();
-
-        $business = Business::findOrFail($id);
-        $business->tax_id = $request->tax_id;
-        $business->name = $request->name;
-        $business->addr_province = $request->addr_province;
-        $business->addr_district = $request->addr_district;
-        $business->addr_ward = $request->addr_ward;
-        $business->address = $request->address;
-        $business->contact = $request->contact;
-
-        $business->save();
-
-        return redirect()->back()->with('success', true);
+        //
     }
 
     /**
