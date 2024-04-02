@@ -22,14 +22,26 @@
                         {{ __('EN') }}
                     </x-nav-link>
                     @php
-                    use App\Enums\Role;
+                        use App\Enums\Role;
                     @endphp
                     @auth
-                        @if (Auth::user()->role === Role::ROLE_ADMIN)
-                        <x-nav-link :href="route('businesses.index')">
-                        {{ __('business.management') }}
-                        </x-nav-link>
-                        @endif
+                        @switch(Auth::user()->role)
+                            @case(Role::ROLE_ADMIN)
+                                <x-nav-link :href="route('businesses.index')">
+                                    {{ __('object.management', ['object' => __('business.business')]) }}
+                                </x-nav-link>
+
+                                <x-nav-link :href="route('vaccines.index')">
+                                    {{ __('object.management', ['object' => __('vaccine.vaccine')]) }}
+                                </x-nav-link>
+                            @break
+
+                            @case(Role::ROLE_BUSINESS)
+                                <x-nav-link :href="route('vaccine-lots.index')">
+                                    {{ __('object.management', ['object' => __('vaccine.vaccine')]) }}
+                                </x-nav-link>
+                            @break
+                        @endswitch
                     @endauth
                 </div>
             </div>
@@ -50,6 +62,10 @@
                     </x-slot>
 
                     <x-slot name="content">
+                        <x-dropdown-link :href="route('businesses.edit', Auth::user()->id)">
+                            {{ Auth::user()->email }}
+                        </x-dropdown-link>
+
                         <!-- Authentication -->
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
@@ -61,14 +77,6 @@
                         </form>
                     </x-slot>
                 </x-dropdown>
-
-                <form method="POST" action="{{ route('logout') }}">
-                    @csrf
-                    <x-dropdown-link :href="route('logout')" onclick="event.preventDefault();
-                                                this.closest('form').submit();">
-                        {{ __('navigation.logout') }}
-                    </x-dropdown-link>
-                </form>
             </div>
 
             <!-- Hamburger -->
@@ -102,7 +110,6 @@
                 <!-- Authentication -->
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
-
                     <x-responsive-nav-link :href="route('logout')" onclick="event.preventDefault();
                                         this.closest('form').submit();">
                         {{ __('navigation.logout') }}

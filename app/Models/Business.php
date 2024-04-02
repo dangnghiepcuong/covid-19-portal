@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Http\Controllers\LocalRegionController;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -28,5 +29,20 @@ class Business extends Model
     public function schedules()
     {
         return $this->hasMany(Schedule::class);
+    }
+
+    public function getAddrProvinceAttribute($value)
+    {
+        return LocalRegionController::getProvinceName($value);
+    }
+
+    public function getAddrDistrictAttribute($value)
+    {
+        return LocalRegionController::getDistrictName($value);
+    }
+
+    public function getAddrWardAttribute($value)
+    {
+        return LocalRegionController::getWardName($value);
     }
 }

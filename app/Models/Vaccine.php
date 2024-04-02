@@ -19,4 +19,13 @@ class Vaccine extends Model
     {
         return $this->hasMany(VaccineLot::class);
     }
+
+    public function getIsAllowAttribute($value)
+    {
+        if ($value) {
+            return 'Allowed';
+        }
+
+        return 'Not allow';
+    }
 }
