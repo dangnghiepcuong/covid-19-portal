@@ -37,7 +37,7 @@ Route::controller(LocalRegionController::class)->group(function () {
 
 require __DIR__ . '/auth.php';
 
-Route::prefix('/admin')
+Route::prefix('admin')
     ->controller(AdminController::class)
     ->middleware([CheckAdmin::class])
     ->group(function () {
@@ -50,6 +50,7 @@ Route::prefix('businesses')
     ->controller(BusinessController::class)
     ->group(function () {
         Route::get('', 'index')->name('businesses.index');
+        Route::get('create', 'create')->name('businesses.create');
         Route::get('{id}', 'show')->name('businesses.show');
         Route::post('', 'store')->name('businesses.store');
         Route::get('{id}/edit', 'edit')->name('businesses.edit');

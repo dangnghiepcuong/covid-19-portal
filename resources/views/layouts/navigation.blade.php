@@ -21,6 +21,16 @@
                     <x-nav-link :href="route('locale', ['lang' => 'en'])">
                         {{ __('EN') }}
                     </x-nav-link>
+                    @php
+                    use App\Enums\Role;
+                    @endphp
+                    @auth
+                        @if (Auth::user()->role === Role::ROLE_ADMIN)
+                        <x-nav-link :href="route('businesses.index')">
+                        {{ __('business.management') }}
+                        </x-nav-link>
+                        @endif
+                    @endauth
                 </div>
             </div>
 
