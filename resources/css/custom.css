@@ -1,0 +1,40 @@
+.max-w-30pc {
+    max-width: 30%;
+}
+
+.max-w-40pc {
+    max-width: 40%;
+}
+
+.max-w-50pc {
+    max-width: 50%;
+}
+
+.max-w-60pc {
+    max-width: 60%;
+}
+
+.max-w-65pc {
+    max-width: 65%;
+}
+
+.max-w-70pc {
+    max-width: 70%;
+}
+
+.max-w-80pc {
+    max-width: 80%;
+}
+
+.h-50pc {
+    height: 50%;
+}
+
+.flex-warp {
+    flex-wrap: wrap;
+    flex-direction: row;
+}
+
+.flex-h-full {
+    height: calc(100vh - 100px);
+}

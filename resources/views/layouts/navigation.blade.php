@@ -21,12 +21,9 @@
                     <x-nav-link :href="route('locale', ['lang' => 'en'])">
                         {{ __('EN') }}
                     </x-nav-link>
-                    @php
-                        use App\Enums\Role;
-                    @endphp
                     @auth
                         @switch(Auth::user()->role)
-                            @case(Role::ROLE_ADMIN)
+                            @case($roles::ROLE_ADMIN)
                                 <x-nav-link :href="route('businesses.index')">
                                     {{ __('object.management', ['object' => __('business.business')]) }}
                                 </x-nav-link>
@@ -36,7 +33,7 @@
                                 </x-nav-link>
                             @break
 
-                            @case(Role::ROLE_BUSINESS)
+                            @case($roles::ROLE_BUSINESS)
                                 <x-nav-link :href="route('vaccine-lots.index')">
                                     {{ __('object.management', ['object' => __('vaccine.vaccine')]) }}
                                 </x-nav-link>

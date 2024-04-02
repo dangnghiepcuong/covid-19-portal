@@ -17,8 +17,8 @@
 
         <form method="POST" action="{{ route('businesses.store') }}">
             @csrf
-            <div class="flex items-center justify-between overflow-hidden" style="flex-wrap: wrap; flex-direction: row;">
-                <div class="w-full mr-2" style="max-width: 43%; min-width: 200px">
+            <div class="flex items-center justify-between overflow-hidden flex-warp">
+                <div class="w-full mr-2 max-w-40pc">
                     <!-- Email Address -->
                     <div class="mt-4">
                         <x-label for="email" :value="__('register.email')" />
@@ -38,7 +38,7 @@
                     </div>
                 </div>
 
-                <div class="w-full mr-2" style="max-width: 53%; min-width: 200px">
+                <div class="w-full mr-2 max-w-50pc">
                     <!-- First Name -->
                     <div class="mt-4">
                         <x-label for="name" :value="__('business.name')" />
@@ -51,23 +51,23 @@
                         <x-input id="tax_id" class="block mt-1 w-full" type="text" name="tax_id" :value="old('tax_id')" required autofocus />
                     </div>
 
-                    <div class="flex items-center justify-between mt-4 overflow-hidden" style="flex-wrap: wrap; flex-direction: row;">
+                    <div class="flex items-center justify-between mt-4 overflow-hidden flex-warp">
                         <!-- Province Name -->
-                        <div class="w-full" style="max-width: 30%;">
+                        <div class="w-full max-w-30pc">
                             <x-label for="addr_province" :value="__('register.province')" />
                             <select name="addr_province" id="addr_province" class="block mt-1 w-full">
                             </select>
                         </div>
 
                         <!-- District Name -->
-                        <div class="w-full" style="max-width: 30%;">
+                        <div class="w-full max-w-30pc">
                             <x-label for="addr_district" :value="__('register.district')" />
                             <select name="addr_district" id="addr_district" class="block mt-1 w-full">
                             </select>
                         </div>
 
                         <!-- Ward Name -->
-                        <div class="w-full" style="max-width: 30%;">
+                        <div class="w-full max-w-30pc">
                             <x-label for="addr_ward" :value="__('register.ward')" />
                             <select name="addr_ward" id="addr_ward" class="block mt-1 w-full">
                             </select>

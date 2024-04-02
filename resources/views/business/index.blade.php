@@ -6,7 +6,7 @@
     </x-slot>
     <a class="btn btn-primary my-3" href="{{ route('businesses.create') }}">{{ __('btn.create', ['object' => __('account.account')]) }}</a>
 
-    <table class="table table-light table-striped">
+    <table class="table table-hover">
         <tr>
             <th>
                 #
