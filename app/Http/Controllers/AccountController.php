@@ -16,7 +16,7 @@ class AccountController extends Controller
         $verifyCurrentPassword = Hash::check($request->password_confirmation, auth()->user()->password);
 
         if (!$verifyCurrentPassword) {
-            return redirect()->back()->withErrors(['msg' => 'Your current password is incorrect!']);
+            return redirect()->back()->withErrors(['msg' => __('auth.password')]);
         }
 
         $email = Account::where('email', $request->email)
@@ -24,7 +24,7 @@ class AccountController extends Controller
             ->first();
 
         if (isset($email)) {
-            return redirect()->back()->withErrors(['msg' => 'Email has been used by another account!']);
+            return redirect()->back()->withErrors(['msg' => __('auth.email')]);
         }
 
         $account = Account::findOrFail($request->id);

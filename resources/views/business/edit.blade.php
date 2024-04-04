@@ -36,7 +36,7 @@
                 <br>
                 <form method="POST" action="{{ route('accounts.password.update') }}">
                     <div>
-                        {{ __('object.change', ['object' => __('account.password.change')]) }}
+                        {{ __('object.change', ['object' => __('account.password')]) }}
                     </div>
                     @csrf
                     @method('patch')
@@ -53,7 +53,7 @@
                 <br>
                 <form method="POST" action="{{ route('accounts.password.reset') }}">
                     <div>
-                        {{ __('object.reset', ['object' => __('account.password.reset')]) }}
+                        {{ __('object.reset', ['object' => __('account.password')]) }}
                     </div>
                     @csrf
                     @method('patch')

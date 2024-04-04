@@ -2,13 +2,18 @@
 
 return [
     'action' => 'Hành động',
+    'active' => 'Kích hoạt',
     'add' => 'Thêm',
+    'cancel' => 'Hủy',
     'create' => 'Tạo :object',
+    'deactivate' => 'Hủy kích hoạt',
+    'delete' => 'Xóa',
+    'edit' => 'Sửa',
     'import' => 'Nhập :object',
     'register' => 'Đăng ký',
-    'view' => 'Xem',
-    'edit' => 'Sửa',
+    'reset' => 'Cấp lại',
+    'restore' => 'Khôi phục',
+    'trash' => 'Tạm xóa',
     'update' => 'Cập nhật',
-    'cancel' => 'Hủy',
-    'delete' => 'Xóa',
+    'view' => 'Xem',
 ];
