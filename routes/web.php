@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AccountController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\BusinessController;
 use App\Http\Controllers\DashboardController;
@@ -49,9 +50,24 @@ Route::middleware('auth')->group(function () {
             Route::get('', 'index');
         });
 
+    Route::prefix('accounts')
+        ->controller(AccountController::class)
+        ->group(function () {
+            Route::patch('/password/reset', 'resetBusinessPassword')
+                ->name('accounts.password.reset');
+            Route::patch('/business', 'updateBusinessAccount')
+                ->middleware([CheckBusiness::class])
+                ->name('accounts.business.update');
+        });
+
     Route::resource('users', UserController::class)
         ->middleware([CheckUser::class]);
 
+    Route::controller(BusinessController::class)
+        ->group(function () {
+            Route::get('businesses/trashed', 'trashed')->name('businesses.trashed');
+            Route::post('businesses/restore/{id}', 'restore')->name('businesses.restore');
+        });
     Route::resource('businesses', BusinessController::class)
         ->middleware([CheckBusiness::class]);
 

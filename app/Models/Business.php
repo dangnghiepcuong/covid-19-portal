@@ -16,6 +16,8 @@ class Business extends Model
         'id',
     ];
 
+    protected $with = ['account:email,id'];
+
     public function account()
     {
         return $this->belongsTo(Account::class);
