@@ -1,11 +1,9 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('object.list', ['object' => __('business.business')]) }}
+            {{ __('object.trashed', ['object' => __('business.business')]) }}
         </h2>
     </x-slot>
-    <a class="btn btn-primary my-3" href="{{ route('businesses.create') }}">{{ __('btn.create', ['object' => __('account.account')]) }}</a>
-    <a class="btn btn-secondary my-3" href="{{ route('businesses.trashed') }}">{{ __('object.deactivated', ['object' => __('account.account')]) }}</a>
 
     <table class="table table-hover">
         <tr>
@@ -62,14 +60,9 @@
                 {{ $business->addr_ward }}
             </td>
             <td class="flex justify-center">
-                <a href="{{ route('businesses.show', $business->id) }}">{{ __('btn.view') }}</a>
-                <p>&nbsp/&nbsp</p>
-                <a href="{{ route('businesses.edit', $business->id) }}">{{ __('btn.edit') }}</a>
-                <p>&nbsp/&nbsp</p>
-                <form method="POST" action="{{ route('businesses.destroy', $business->id) }}">
+                <form method="POST" action="{{ route('businesses.restore', $business->id) }}">
                     @csrf
-                    @method('delete')
-                    <input type="submit" value="{{ __('btn.delete') }}" onclick="confirm('Are you sure you want to delete?')">
+                    <input type="submit" value="{{ __('btn.restore') }}" onclick="confirm('Are you sure you want to restore?')">
                 </form>
             </td>
         </tr>
@@ -79,7 +72,7 @@
     @if (Session::get('success'))
     <div class="alert alert-success">
         <ul>
-            <li>{{ __('message.success', ['action' => __('btn.delete')]) }}</li>
+            <li>{{ __('message.success', ['action' => __('btn.restore')]) }}</li>
         </ul>
     </div>
     @endif

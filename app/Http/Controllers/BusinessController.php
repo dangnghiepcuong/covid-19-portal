@@ -94,11 +94,10 @@ class BusinessController extends Controller
      */
     public function edit($id)
     {
-        $account = Account::findOrFail($id);
-        $business = $account->business()->first();
+        $business = Business::findOrFail($id);
 
         return view('business.edit', [
-            'account' => $account,
+            'account' => $business->account,
             'business' => $business,
         ]);
     }
@@ -136,6 +135,23 @@ class BusinessController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Business::destroy($id);
+
+        return redirect()->back()->with('success', true);
+    }
+
+    public function trashed()
+    {
+        $businesses = Business::onlyTrashed()->get();
+
+        return view('business.trashed', ['businesses' => $businesses]);
+    }
+
+    public function restore($id)
+    {
+        Business::withTrashed($id)
+            ->restore();
+
+        return redirect()->back()->with('success', true);
     }
 }

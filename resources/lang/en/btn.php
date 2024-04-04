@@ -2,13 +2,18 @@
 
 return [
     'action' => 'Action',
+    'active' => 'Active',
     'add' => 'Add',
+    'cancel' => 'Cancel',
     'create' => 'Create :object',
+    'deactivate' => 'Deactivate',
+    'delete' => 'Delete',
+    'edit' => 'Edit',
     'import' => 'Import :object',
     'register' => 'Register',
-    'view' => 'View',
-    'edit' => 'Edit',
+    'reset' => 'Reset',
+    'restore' => 'Restore',
+    'trash' => 'Trash',
     'update' => 'Update',
-    'cancel' => 'Cancel',
-    'delete' => 'Delete',
+    'view' => 'View',
 ];

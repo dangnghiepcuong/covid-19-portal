@@ -1,4 +1,4 @@
-<!-- First Name -->
+<!-- Name -->
 <div class="mt-4">
     <x-label for="name" :value="__('business.name')" />
     <x-input id="name" class="block mt-1 w-full" type="text" name="name" :value="$business->name" required autofocus />

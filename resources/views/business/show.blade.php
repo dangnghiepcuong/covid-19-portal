@@ -15,7 +15,7 @@
                         <x-label for="email" :value="__('account.email')" />
                         <x-input id="email" class="block mt-1 w-full" type="email" name="email" :value="$account->email" required />
                     </div>
-                    @include('business.partials.profile')
+                    @include('business.profile')
                 </div>
             </div>
         </div>
