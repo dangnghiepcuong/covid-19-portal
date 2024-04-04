@@ -7,6 +7,8 @@ return [
     'technology' => 'Công nghệ sản xuất',
     'country' => 'Sản xuất tại nước',
     'is_allow' => 'Được cấp phép',
+    'allow' => 'Cấp phép',
+    'not_allow' => 'Không cấp phép',
     'lot' => 'Số lô',
     'quantity' => 'Số lượng',
     'import_date' => 'Ngày nhập',
