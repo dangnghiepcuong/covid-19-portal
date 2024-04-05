@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('btn.create', ['object' => __('vaccine-lot.vaccine')]) }}
+            {{ __('btn.edit', ['object' => __('vaccine-lot.vaccine_lot')]) }}
         </h2>
     </x-slot>
 
@@ -9,14 +9,18 @@
     <x-auth-validation-errors class="mb-4" :errors="$errors" />
 
     <div class="flex justify-center">
-        <form method="POST" action="{{ route('vaccine-lots.store') }}" class="max-w-80pc">
+        <form method="POST" action="{{ route('vaccine-lots.update', $vaccineLot->id) }}" class="max-w-80pc">
             @csrf
+            @method('patch')
             <!-- Vaccine name -->
             <div class="mt-4">
                 <x-label for="name" :value="__('vaccine-lot.vaccine')" />
                 <select name="vaccine_id" id="vaccine_id" class="w-full">
+                    <option value="{{ $vaccineLot->vaccine->id }}">{{ $vaccineLot->vaccine->name }}</option>
                     @foreach($vaccines as $vaccine)
-                        <option value="{{ $vaccine->id }}">{{ $vaccine->name }}</option>
+                        @if ($vaccine->id !== $vaccineLot->vaccine->id)
+                            <option value="{{ $vaccine->id }}">{{ $vaccine->name }}</option>
+                        @endif
                     @endforeach
                 </select>
             </div>
@@ -41,7 +45,7 @@
 
             <!-- dte -->
             <div class="mt-4">
-                <x-label for="dte" :value="__('vaccine-lot.dte')" />
+                <x-label for="dte" :value="__('vaccine-lot.dte') . ' (' . $vaccineLot->expiry_date . ')' " />
                 <x-input id="dte" class="block mt-1 w-full" type="number" name="dte" :value="$vaccineLot->dte" />
             </div>
 
@@ -49,14 +53,14 @@
             <div class="flex justify-center">
                 <!-- Submit -->
                 <x-button class="ml-4">
-                    {{ __('btn.import', ['object' => __('vaccine-lot.vaccine_lot')]) }}
+                    {{ __('btn.update', ['object' => __('vaccine-lot.vaccine_lot')]) }}
                 </x-button>
             </div>
 
             @if (Session::get('success'))
             <div class="alert alert-success">
                 <ul>
-                    <li>{{ __('message.success', ['action' => __('btn.import', ['object' => __('vaccine-lot.vaccine_lot')])]) }}</li>
+                    <li>{{ __('message.success', ['action' => __('btn.update', ['object' => __('vaccine-lot.vaccine_lot')])]) }}</li>
                 </ul>
             </div>
             @endif

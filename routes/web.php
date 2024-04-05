@@ -73,6 +73,12 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('vaccines', VaccineController::class);
 
+    Route::controller(VaccineLotController::class)
+        ->group(function () {
+            Route::get('vaccine-lots/trashed', 'trashed')->name('vaccine-lots.trashed');
+            Route::post('vaccine-lots/restore/{id}', 'restore')->name('vaccine-lots.restore');
+            Route::delete('vaccine-lots/permanently-delete/{id}', 'delete')->name('vaccine-lots.permanently-delete');
+        });
     Route::resource('vaccine-lots', VaccineLotController::class)
         ->middleware(([CheckBusiness::class]));
 });
