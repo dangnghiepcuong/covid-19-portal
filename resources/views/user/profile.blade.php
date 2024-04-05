@@ -30,9 +30,9 @@
     <select name="gender" class="block mt-1 w-full" id="gender">
         <option value="{{ $user->gender }}">{{ $user->gender }}</option>
         @foreach ($genders::allCases() as $properties => $value)
-        @if ($value !== $user->gender)
-        <option value="{{ $value }}">{{ $value }}</option>
-        @endif
+            @if ($value !== $user->gender)
+                <option value="{{ $value }}">{{ $value }}</option>
+            @endif
         @endforeach
     </select>
 </div>

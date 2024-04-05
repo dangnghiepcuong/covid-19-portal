@@ -32,7 +32,14 @@ class RegisteredUserRequest extends FormRequest
 
         return [
             'email' => ['required', 'string', 'email', 'max:255', 'unique:accounts'],
-            'password' => ['required', 'confirmed'],
+            'password' => [
+                'required',
+                'min:6',
+                'regex:/[a-z]/',
+                'regex:/[A-Z]/',
+                'regex:/[0-9]/',
+                'confirmed',
+            ],
             'last_name' => ['required', 'string', 'max:255'],
             'first_name' => ['required', 'string', 'max:255'],
             'pid' => ['required', 'string', 'regex:/^[0-9]+$/'],
