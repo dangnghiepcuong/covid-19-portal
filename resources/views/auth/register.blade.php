@@ -63,7 +63,7 @@
                     <div class="mt-4">
                         <x-label for="gender" :value="__('user.gender')" />
                         <select name="gender" class="block mt-1 w-full" id="gender">
-                            @foreach ($genders as $properties => $value)
+                            @foreach ($genders::allCases() as $properties => $value)
                             <option value="{{ $value }}">{{ $value }}</option>
                             @endforeach
                         </select>

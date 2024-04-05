@@ -53,13 +53,26 @@ Route::middleware('auth')->group(function () {
     Route::prefix('accounts')
         ->controller(AccountController::class)
         ->group(function () {
-            Route::patch('/password/reset', 'resetBusinessPassword')
+            Route::patch('password/change', 'changePassword')
+                ->name('accounts.password.update');
+
+            Route::patch('password/reset', 'resetBusinessPassword')
                 ->name('accounts.password.reset');
-            Route::patch('/business', 'updateBusinessAccount')
+            Route::patch('business', 'updateBusinessAccount')
                 ->middleware([CheckBusiness::class])
                 ->name('accounts.business.update');
+
+            Route::patch('user', 'updateAccount')
+                ->middleware([CheckUser::class])
+                ->name('accounts.user.update');
         });
 
+    Route::prefix('users')
+        ->controller(UserController::class)
+        ->group(function () {
+            Route::get('profile', 'profile')->name('users.profile');
+            Route::patch('', 'updateProfile')->name('users.update-profile');
+        });
     Route::resource('users', UserController::class)
         ->middleware([CheckUser::class]);
 
@@ -73,11 +86,12 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('vaccines', VaccineController::class);
 
-    Route::controller(VaccineLotController::class)
+    Route::prefix('vaccine-lots')
+        ->controller(VaccineLotController::class)
         ->group(function () {
-            Route::get('vaccine-lots/trashed', 'trashed')->name('vaccine-lots.trashed');
-            Route::post('vaccine-lots/restore/{id}', 'restore')->name('vaccine-lots.restore');
-            Route::delete('vaccine-lots/permanently-delete/{id}', 'delete')->name('vaccine-lots.permanently-delete');
+            Route::get('trashed', 'trashed')->name('vaccine-lots.trashed');
+            Route::post('restore/{id}', 'restore')->name('vaccine-lots.restore');
+            Route::delete('permanently-delete/{id}', 'delete')->name('vaccine-lots.permanently-delete');
         });
     Route::resource('vaccine-lots', VaccineLotController::class)
         ->middleware(([CheckBusiness::class]));
