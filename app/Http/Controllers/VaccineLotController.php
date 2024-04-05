@@ -6,7 +6,6 @@ use App\Http\Requests\VaccineLotRequest;
 use App\Models\Account;
 use App\Models\Vaccine;
 use App\Models\VaccineLot;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class VaccineLotController extends Controller
@@ -46,12 +45,6 @@ class VaccineLotController extends Controller
     {
         $request->validated();
 
-        $expiryDate = date_add(
-            date_create($request->import_date),
-            date_interval_create_from_date_string($request->dte . ' days')
-        );
-        $expiryDate = $expiryDate->format('Y-m-d');
-
         $account = Account::findOrFail(Auth::user()->id);
 
         VaccineLot::create([
@@ -60,7 +53,7 @@ class VaccineLotController extends Controller
             'business_id' => $account->business()->first()->id,
             'quantity' => $request->quantity,
             'import_date' => $request->import_date,
-            'expiry_date' => $expiryDate,
+            'expiry_date' => $request->dte,
         ]);
 
         return redirect()->back()->with('success', true);
@@ -85,9 +78,13 @@ class VaccineLotController extends Controller
      */
     public function edit($id)
     {
+        $vaccines = Vaccine::all();
         $vaccineLot = VaccineLot::findOrFail($id);
 
-        return view('vaccine-lot.edit', ['vaccineLot' => $vaccineLot]);
+        return view('vaccine-lot.edit', [
+            'vaccineLot' => $vaccineLot,
+            'vaccines' => $vaccines,
+        ]);
     }
 
     /**
@@ -97,9 +94,20 @@ class VaccineLotController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(VaccineLotRequest $request, $id)
     {
-        //
+        $request->validated();
+
+        VaccineLot::findOrFail($id)
+            ->update([
+                'vaccine_id' => $request->vaccine_id,
+                'lot' => $request->lot,
+                'quantity' => $request->quantity,
+                'import_date' => $request->import_date,
+                'expiry_date' => $request->dte,
+            ]);
+
+        return redirect()->back()->with('success', true);
     }
 
     /**
@@ -111,6 +119,29 @@ class VaccineLotController extends Controller
     public function destroy($id)
     {
         VaccineLot::destroy($id);
+
+        return redirect()->back()->with('success', true);
+    }
+
+    public function trashed()
+    {
+        $vaccineLots = VaccineLot::onlyTrashed()->get();
+
+        return view('vaccine-lot.trashed', ['vaccineLots' => $vaccineLots]);
+    }
+
+    public function restore($id)
+    {
+        VaccineLot::withTrashed($id)
+            ->restore();
+
+        return redirect()->back()->with('success', true);
+    }
+
+    public function delete($id)
+    {
+        $vaccineLot = VaccineLot::onlyTrashed()->findOrFail($id);
+        $vaccineLot->forceDelete();
 
         return redirect()->back()->with('success', true);
     }

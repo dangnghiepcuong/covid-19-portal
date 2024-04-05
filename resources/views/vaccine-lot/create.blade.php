@@ -9,7 +9,7 @@
     <x-auth-validation-errors class="mb-4" :errors="$errors" />
 
     <div class="flex justify-center">
-        <form method="POST" action="{{ route('vaccine-lots.store') }} max-w-80pc">
+        <form method="POST" action="{{ route('vaccine-lots.store') }}" class="w-full max-w-50pc">
             @csrf
             <!-- Vaccine name -->
             <div class="mt-4">

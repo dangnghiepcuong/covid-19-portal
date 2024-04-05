@@ -7,5 +7,5 @@ return [
     'list' => 'Danh sách :object',
     'management' => 'Quản lý :object',
     'reset' => 'Cấp lại :object',
-    'trashed' => ':object đã tạm khóa',
+    'trashed' => ':object đã xóa',
 ];

@@ -31,4 +31,22 @@ class VaccineLot extends Model
     {
         return $this->hasMany(Schedule::class);
     }
+
+    public function setExpiryDateAttribute($value)
+    {
+        $expiryDate = date_add(
+            date_create($this->import_date),
+            date_interval_create_from_date_string($value . ' days')
+        );
+        $expiryDate = $expiryDate->format('Y-m-d');
+
+        $this->attributes['expiry_date'] = $expiryDate;
+    }
+
+    public function getDteAttribute()
+    {
+        $dte = date_diff(date_create($this->import_date), date_create($this->expiry_date));
+
+        return $dte->format('%a');
+    }
 }
