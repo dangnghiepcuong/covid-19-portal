@@ -49,4 +49,10 @@ class VaccineLot extends Model
 
         return $dte->format('%a');
     }
+
+    public function scopeInStock($query)
+    {
+        return $query->where('quantity', '>', 0)
+            ->where('expiry_date', '>', date('Y-m-d'));
+    }
 }

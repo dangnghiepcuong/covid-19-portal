@@ -5,6 +5,7 @@ return [
     'active' => 'Kích hoạt',
     'add' => 'Thêm',
     'cancel' => 'Hủy',
+    'canceled' => 'Đã hủy',
     'create' => 'Tạo :object',
     'deactivate' => 'Hủy kích hoạt',
     'delete' => 'Xóa',

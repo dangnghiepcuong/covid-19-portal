@@ -7,6 +7,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LandingPageController;
 use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\LocalRegionController;
+use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VaccineController;
 use App\Http\Controllers\VaccineLotController;
@@ -95,4 +96,14 @@ Route::middleware('auth')->group(function () {
         });
     Route::resource('vaccine-lots', VaccineLotController::class)
         ->middleware(([CheckBusiness::class]));
+
+    Route::prefix('schedules')
+        ->controller(ScheduleController::class)
+        ->group(function () {
+            Route::get('trashed', 'trashed')->name('schedules.trashed');
+            Route::post('restore/{id}', 'restore')->name('schedules.restore');
+            Route::delete('permanently-delete/{id}', 'delete')->name('schedules.permanently-delete');
+        });
+    Route::resource('schedules', ScheduleController::class)
+        ->middleware([CheckBusiness::class]);
 });

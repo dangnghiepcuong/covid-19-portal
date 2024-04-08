@@ -41,8 +41,7 @@ class User extends Model
 
     public function schedules()
     {
-        return $this->belongsToMany(Schedule::class)
-            ->using('App\Registration')
+        return $this->belongsToMany(Schedule::class, 'registrations', 'user_id', 'schedule_id')
             ->withPivot(['created_at', 'updated_at', 'number_order', 'status']);
     }
 
