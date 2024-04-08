@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UserRequest;
 use App\Models\Account;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -88,5 +90,32 @@ class UserController extends Controller
         Account::destroy($user->account_id);
 
         return back();
+    }
+
+    public function profile()
+    {
+        $user = User::where('account_id', Auth::user()->id)->first();
+
+        return view('user.personal', ['account' => $user->account, 'user' => $user]);
+    }
+
+    public function updateProfile(UserRequest $request)
+    {
+        $request->validated();
+
+        $user = User::findOrFail(Auth::user()->user->id);
+        $user->pid = $request->pid;
+        $user->first_name = $request->first_name;
+        $user->last_name = $request->last_name;
+        $user->birthday = $request->birthday;
+        $user->gender = $request->gender;
+        $user->addr_province = $request->addr_province;
+        $user->addr_district = $request->addr_district;
+        $user->addr_ward = $request->addr_ward;
+        $user->address = $request->address;
+        $user->contact = $request->contact;
+        $user->save();
+
+        return redirect()->back()->with('success', true);
     }
 }

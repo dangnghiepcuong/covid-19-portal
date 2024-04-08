@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Requests\Auth;
+namespace App\Http\Requests;
 
 use App\Enums\GenderType;
 use App\Http\Controllers\LocalRegionController;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class RegisteredUserRequest extends FormRequest
+class UserRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -31,15 +31,6 @@ class RegisteredUserRequest extends FormRequest
         $wardList = LocalRegionController::getWardCodeList($this);
 
         return [
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:accounts'],
-            'password' => [
-                'required',
-                'min:6',
-                'regex:/[a-z]/',
-                'regex:/[A-Z]/',
-                'regex:/[0-9]/',
-                'confirmed',
-            ],
             'last_name' => ['required', 'string', 'max:255'],
             'first_name' => ['required', 'string', 'max:255'],
             'pid' => ['required', 'string', 'regex:/^[0-9]+$/'],

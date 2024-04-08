@@ -1,14 +1,15 @@
 <?php
 
 return [
-    'last_name' => 'Last name',
-    'first_name' => 'first name',
-    'pid' => 'Personal ID/Passport ID',
-    'birthday' => 'Birthday',
-    'gender' => 'Gender',
-    'province' => 'Province',
-    'district' => 'District',
-    'ward' => 'Ward',
     'address' => 'Address',
+    'birthday' => 'Birthday',
     'contact' => 'Contact number',
+    'district' => 'District',
+    'first_name' => 'first name',
+    'gender' => 'Gender',
+    'last_name' => 'Last name',
+    'pid' => 'Personal ID/Passport ID',
+    'profile' => 'Profile',
+    'province' => 'Province',
+    'ward' => 'Ward',
 ];

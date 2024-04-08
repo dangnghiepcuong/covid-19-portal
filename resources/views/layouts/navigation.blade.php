@@ -38,6 +38,7 @@
                                     {{ __('object.management', ['object' => __('vaccine.vaccine')]) }}
                                 </x-nav-link>
                             @break
+                            @default
                         @endswitch
                     @endauth
                 </div>
@@ -59,14 +60,25 @@
                     </x-slot>
 
                     <x-slot name="content">
-                        <x-dropdown-link :href="route('businesses.edit', Auth::user()->id)">
-                            {{ Auth::user()->email }}
-                        </x-dropdown-link>
+                        @switch(Auth::user()->role)
+                            @case($roles::ROLE_ADMIN)
+                            @case($roles::ROLE_BUSINESS)
+                                <x-dropdown-link :href="route('businesses.edit', Auth::user()->id)">
+                                    {{ Auth::user()->email }}
+                                </x-dropdown-link>
+                            @break
+                            
+                            @case($roles::ROLE_USER)
+                                <x-dropdown-link :href="route('users.profile')">
+                                    {{ Auth::user()->email }}
+                                </x-dropdown-link>
+                            @break
+                            @default
+                        @endswitch
 
                         <!-- Authentication -->
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
-
                             <x-dropdown-link :href="route('logout')" onclick="event.preventDefault();
                                                 this.closest('form').submit();">
                                 {{ __('navigation.logout') }}
