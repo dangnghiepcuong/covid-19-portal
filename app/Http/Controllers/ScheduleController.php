@@ -6,6 +6,7 @@ use App\Enums\RegistrationStatus;
 use App\Http\Requests\ScheduleRequest;
 use App\Models\Schedule;
 use App\Models\VaccineLot;
+use Exception;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
@@ -47,28 +48,34 @@ class ScheduleController extends Controller
 
         DB::beginTransaction();
 
-        $vaccineLot = VaccineLot::findOrFail($request->vaccine_lot_id);
-        $vaccineLot->quantity = $vaccineLot->quantity
-            - ($request->day_shift_limit
-                + $request->noon_shift_limit
-                + $request->night_shift_limit);
+        try {
+            $vaccineLot = VaccineLot::findOrFail($request->vaccine_lot_id);
+            $vaccineLot->quantity = $vaccineLot->quantity
+                - ($request->day_shift_limit
+                    + $request->noon_shift_limit
+                    + $request->night_shift_limit);
 
-        if ($vaccineLot->quantity < 0) {
+            if ($vaccineLot->quantity < 0) {
+                DB::rollBack();
+
+                return redirect()->back()->withErrors(['total_limit' => __('schedule.total_limit')]);
+            }
+
+            $vaccineLot->save();
+
+            Schedule::create([
+                'business_id' => Auth::user()->business->id,
+                'vaccine_lot_id' => $request->vaccine_lot_id,
+                'on_date' => $request->on_date,
+                'day_shift_limit' => $request->day_shift_limit,
+                'noon_shift_limit' => $request->noon_shift_limit,
+                'night_shift_limit' => $request->night_shift_limit,
+            ]);
+        } catch (Exception $exception) {
             DB::rollBack();
 
-            return redirect()->back()->withErrors(['msg' => __('schedule.total_limit')]);
+            return redirect()->back()->withErrors(['db' => __('message.failed')]);
         }
-
-        $vaccineLot->save();
-
-        Schedule::create([
-            'business_id' => Auth::user()->business->id,
-            'vaccine_lot_id' => $request->vaccine_lot_id,
-            'on_date' => $request->on_date,
-            'day_shift_limit' => $request->day_shift_limit,
-            'noon_shift_limit' => $request->noon_shift_limit,
-            'night_shift_limit' => $request->night_shift_limit,
-        ]);
 
         DB::commit();
 
@@ -112,44 +119,50 @@ class ScheduleController extends Controller
         $request->validated();
 
         DB::beginTransaction();
-        $schedule = Schedule::findOrFail($id);
+        try {
+            $schedule = Schedule::findOrFail($id);
 
-        $vaccineLot = VaccineLot::findOrFail($schedule->vaccine_lot_id);
-        $vaccineLot->quantity = $vaccineLot->quantity
-            + ($schedule->day_shift_limit
-                + $schedule->noon_shift_limit
-                + $schedule->night_shift_limit);
-        $vaccineLot->save();
+            $vaccineLot = VaccineLot::findOrFail($schedule->vaccine_lot_id);
+            $vaccineLot->quantity = $vaccineLot->quantity
+                + ($schedule->day_shift_limit
+                    + $schedule->noon_shift_limit
+                    + $schedule->night_shift_limit);
+            $vaccineLot->save();
 
-        if (
-            $request->day_shift_limit < $schedule->day_shift_registration
-            || $request->noon_shift_limit < $schedule->noon_shift_registration
-            || $request->night_shift_limit < $schedule->night_shift_registration
-        ) {
+            if (
+                $request->day_shift_limit < $schedule->day_shift_registration
+                || $request->noon_shift_limit < $schedule->noon_shift_registration
+                || $request->night_shift_limit < $schedule->night_shift_registration
+            ) {
+                DB::rollBack();
+
+                return redirect()->back()->withErrors(['limits' => __('schedule.over_limit')]);
+            }
+
+            $vaccineLot = VaccineLot::findOrFail($request->vaccine_lot_id);
+            $vaccineLot->quantity = $vaccineLot->quantity
+                - ($request->day_shift_limit
+                    + $request->noon_shift_limit
+                    + $request->night_shift_limit);
+
+            if ($vaccineLot->quantity < 0) {
+                DB::rollBack();
+
+                return redirect()->back()->withErrors(['total_limit' => __('schedule.total_limit')]);
+            }
+
+            $vaccineLot->save();
+            $schedule->vaccine_lot_id = $request->vaccine_lot_id;
+            $schedule->on_date = $request->on_date;
+            $schedule->day_shift_limit = $request->day_shift_limit;
+            $schedule->noon_shift_limit = $request->noon_shift_limit;
+            $schedule->night_shift_limit = $request->night_shift_limit;
+            $schedule->save();
+        } catch (Exception $exception) {
             DB::rollBack();
 
-            return redirect()->back()->withErrors(['limits' => __('schedule.over_limit')]);
+            return redirect()->back()->withErrors(['db' => __('message.failed')]);
         }
-
-        $vaccineLot = VaccineLot::findOrFail($request->vaccine_lot_id);
-        $vaccineLot->quantity = $vaccineLot->quantity
-            - ($request->day_shift_limit
-                + $request->noon_shift_limit
-                + $request->night_shift_limit);
-
-        if ($vaccineLot->quantity < 0) {
-            DB::rollBack();
-
-            return redirect()->back()->withErrors(['total_limit' => __('schedule.total_limit')]);
-        }
-
-        $vaccineLot->save();
-        $schedule->vaccine_lot_id = $request->vaccine_lot_id;
-        $schedule->on_date = $request->on_date;
-        $schedule->day_shift_limit = $request->day_shift_limit;
-        $schedule->noon_shift_limit = $request->noon_shift_limit;
-        $schedule->night_shift_limit = $request->night_shift_limit;
-        $schedule->save();
 
         DB::commit();
 
@@ -165,28 +178,34 @@ class ScheduleController extends Controller
     public function destroy($id)
     {
         DB::beginTransaction();
-        $schedule = Schedule::findOrFail($id);
+        try {
+            $schedule = Schedule::findOrFail($id);
 
-        $schedule->users()->update([
-            'status' => RegistrationStatus::CANCELED,
-        ]);
+            $schedule->users()->update([
+                'status' => RegistrationStatus::CANCELED,
+            ]);
 
-        $vaccineLot = VaccineLot::findOrFail($schedule->vaccine_lot_id);
-        $vaccineLot->quantity = $vaccineLot->quantity
-            + ($schedule->day_shift_limit
-                + $schedule->noon_shift_limit
-                + $schedule->night_shift_limit);
-        $vaccineLot->save();
+            $vaccineLot = VaccineLot::findOrFail($schedule->vaccine_lot_id);
+            $vaccineLot->quantity = $vaccineLot->quantity
+                + ($schedule->day_shift_limit
+                    + $schedule->noon_shift_limit
+                    + $schedule->night_shift_limit);
+            $vaccineLot->save();
 
-        $schedule->day_shift_registration = 0;
-        $schedule->noon_shift_registration = 0;
-        $schedule->night_shift_registration = 0;
-        $schedule->day_shift_limit = 0;
-        $schedule->noon_shift_limit = 0;
-        $schedule->night_shift_limit = 0;
-        $schedule->save();
+            $schedule->day_shift_registration = 0;
+            $schedule->noon_shift_registration = 0;
+            $schedule->night_shift_registration = 0;
+            $schedule->day_shift_limit = 0;
+            $schedule->noon_shift_limit = 0;
+            $schedule->night_shift_limit = 0;
+            $schedule->save();
 
-        Schedule::destroy($id);
+            Schedule::destroy($id);
+        } catch (Exception $exception) {
+            DB::rollBack();
+
+            return redirect()->back()->withErrors(['db' => __('message.failed')]);
+        }
 
         DB::commit();
 
