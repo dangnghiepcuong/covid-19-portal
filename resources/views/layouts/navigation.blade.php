@@ -37,6 +37,10 @@
                                 <x-nav-link :href="route('vaccine-lots.index')">
                                     {{ __('object.management', ['object' => __('vaccine.vaccine')]) }}
                                 </x-nav-link>
+                                
+                                <x-nav-link :href="route('schedules.index')">
+                                    {{ __('object.management', ['object' => __('schedule.schedule')]) }}
+                                </x-nav-link>
                             @break
                             @default
                         @endswitch

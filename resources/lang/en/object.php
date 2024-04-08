@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'canceled' => 'Canceled',
     'change' => 'Change :object',
     'deactivated' => 'Deactivated :object',
     'import' => 'Import :object',

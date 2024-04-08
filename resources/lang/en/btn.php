@@ -5,6 +5,7 @@ return [
     'active' => 'Active',
     'add' => 'Add',
     'cancel' => 'Cancel',
+    'canceled' => 'Canceled :object',
     'create' => 'Create :object',
     'deactivate' => 'Deactivate',
     'delete' => 'Delete',

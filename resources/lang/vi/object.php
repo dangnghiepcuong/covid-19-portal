@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'canceled' => 'Đã hủy',
     'change' => 'Thay đổi :object',
     'deactivated' => ':object đã tạm khóa',
     'import' => 'Nhập :object',
