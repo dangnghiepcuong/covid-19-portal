@@ -1,23 +1,22 @@
 $(document).ready(function () {
     $('#btn_apply_filter').on('click', function () {
-        addr_province = $('#addr_province').val()
-        addr_district = $('#addr_district').val()
-        addr_ward = $('#addr_ward').val()
+        let addr_province = $('#addr_province').val()
+        let addr_district = $('#addr_district').val()
+        let addr_ward = $('#addr_ward').val()
 
         $.ajax({
             cache: false,
             url: "http://127.0.0.1:8000/api/v1/businesses/",
             method: 'GET',
             data: {
-                'addr_province': addr_province,
-                'addr_district': addr_district,
-                'addr_ward': addr_ward
+                addr_province: addr_province,
+                addr_district: addr_district,
+                addr_ward: addr_ward
             },
             success: function (result) {
-                tableFirstRow = $('#table_business_list').find('tr:eq(0)').clone();
                 $('#table_business_list tbody').html('')
-                i = 0;
-                for (element of result.data) {
+                let i = 0;
+                for (let element of result.data) {
                     $('#table_business_list tbody').append(
                         '<tr>' +
                         '<td class="text-center">' +

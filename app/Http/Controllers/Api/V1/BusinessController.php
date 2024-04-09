@@ -30,10 +30,6 @@ class BusinessController extends Controller
 
         $businesses = $businesses->orderBy('addr_province', 'ASC');
 
-        return $businesses->paginate();
-    }
-
-    public function show(Business $business)
-    {
+        return response()->json($businesses->paginate(), 200);
     }
 }
