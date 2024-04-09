@@ -9,9 +9,9 @@ $(document).ready(function () {
             url: "http://127.0.0.1:8000/api/v1/businesses/",
             method: 'GET',
             data: {
-                addr_province: addr_province,
-                addr_district: addr_district,
-                addr_ward: addr_ward
+                'addr_province': addr_province,
+                'addr_district': addr_district,
+                'addr_ward': addr_ward
             },
             success: function (result) {
                 tableFirstRow = $('#table_business_list').find('tr:eq(0)').clone();
