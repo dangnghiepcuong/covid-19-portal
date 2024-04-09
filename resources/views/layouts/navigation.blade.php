@@ -42,6 +42,12 @@
                                     {{ __('object.management', ['object' => __('schedule.schedule')]) }}
                                 </x-nav-link>
                             @break
+
+                            @case($roles::ROLE_USER)
+                                <x-nav-link :href="route('vaccination.index')">
+                                    {{ __('vaccination.vaccination') }}
+                                </x-nav-link>
+                            @break
                             @default
                         @endswitch
                     @endauth

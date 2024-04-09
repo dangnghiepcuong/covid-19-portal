@@ -4,6 +4,7 @@ return [
     'action' => 'Action',
     'active' => 'Active',
     'add' => 'Add',
+    'apply' => 'Apply',
     'cancel' => 'Cancel',
     'canceled' => 'Canceled :object',
     'create' => 'Create :object',

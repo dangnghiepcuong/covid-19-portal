@@ -4,6 +4,7 @@ return [
     'action' => 'Hành động',
     'active' => 'Kích hoạt',
     'add' => 'Thêm',
+    'apply' => 'Áp dụng',
     'cancel' => 'Hủy',
     'canceled' => 'Đã hủy',
     'create' => 'Tạo :object',

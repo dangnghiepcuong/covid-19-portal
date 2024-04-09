@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Auth\Requests;
+namespace App\Http\Requests;
 
 use App\Http\Controllers\LocalRegionController;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class BusinessCreateRequest extends FormRequest
+class BusinessSearchRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -30,13 +30,9 @@ class BusinessCreateRequest extends FormRequest
         $wardList = LocalRegionController::getWardCodeList($this);
 
         return [
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:accounts'],
-            'password' => ['required', 'confirmed'],
-            'name' => ['required', 'string', 'max:255'],
-            'tax_id' => ['required', 'string', 'regex:/^[0-9]+$/'],
-            'addr_province' => ['required', Rule::in($provinceList)],
-            'addr_district' => ['required', Rule::in($districtList)],
-            'addr_ward' => ['required', Rule::in($wardList)],
+            'addr_province' => [Rule::in($provinceList)],
+            'addr_district' => [Rule::in($districtList)],
+            'addr_ward' => [Rule::in($wardList)],
         ];
     }
 }
