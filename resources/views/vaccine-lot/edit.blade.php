@@ -14,14 +14,9 @@
             @method('patch')
             <!-- Vaccine name -->
             <div class="mt-4">
-                <x-label for="name" :value="__('vaccine-lot.vaccine')" />
+                <x-label for="vaccine_id" :value="__('vaccine-lot.vaccine')" />
                 <select name="vaccine_id" id="vaccine_id" class="w-full">
                     <option value="{{ $vaccineLot->vaccine->id }}">{{ $vaccineLot->vaccine->name }}</option>
-                    @foreach($vaccines as $vaccine)
-                        @if ($vaccine->id !== $vaccineLot->vaccine->id)
-                            <option value="{{ $vaccine->id }}">{{ $vaccine->name }}</option>
-                        @endif
-                    @endforeach
                 </select>
             </div>
 

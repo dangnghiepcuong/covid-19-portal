@@ -25,7 +25,7 @@ class VaccineLotRequest extends FormRequest
      */
     public function rules()
     {
-        $vaccineIds = Vaccine::pluck('id');
+        $vaccineIds = Vaccine::isAllow()->pluck('id');
 
         return [
             'vaccine_id' => ['required', 'numeric', Rule::in($vaccineIds)],

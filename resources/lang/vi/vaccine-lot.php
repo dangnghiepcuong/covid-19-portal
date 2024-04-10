@@ -6,5 +6,5 @@ return [
     'quantity' => 'Số lượng',
     'import_date' => 'Ngày nhập',
     'expiry_date' => 'Ngày hết hạn',
-    'dte' => 'Thời hạn sử dụng',
+    'dte' => 'Thời hạn sử dụng (ngày)',
 ];

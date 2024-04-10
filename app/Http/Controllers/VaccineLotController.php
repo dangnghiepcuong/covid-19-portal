@@ -6,7 +6,9 @@ use App\Http\Requests\VaccineLotRequest;
 use App\Models\Account;
 use App\Models\Vaccine;
 use App\Models\VaccineLot;
+use Exception;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class VaccineLotController extends Controller
 {
@@ -30,7 +32,7 @@ class VaccineLotController extends Controller
      */
     public function create()
     {
-        $vaccines = Vaccine::all();
+        $vaccines = Vaccine::isAllow()->get();
 
         return view('vaccine-lot.create', ['vaccines' => $vaccines]);
     }
@@ -43,20 +45,31 @@ class VaccineLotController extends Controller
      */
     public function store(VaccineLotRequest $request)
     {
-        $request->validated();
+        DB::beginTransaction();
+        try {
+            $request->validated();
+            $business = Auth::user()->business;
 
-        $account = Account::findOrFail(Auth::user()->id);
+            VaccineLot::create([
+                'vaccine_id' => $request->vaccine_id,
+                'lot' => $request->lot,
+                'business_id' => $business->id,
+                'quantity' => $request->quantity,
+                'import_date' => $request->import_date,
+                'expiry_date' => $request->dte,
+            ]);
+        } catch (Exception $exception) {
+            DB::rollBack();
 
-        VaccineLot::create([
-            'vaccine_id' => $request->vaccine_id,
-            'lot' => $request->lot,
-            'business_id' => $account->business()->first()->id,
-            'quantity' => $request->quantity,
-            'import_date' => $request->import_date,
-            'expiry_date' => $request->dte,
+            return redirect()->back()->withErrors(['msg' => __('message.failed')]);
+        }
+
+        DB::commit();
+
+        return redirect()->back()->with([
+            'success' => true,
+            'action' => __('btn.store'),
         ]);
-
-        return redirect()->back()->with('success', true);
     }
 
     /**
@@ -78,7 +91,7 @@ class VaccineLotController extends Controller
      */
     public function edit($id)
     {
-        $vaccines = Vaccine::all();
+        $vaccines = Vaccine::isAllow()->get();
         $vaccineLot = VaccineLot::findOrFail($id);
 
         return view('vaccine-lot.edit', [
@@ -96,18 +109,29 @@ class VaccineLotController extends Controller
      */
     public function update(VaccineLotRequest $request, $id)
     {
-        $request->validated();
+        DB::beginTransaction();
+        try {
+            $request->validated();
 
-        VaccineLot::findOrFail($id)
-            ->update([
-                'vaccine_id' => $request->vaccine_id,
-                'lot' => $request->lot,
-                'quantity' => $request->quantity,
-                'import_date' => $request->import_date,
-                'expiry_date' => $request->dte,
-            ]);
+            VaccineLot::findOrFail($id)
+                ->update([
+                    'lot' => $request->lot,
+                    'quantity' => $request->quantity,
+                    'import_date' => $request->import_date,
+                    'expiry_date' => $request->dte,
+                ]);
+        } catch (Exception $exception) {
+            DB::rollBack();
 
-        return redirect()->back()->with('success', true);
+            return redirect()->back()->withErrors(['msg' => __('message.failed')]);
+        }
+
+        DB::commit();
+
+        return redirect()->back()->with([
+            'success' => true,
+            'action' => __('btn.update'),
+        ]);
     }
 
     /**
@@ -120,7 +144,10 @@ class VaccineLotController extends Controller
     {
         VaccineLot::destroy($id);
 
-        return redirect()->back()->with('success', true);
+        return redirect()->back()->with([
+            'success' => true,
+            'action' => __('btn.delete'),
+        ]);
     }
 
     public function trashed()
@@ -135,7 +162,10 @@ class VaccineLotController extends Controller
         VaccineLot::withTrashed($id)
             ->restore();
 
-        return redirect()->back()->with('success', true);
+        return redirect()->back()->with([
+            'success' => true,
+            'action' => __('btn.restore'),
+        ]);
     }
 
     public function delete($id)
@@ -143,6 +173,9 @@ class VaccineLotController extends Controller
         $vaccineLot = VaccineLot::onlyTrashed()->findOrFail($id);
         $vaccineLot->forceDelete();
 
-        return redirect()->back()->with('success', true);
+        return redirect()->back()->with([
+            'success' => true,
+            'action' => __('btn.delete'),
+        ]);
     }
 }

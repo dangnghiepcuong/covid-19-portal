@@ -19,34 +19,34 @@
                 <th class="text-center">{{ __('btn.action') }}</th>
             </tr>
             @php
-            $i = 0;
+                $i = 0;
             @endphp
             @foreach ($vaccines as $vaccine)
-            <tr>
-                <td class="text-center">{{ ++$i }}</td>
-                <td class="text-center">{{ $vaccine->name }}</td>
-                <td class="text-center">{{ $vaccine->supplier }}</td>
-                <td class="text-center">{{ $vaccine->technology }}</td>
-                <td class="text-center">{{ $vaccine->country }}</td>
-                <td class="text-center">{{ $vaccine->is_allow }}</td>
-                <td class="flex justify-center">
-                    <a href="{{ route('vaccines.edit', $vaccine->id) }}">{{ __('btn.edit') }}</a>
-                    <p>&nbsp/&nbsp</p>
-                    <form method="POST" action="{{ route('vaccines.destroy', $vaccine->id) }}">
-                        @csrf
-                        @method('delete')
-                        <input type="submit" value="{{ __('btn.delete') }}" onclick="confirm('Are you sure you want to delete?')">
-                    </form>
-                </td>
-            </tr>
+                <tr>
+                    <td class="text-center">{{ ++$i }}</td>
+                    <td class="text-center">{{ $vaccine->name }}</td>
+                    <td class="text-center">{{ $vaccine->supplier }}</td>
+                    <td class="text-center">{{ $vaccine->technology }}</td>
+                    <td class="text-center">{{ $vaccine->country }}</td>
+                    <td class="text-center">{{ $vaccine->is_allow }}</td>
+                    <td class="flex justify-center">
+                        <a href="{{ route('vaccines.edit', $vaccine->id) }}">{{ __('btn.edit', ['object' => '']) }}</a>
+                        <p>&nbsp/&nbsp</p>
+                        <form method="POST" action="{{ route('vaccines.destroy', $vaccine->id) }}">
+                            @csrf
+                            @method('delete')
+                            <input type="submit" value="{{ __('btn.delete') }}" onclick="confirm('Are you sure you want to delete?')">
+                        </form>
+                    </td>
+                </tr>
             @endforeach
         </table>
         @if (Session::get('success'))
-        <div class="alert alert-success">
-            <ul>
-                <li>{{ __('message.success', ['action' => __('btn.delete')]) }}</li>
-            </ul>
-        </div>
+            <div class="alert alert-success">
+                <ul>
+                    <li>{{ __('message.success', ['action' => __('btn.delete')]) }}</li>
+                </ul>
+            </div>
         @endif
     </div>
 </x-app-layout>
