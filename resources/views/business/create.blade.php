@@ -21,19 +21,19 @@
                 <div class="w-full mr-2 max-w-40pc">
                     <!-- Email Address -->
                     <div class="mt-4">
-                        <x-label for="email" :value="__('register.email')" />
+                        <x-label for="email" :value="__('account.email')" />
                         <x-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required />
                     </div>
 
                     <!-- Password -->
                     <div class="mt-4">
-                        <x-label for="password" :value="__('register.password')" />
+                        <x-label for="password" :value="__('account.password')" />
                         <x-input id="password" class="block mt-1 w-full" type="password" name="password" required autocomplete="new-password" />
                     </div>
 
                     <!-- Confirm Password -->
                     <div class="mt-4">
-                        <x-label for="password_confirmation" :value="__('register.confirm_password')" />
+                        <x-label for="password_confirmation" :value="__('account.confirm_password')" />
                         <x-input id="password_confirmation" class="block mt-1 w-full" type="password" name="password_confirmation" required />
                     </div>
                 </div>
@@ -54,21 +54,21 @@
                     <div class="flex items-center justify-between mt-4 overflow-hidden flex-warp">
                         <!-- Province Name -->
                         <div class="w-full max-w-30pc">
-                            <x-label for="addr_province" :value="__('register.province')" />
+                            <x-label for="addr_province" :value="__('business.province')" />
                             <select name="addr_province" id="addr_province" class="block mt-1 w-full">
                             </select>
                         </div>
 
                         <!-- District Name -->
                         <div class="w-full max-w-30pc">
-                            <x-label for="addr_district" :value="__('register.district')" />
+                            <x-label for="addr_district" :value="__('business.district')" />
                             <select name="addr_district" id="addr_district" class="block mt-1 w-full">
                             </select>
                         </div>
 
                         <!-- Ward Name -->
                         <div class="w-full max-w-30pc">
-                            <x-label for="addr_ward" :value="__('register.ward')" />
+                            <x-label for="addr_ward" :value="__('business.ward')" />
                             <select name="addr_ward" id="addr_ward" class="block mt-1 w-full">
                             </select>
                         </div>
@@ -76,26 +76,26 @@
 
                     <!-- Address -->
                     <div class="mt-4">
-                        <x-label for="address" :value="__('register.address')" />
+                        <x-label for="address" :value="__('business.address')" />
                         <x-input id="address" class="block mt-1 w-full" type="text" name="address" :value="old('address')" autofocus />
                     </div>
 
                     <!-- Contact -->
                     <div class="mt-4">
-                        <x-label for="contact" :value="__('register.contact')" />
+                        <x-label for="contact" :value="__('business.contact')" />
                         <x-input id="contact" class="block mt-1 w-full" type="text" name="contact" :value="old('contact')" autofocus />
                     </div>
 
                     <x-button class="mt-4" >
-                        {{ __('btn.create') }}
+                        {{ __('btn.create', ['object' => __('business.business')]) }}
                     </x-button>
 
                     @if (Session::get('success'))
-                    <div class="alert alert-success">
-                        <ul>
-                            <li>{{ __('message.success') }}</li>
-                        </ul>
-                    </div>
+                        <div class="alert alert-success">
+                            <ul>
+                                <li>{{ __('message.success', ['action' => Session::get('action')]) }}</li>
+                            </ul>
+                        </div>
                     @endif
                 </div>
             </div>

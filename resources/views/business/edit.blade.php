@@ -27,47 +27,47 @@
                     @include('account.partials.account')
 
                     <x-button class="mt-4">
-                        {{ __('btn.update') }}
+                        {{ __('btn.update', ['object' => '']) }}
                     </x-button>
                 </form>
 
                 <!-- Change Password (feature for business role) -->
                 @if (Auth::user()->role === $roles::ROLE_BUSINESS)
-                <br>
-                <form method="POST" action="{{ route('accounts.password.update') }}">
-                    <div>
-                        {{ __('object.change', ['object' => __('account.password')]) }}
-                    </div>
-                    @csrf
-                    @method('patch')
-                    <input type="hidden" name="id" value="{{ $business->id }}">
-                    @include('account.partials.password-change')
+                    <br>
+                    <form method="POST" action="{{ route('accounts.password.update') }}">
+                        <div>
+                            {{ __('object.change', ['object' => __('account.password')]) }}
+                        </div>
+                        @csrf
+                        @method('patch')
+                        <input type="hidden" name="id" value="{{ $business->id }}">
+                        @include('account.partials.password-change')
 
-                    <x-button class="mt-4">
-                        {{ __('btn.update') }}
-                    </x-button>
-                </form>
+                        <x-button class="mt-4">
+                            {{ __('btn.update', ['object' => '']) }}
+                        </x-button>
+                    </form>
 
                 <!-- Reset Business Account Password (feature for admin role) -->
                 @else
-                <br>
-                <form method="POST" action="{{ route('accounts.password.reset') }}">
-                    <div>
-                        {{ __('object.reset', ['object' => __('account.password')]) }}
-                    </div>
-                    @csrf
-                    @method('patch')
+                    <br>
+                    <form method="POST" action="{{ route('accounts.password.reset') }}">
+                        <div>
+                            {{ __('object.reset', ['object' => __('account.password')]) }}
+                        </div>
+                        @csrf
+                        @method('patch')
 
-                    @include('account.partials.password-reset')
+                        @include('account.partials.password-reset')
 
-                    <x-button class="mt-4">
-                        {{ __('btn.reset') }}
-                    </x-button>
-                </form>
+                        <x-button class="mt-4">
+                            {{ __('btn.reset') }}
+                        </x-button>
+                    </form>
                 @endif
             </div>
 
-            <form method="POST" class="w-full mx-2 max-w-60pc" action="{{ route('businesses.update', $business->id) }}">
+            <form method="POST" class="w-full mx-2 max-w-40pc" action="{{ route('businesses.update', $business->id) }}">
                 {{ __('account.profile') }}
                 @csrf
                 @method('patch')
@@ -75,16 +75,16 @@
                 @include('business.profile')
 
                 <x-button class="mt-4">
-                    {{ __('btn.update') }}
+                    {{ __('btn.update', ['object' => '']) }}
                 </x-button>
             </form>
         </div>
         @if (Session::get('success'))
-        <div class="alert alert-success">
-            <ul>
-                <li>{{ __('message.success', ['action' => __('btn.update')]) }}</li>
-            </ul>
-        </div>
+            <div class="alert alert-success">
+                <ul>
+                    <li>{{ __('message.success', ['action' => __('btn.update', ['object' => ''])]) }}</li>
+                </ul>
+            </div>
         @endif
     </x-auth-card>
 

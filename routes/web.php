@@ -84,6 +84,7 @@ Route::middleware('auth')->group(function () {
         ->group(function () {
             Route::get('trashed', 'trashed')->name('businesses.trashed');
             Route::post('restore/{id}', 'restore')->name('businesses.restore');
+            Route::get('profile', 'profile')->name('businesses.profile');
         });
     Route::resource('businesses', BusinessController::class)
         ->middleware([CheckBusiness::class]);
