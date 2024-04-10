@@ -9,6 +9,7 @@ use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\LocalRegionController;
 use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\VaccinationController;
 use App\Http\Controllers\VaccineController;
 use App\Http\Controllers\VaccineLotController;
 use App\Http\Middleware\CheckAdmin;
@@ -70,6 +71,7 @@ Route::middleware('auth')->group(function () {
 
     Route::prefix('users')
         ->controller(UserController::class)
+        ->middleware([CheckUser::class])
         ->group(function () {
             Route::get('profile', 'profile')->name('users.profile');
             Route::patch('', 'updateProfile')->name('users.update-profile');
@@ -77,10 +79,11 @@ Route::middleware('auth')->group(function () {
     Route::resource('users', UserController::class)
         ->middleware([CheckUser::class]);
 
-    Route::controller(BusinessController::class)
+    Route::prefix('businesses')
+        ->controller(BusinessController::class)
         ->group(function () {
-            Route::get('businesses/trashed', 'trashed')->name('businesses.trashed');
-            Route::post('businesses/restore/{id}', 'restore')->name('businesses.restore');
+            Route::get('trashed', 'trashed')->name('businesses.trashed');
+            Route::post('restore/{id}', 'restore')->name('businesses.restore');
         });
     Route::resource('businesses', BusinessController::class)
         ->middleware([CheckBusiness::class]);
@@ -89,16 +92,18 @@ Route::middleware('auth')->group(function () {
 
     Route::prefix('vaccine-lots')
         ->controller(VaccineLotController::class)
+        ->middleware([CheckBusiness::class])
         ->group(function () {
             Route::get('trashed', 'trashed')->name('vaccine-lots.trashed');
             Route::post('restore/{id}', 'restore')->name('vaccine-lots.restore');
             Route::delete('permanently-delete/{id}', 'delete')->name('vaccine-lots.permanently-delete');
         });
     Route::resource('vaccine-lots', VaccineLotController::class)
-        ->middleware(([CheckBusiness::class]));
+        ->middleware([CheckBusiness::class]);
 
     Route::prefix('schedules')
         ->controller(ScheduleController::class)
+        ->middleware([CheckBusiness::class])
         ->group(function () {
             Route::get('trashed', 'trashed')->name('schedules.trashed');
             Route::post('restore/{id}', 'restore')->name('schedules.restore');
@@ -106,4 +111,11 @@ Route::middleware('auth')->group(function () {
         });
     Route::resource('schedules', ScheduleController::class)
         ->middleware([CheckBusiness::class]);
+
+    Route::prefix('vaccination')
+        ->controller(VaccinationController::class)
+        ->middleware([CheckUser::class])
+        ->group(function () {
+            Route::get('', 'index')->name('vaccination.index');
+        });
 });

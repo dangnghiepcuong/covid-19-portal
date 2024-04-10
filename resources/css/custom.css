@@ -1,3 +1,11 @@
+:root {
+    --flex-gap: 20px;
+}
+
+.m-auto {
+    margin: 0px auto;
+}
+
 .max-w-30pc {
     max-width: 30%;
 }
@@ -26,6 +34,50 @@
     max-width: 80%;
 }
 
+.max-w-100px {
+    max-width: 100px;
+}
+
+.max-w-200px {
+    max-width: 200px;
+}
+
+.max-w-300px {
+    max-width: 300px;
+}
+
+.max-w-400px {
+    max-width: 400px;
+}
+
+.max-w-500px {
+    max-width: 500px;
+}
+
+.min-w-100px {
+    min-width: 100px;
+}
+
+.min-w-150px {
+    min-width: 150px;
+}
+
+.min-w-200px {
+    min-width: 200px;
+}
+
+.min-w-300px {
+    min-width: 300px;
+}
+
+.min-w-400px {
+    min-width: 400px;
+}
+
+.min-w-500px {
+    min-width: 500px;
+}
+
 .h-50pc {
     height: 50%;
 }
@@ -37,4 +89,20 @@
 
 .flex-h-full {
     height: calc(100vh - 100px);
+}
+
+.flex-gap-1px {
+    gap: 1px;
+}
+
+.flex-gap-2px {
+    gap: 2px;
+}
+
+.flex-gap-3px {
+    gap: 2px;
+}
+
+.filter {
+    gap: var(--flex-gap);
 }

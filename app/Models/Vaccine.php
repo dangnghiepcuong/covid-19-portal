@@ -28,4 +28,9 @@ class Vaccine extends Model
 
         return 'Not allow';
     }
+
+    public function scopeIsAllow($query)
+    {
+        return $query->where('is_allow', true);
+    }
 }
