@@ -6,5 +6,5 @@ return [
     'quantity' => 'Quantity',
     'import_date' => 'Import date',
     'expiry_date' => 'Expiry date',
-    'dte' => 'Date to expiry',
+    'dte' => 'Days to expiry',
 ];
