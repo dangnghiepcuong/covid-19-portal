@@ -3,10 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Enums\Role;
-use App\Http\Auth\Requests\BusinessCreateRequest;
+use App\Http\Requests\BusinessCreateRequest;
 use App\Http\Requests\BusinessRequest;
 use App\Models\Account;
 use App\Models\Business;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
@@ -64,7 +65,10 @@ class BusinessController extends Controller
             ]);
         });
 
-        return redirect()->back()->with('success', true);
+        return redirect()->back()->with([
+            'success' => true,
+            'action' => __('btn.create', ['object' => '']),
+        ]);
     }
 
     /**
@@ -124,7 +128,10 @@ class BusinessController extends Controller
 
         $business->save();
 
-        return redirect()->back()->with('success', true);
+        return redirect()->back()->with([
+            'success' => true,
+            'action' => __('btn.update', ['object' => '']),
+        ]);
     }
 
     /**
@@ -137,7 +144,10 @@ class BusinessController extends Controller
     {
         Business::destroy($id);
 
-        return redirect()->back()->with('success', true);
+        return redirect()->back()->with([
+            'success' => true,
+            'action' => __('btn.delete'),
+        ]);
     }
 
     public function trashed()
@@ -152,6 +162,19 @@ class BusinessController extends Controller
         Business::withTrashed($id)
             ->restore();
 
-        return redirect()->back()->with('success', true);
+        return redirect()->back()->with([
+            'success' => true,
+            'action' => __('btn.restore'),
+        ]);
+    }
+
+    public function profile()
+    {
+        $business = Business::findOrFail(Auth::user()->business->id);
+
+        return view('business.edit', [
+            'account' => $business->account,
+            'business' => $business,
+        ]);
     }
 }

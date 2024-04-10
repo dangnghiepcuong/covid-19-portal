@@ -73,7 +73,7 @@
                         @switch(Auth::user()->role)
                             @case($roles::ROLE_ADMIN)
                             @case($roles::ROLE_BUSINESS)
-                                <x-dropdown-link :href="route('businesses.edit', Auth::user()->id)">
+                                <x-dropdown-link :href="route('businesses.profile')">
                                     {{ Auth::user()->email }}
                                 </x-dropdown-link>
                             @break

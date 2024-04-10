@@ -34,53 +34,51 @@
                 {{ __('btn.action') }}
             </th>
         </tr>
-        @php
-        $i = 0;
-        @endphp
         @if ($businesses !== null)
-        @foreach ($businesses as $business)
-        <tr>
-            <td class="text-center">
-                {{ ++$i; }}
-            </td>
-            <th class="text-center">
-                {{ $business->account->email }}
-            </th>
-            <td class="text-center">
-                {{ $business->tax_id }}
-            </td>
-            <td class="text-center">
-                {{ $business->name }}
-            </td>
-            <td class="text-center">
-                {{ $business->addr_province }}
-            </td>
-            <td class="text-center">
-                {{ $business->addr_district }}
-            </td>
-            <td class="text-center">
-                {{ $business->addr_ward }}
-            </td>
-            <td class="flex justify-center">
-                <a href="{{ route('businesses.show', $business->id) }}">{{ __('btn.view') }}</a>
-                <p>&nbsp/&nbsp</p>
-                <a href="{{ route('businesses.edit', $business->id) }}">{{ __('btn.edit') }}</a>
-                <p>&nbsp/&nbsp</p>
-                <form method="POST" action="{{ route('businesses.destroy', $business->id) }}">
-                    @csrf
-                    @method('delete')
-                    <input type="submit" value="{{ __('btn.delete') }}" onclick="confirm('Are you sure you want to delete?')">
-                </form>
-            </td>
-        </tr>
-        @endforeach
+            $i = 0;
+            @foreach ($businesses as $business)
+            <tr>
+                <td class="text-center">
+                    {{ ++$i; }}
+                </td>
+                <th class="text-center">
+                    {{ $business->account->email }}
+                </th>
+                <td class="text-center">
+                    {{ $business->tax_id }}
+                </td>
+                <td class="text-center">
+                    {{ $business->name }}
+                </td>
+                <td class="text-center">
+                    {{ $business->addr_province }}
+                </td>
+                <td class="text-center">
+                    {{ $business->addr_district }}
+                </td>
+                <td class="text-center">
+                    {{ $business->addr_ward }}
+                </td>
+                <td class="flex justify-center">
+                    <a href="{{ route('businesses.show', $business->id) }}">{{ __('btn.view') }}</a>
+                    <p>&nbsp/&nbsp</p>
+                    <a href="{{ route('businesses.edit', $business->id) }}">{{ __('btn.edit', ['object' => '']) }}</a>
+                    <p>&nbsp/&nbsp</p>
+                    <form method="POST" action="{{ route('businesses.destroy', $business->id) }}">
+                        @csrf
+                        @method('delete')
+                        <input type="submit" value="{{ __('btn.delete') }}" onclick="confirm('Are you sure you want to delete?')">
+                    </form>
+                </td>
+            </tr>
+            @endforeach
         @endif
     </table>
     @if (Session::get('success'))
-    <div class="alert alert-success">
-        <ul>
-            <li>{{ __('message.success', ['action' => __('btn.delete')]) }}</li>
-        </ul>
-    </div>
+        <div class="alert alert-success">
+            <ul>
+                <li>{{ __('message.success', ['action' => __('btn.delete')]) }}</li>
+            </ul>
+        </div>
     @endif
 </x-app-layout>
