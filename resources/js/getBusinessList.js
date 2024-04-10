@@ -18,29 +18,29 @@ $(document).ready(function () {
                 let i = 0;
                 for (let element of result.data) {
                     $('#table_business_list tbody').append(
-                        ` < tr >
-                        < td class = "text-center" >
-                        ${ ++i }
-                        < / td >
-                        < td class = "text-center" >
-                        ${ element['name'] }
-                        < / td >
-                        < td class = "text-center" >
-                        ${ element['addr_province'] }
-                        < / td >
-                        < td class = "text-center" >
-                        ${ element['addr_district'] }
-                        < / td >
-                        < td class = "text-center" >
-                        ${ element['addr_ward'] }
-                        < / td >
-                        < td class = "text-center" >
-                        ${ element['schedules'].length }
-                        < / td >
-                        < td class = "flex justify-center" >
-                        < a class = "btn btn-primary" href = "#" > View schedules < / a >
-                        < / td >
-                        < / tr > `
+                        `<tr>
+                            <td class = "text-center">
+                                ${ ++i }
+                            </td>
+                            <td class = "text-center">
+                                ${ element['name'] }
+                            </td>
+                            <td class = "text-center">
+                                ${ element['addr_province'] }
+                            </td>
+                            <td class = "text-center">
+                                ${ element['addr_district'] }
+                            </td>
+                            <td class = "text-center">
+                                ${ element['addr_ward'] }
+                            </td>
+                            <td class = "text-center">
+                                ${ element['schedules'].length }
+                            </td>
+                            <td class = "flex justify-center">
+                                <a class = "btn btn-primary" href = "#"> View schedules </a>
+                            </td>
+                        </tr>`
                     )
                 }
             },

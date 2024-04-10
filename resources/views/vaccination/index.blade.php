@@ -78,13 +78,12 @@
         <tbody></tbody>
     </table>
     @if (Session::get('success'))
-    <div class="alert alert-success">
-        <ul>
-            <li>{{ __('message.success', ['action' => __('btn.delete')]) }}</li>
-        </ul>
-    </div>
+        <div class="alert alert-success">
+            <ul>
+                <li>{{ __('message.success', ['action' => __('btn.delete')]) }}</li>
+            </ul>
+        </div>
     @endif
 </x-app-layout>
 <script src="{{ asset('js/getLocalRegion.js') }}" defer></script>
 <script src="{{ asset('js/getBusinessList.js') }}" defer></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
