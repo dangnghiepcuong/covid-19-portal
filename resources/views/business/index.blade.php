@@ -35,7 +35,9 @@
             </th>
         </tr>
         @if ($businesses !== null)
-            $i = 0;
+            @php
+                $i = 0;
+            @endphp
             @foreach ($businesses as $business)
             <tr>
                 <td class="text-center">

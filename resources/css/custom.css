@@ -3,7 +3,11 @@
 }
 
 .m-auto {
-    margin: 0px auto;
+    margin: px auto;
+}
+
+.h-100px {
+    height: 100px;
 }
 
 .max-w-30pc {
@@ -32,6 +36,10 @@
 
 .max-w-80pc {
     max-width: 80%;
+}
+
+.max-w-90pc {
+    max-width: 90%;
 }
 
 .max-w-100px {
@@ -105,4 +113,76 @@
 
 .filter {
     gap: var(--flex-gap);
+}
+
+.w-15pc {
+    width: 15%;
+}
+
+.w-25pc {
+    width: 25%;
+}
+
+.w-35pc {
+    width: 35%;
+}
+
+.w-45pc {
+    width: 45%;
+}
+
+.w-55pc {
+    width: 55%;
+}
+
+.w-65pc {
+    width: 65%;
+}
+
+.w-75pc {
+    width: 75%;
+}
+
+.w-85pc {
+    width: 85%;
+}
+
+.w-95pc {
+    width: 95%;
+}
+
+.w-10pc {
+    width: 10%;
+}
+
+.w-20pc {
+    width: 20%;
+}
+
+.w-30pc {
+    width: 30%;
+}
+
+.w-40pc {
+    width: 40%;
+}
+
+.w-50pc {
+    width: 50%;
+}
+
+.w-60pc {
+    width: 60%;
+}
+
+.w-70pc {
+    width: 70%;
+}
+
+.w-80pc {
+    width: 80%;
+}
+
+.w-90pc {
+    width: 90%;
 }
