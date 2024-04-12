@@ -4,63 +4,82 @@
             {{ __('btn.view') . ' ' . __('business.business') }}
         </h2>
     </x-slot>
-    <div class="flex justify-between overflow-hidden flex-warp flex-h-full">
-        <div class="w-full mx-2 max-w-30pc">
-            <!-- Profile -->
-            <h3 class="font-med text-xl text-gray-800 dark:text-gray-200 leading-tight">{{ __('business.business') }}</h3>
+    <div class="mt-4 flex justify-between overflow-hidden flex-h-full">
+        <!-- Profile -->
+        <div class="w-full mx-2 min-w-400px max-w-30pc">
+            <h3 class="font-med text-xl text-gray-800 dark:text-gray-200 leading-tight">{{ __('business.business') }}
+            </h3>
             <div class="flex justify-between overflow-hidden flex-warp">
                 <div class="w-full mr-2">
                     <!-- Email Address -->
                     <div class="mt-4">
                         <x-label for="email" :value="__('account.email')" />
-                        <x-input id="email" class="block mt-1 w-full" type="email" name="email" :value="$account->email" required />
+                        <x-input id="email" class="block mt-1 w-full" type="email" name="email" :value="$account->email"
+                            required />
                     </div>
                     @include('business.profile')
                 </div>
             </div>
         </div>
 
-        <div class="w-full mx-2 max-w-65pc">
-            <!-- Vaccine -->
-            <div class="w-full h-50pc">
-                <h3 class="font-med text-xl text-gray-800 dark:text-gray-200 leading-tight">{{ __('vaccine.vaccine') }}</h3>
-                <table class="table-auto w-full min-w-[500px] overflow-x-scroll table table-hover">
-                    <tr>
-                        <th class="text-center">#</th>
-                        <th class="text-center">{{ __('vaccine.name') }}</th>
-                        <th class="text-center">{{ __('vaccine.lot') }}</th>
-                        <th class="text-center">{{ __('vaccine.quantity') }}</th>
-                        <th class="text-center">{{ __('vaccine.import_date') }}</th>
-                        <th class="text-center">{{ __('vaccine.expiry_date') }}</th>
-                    </tr>
-                    @php
-                    $i = 0;
-                    @endphp
-                    @foreach ($vaccineLots as $vaccineLot)
-                    <tr>
-                        <td class="text-center">{{ ++$i }}</td>
-                        <td class="text-center">{{ $vaccineLot->vaccine->name }}</td>
-                        <td class="text-center">{{ $vaccineLot->lot }}</td>
-                        <td class="text-center">{{ $vaccineLot->quantity }}</td>
-                        <td class="text-center">{{ $vaccineLot->import_date }}</td>
-                        <td class="text-center">{{ $vaccineLot->expiry_date }}</td>
-                    </tr>
-                    @endforeach
+        <div class="w-full mx-2 min-w-600px max-w-65pc overflow-x-scroll">
+
+            <!-- Vaccine Table -->
+            <div class="w-full h-400px">
+                <h3 class="font-med text-xl text-gray-800 dark:text-gray-200 leading-tight">{{ __('vaccine.vaccine') }}
+                </h3>
+                <table class="w-full min-w-500px mt-2 table table-hover">
+                    <thead>
+                        <tr>
+                            <th class="text-center text-truncate">#</th>
+                            <th class="text-center text-truncate">{{ __('vaccine.name') }}</th>
+                            <th class="text-center text-truncate">{{ __('vaccine.lot') }}</th>
+                            <th class="text-center text-truncate">{{ __('vaccine.quantity') }}</th>
+                            <th class="text-center text-truncate">{{ __('vaccine.import_date') }}</th>
+                            <th class="text-center text-truncate">{{ __('vaccine.expiry_date') }}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @php
+                            $i = 0;
+                        @endphp
+                        @foreach ($vaccineLots as $vaccineLot)
+                            <tr>
+                                <td class="text-left text-truncate">{{ ++$i }}</td>
+                                <td class="text-left text-truncate">{{ $vaccineLot->vaccine->name }}</td>
+                                <td class="text-left text-truncate">{{ $vaccineLot->lot }}</td>
+                                <td class="text-left text-truncate">{{ $vaccineLot->quantity }}</td>
+                                <td class="text-left text-truncate">{{ $vaccineLot->import_date }}</td>
+                                <td class="text-left text-truncate">{{ $vaccineLot->expiry_date }}</td>
+                            </tr>
+                        @endforeach
+                    </tbody>
                 </table>
             </div>
 
-            <div class="h-50pc">
-                <h3 class="font-med text-xl text-gray-800 dark:text-gray-200 leading-tight">{{ __('schedule.schedule') }}</h3>
-                <table class="table-auto w-full min-w-[500px] overflow-x-scroll table table-hover">
-                    <tr>
-                        <th class="text-center">#</th>
-                        <th class="text-center">{{ __('schedule.on_date') }}</th>
-                        <th class="text-center">{{ __('vaccine.name') }}</th>
-                        <th class="text-center">{{ __('vaccine.lot') }}</th>
-                        <th class="text-center">{{ __('schedule.day_shift_limit') . '/' . __('schedule.day_shift_registration') }}</th>
-                        <th class="text-center">{{ __('schedule.noon_shift_limit') . '/' . __('schedule.noon_shift_registration') }}</th>
-                        <th class="text-center">{{ __('schedule.night_shift_limit') . '/' . __('schedule.night_shift_registration') }}</th>
-                    </tr>
+            <!-- Schedule Table -->
+            <div class="w-full h-400px">
+                <h3 class="font-med text-xl text-gray-800 dark:text-gray-200 leading-tight">
+                    {{ __('schedule.schedule') }}</h3>
+                <table class="w-full min-w-500px mt-2 table table-hover">
+                    <thead>
+                        <tr>
+                            <th class="text-center text-truncate">#</th>
+                            <th class="text-center text-truncate">{{ __('schedule.on_date') }}</th>
+                            <th class="text-center text-truncate">{{ __('vaccine.name') }}</th>
+                            <th class="text-center text-truncate">{{ __('vaccine.lot') }}</th>
+                            <th class="text-center text-truncate">
+                                {{ __('schedule.day_shift_limit') . '/' . __('schedule.day_shift_registration') }}</th>
+                            <th class="text-center text-truncate">
+                                {{ __('schedule.noon_shift_limit') . '/' . __('schedule.noon_shift_registration') }}
+                            </th>
+                            <th class="text-center text-truncate">
+                                {{ __('schedule.night_shift_limit') . '/' . __('schedule.night_shift_registration') }}
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
                 </table>
             </div>
         </div>
