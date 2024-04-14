@@ -4,6 +4,7 @@ return [
     'day_shift' => 'Day shift',
     'day_shift_limit' => 'Day shift limit',
     'day_shift_registration' => 'Day shift registration',
+    'from_date' => 'From date',
     'total_limit' => 'The total limit must be less than or equal to the vaccine lot quantity',
     'noon_shift' => 'Noon shift',
     'noon_shift_limit' => 'Noon shift limit',
@@ -14,4 +15,5 @@ return [
     'on_date' => 'Date',
     'over_limit' => 'Limit can not be under registrations',
     'schedule' => 'Schedule',
+    'to_date' => 'To date',
 ];
