@@ -38,6 +38,7 @@
             {{ $slot }}
         </main>
     </div>
+    <script src="{{ asset('js/translate.js') }}" defer></script>
 </body>
 
 </html>

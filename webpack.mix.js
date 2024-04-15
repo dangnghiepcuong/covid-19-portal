@@ -11,13 +11,11 @@ const mix = require('laravel-mix');
  |
  */
 
-mix.autoload({
-    jquery: ['$', 'window.jQuery']
-});
-
 mix.js('resources/js/app.js', 'public/js')
     .js('resources/js/getLocalRegion.js', 'public/js')
+    .js('resources/js/translate.js', 'public/js')
     .js('resources/js/getBusinessList.js', 'public/js')
+    .js('resources/js/getScheduleList.js', 'public/js')
     .postCss('resources/css/custom.css', 'public/css')
     .postCss('resources/css/app.css', 'public/css', [
         require('tailwindcss'),

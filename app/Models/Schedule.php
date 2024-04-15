@@ -57,9 +57,4 @@ class Schedule extends Model
     {
         return $query->where('on_date', '>', date('Y-m-d'));
     }
-
-    public function scopeIsCanceled($query)
-    {
-        return $query->whereRaw('day_shift_limit + noon_shift_limit + night_shift_limit > 0');
-    }
 }
