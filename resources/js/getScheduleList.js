@@ -13,10 +13,7 @@ $(document).ready(function () {
         let business_addr_district = $(this).parent().parent().find('td:eq(3)').text()
         let business_addr_ward = $(this).parent().parent().find('td:eq(4)').text()
         $('#chosen_business').text(
-            business_name + ' ('
-            + business_addr_province + ', '
-            + business_addr_district + ', '
-            + business_addr_ward + ')'
+            `${business_name} (${business_addr_province}, ${business_addr_district}, ${business_addr_ward})`
         )
         $('#chosen_business').val(business_id)
 
