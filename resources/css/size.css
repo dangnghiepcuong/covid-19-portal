@@ -146,6 +146,10 @@
     width: 100px;
 }
 
+.w-1000px {
+    width: 1000px;
+}
+
 .w-15pc {
     width: 15%;
 }

@@ -4,6 +4,7 @@ return [
     'day_shift' => 'Ca ngày',
     'day_shift_limit' => 'GH ca ngày',
     'day_shift_registration' => 'SL ĐK ca ngày',
+    'from_date' => 'Từ ngày',
     'total_limit' => 'Tổng giới hạn tiêm phải nhỏ hơn hoặc bằng số lượng liều vắc-xin trong lô',
     'noon_shift' => 'Ca chiều',
     'noon_shift_limit' => 'GH ca chiều',
@@ -14,4 +15,5 @@ return [
     'on_date' => 'Ngày',
     'over_limit' => 'Giới hạn không thể thấp hơn số lượt đã đăng ký',
     'schedule' => 'Lịch tiêm',
+    'to_date' => 'Đến ngày',
 ];

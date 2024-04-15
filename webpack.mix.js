@@ -22,4 +22,8 @@ mix.js('resources/js/app.js', 'public/js')
     .postCss('resources/css/app.css', 'public/css', [
         require('tailwindcss'),
         require('autoprefixer'),
-    ]);
+    ])
+    .postCss('resources/css/layout.css', 'public/css')
+    .postCss('resources/css/size.css', 'public/css')
+    .postCss('resources/css/color.css', 'public/css')
+    .sass('resources/sass/app.scss', 'public/css');
