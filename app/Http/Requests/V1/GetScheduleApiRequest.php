@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\V1;
 
+use App\Models\Vaccine;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -24,9 +25,12 @@ class GetScheduleApiRequest extends FormRequest
      */
     public function rules()
     {
+        $vaccineIds = Vaccine::pluck('id')->toArray();
+
         return [
-            'from_date' => ['date', Rule::when($this->to_date, 'before_or_equal:to_date')],
-            'to_date' => ['date', Rule::when($this->from_date, 'after_or_equal:from_date')],
+            'from_date' => [Rule::when($this->from_date && $this->to_date, ['date', 'before_or_equal:' . $this->to_date])],
+            'to_date' => [Rule::when($this->from_date && $this->to_date, ['date', 'after_or_equal:' . $this->from_date])],
+            'vaccine_id' => [Rule::when($this->vaccine_id !== null, ['numeric', Rule::in($vaccineIds)])],
         ];
     }
 }
