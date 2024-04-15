@@ -14,7 +14,9 @@ try {
     window.$ = window.jQuery = require('jquery');
 
     require('./bootstrap');
+    require('datatables.net-bs5');
 } catch (e) {
+    //
 }
 /**
  * Echo exposes an expressive API for subscribing to channels and listening
