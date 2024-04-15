@@ -24,7 +24,7 @@ $(document).ready(function () {
 
 function getPaginatingBusiness(url)
 {
-    if (url == '' || url == null || url == undefined) {
+    if (!url) {
         return
     }
 
@@ -52,27 +52,29 @@ window.callApiGetBusinessList = function (url, addr_province, addr_district, add
             for (let element of result.data) {
                 $('#table_business_list tbody').append(
                     `<tr>
-                    <td class="text-left text-truncate my-auto">
-                        ${++i}
-                    </td>
-                    <td class="text-left text-truncate my-auto">
-                        ${element['name']}
-                    </td>
-                    <td class="text-left text-truncate my-auto">
-                        ${element['addr_province']}
-                    </td>
-                    <td class="text-left text-truncate my-auto">
-                        ${element['addr_district']}
-                    </td>
-                    <td class="text-left text-truncate my-auto">
-                        ${element['addr_ward']}
-                    </td>
-                    <td class="text-left text-truncate my-auto">
-                        ${element['schedules'].length}
-                    </td>
-                    <td class="flex justify-center">
-                        <button class="btn btn-info text-truncate my-auto" value="${element['id']}"> View schedules »</button>
-                    </td>
+                        <td class="text-left text-truncate my-auto">
+                            ${++i}
+                        </td>
+                        <td class="text-left text-truncate my-auto">
+                            ${element['name']}
+                        </td>
+                        <td class="text-left text-truncate my-auto">
+                            ${element['addr_province']}
+                        </td>
+                        <td class="text-left text-truncate my-auto">
+                            ${element['addr_district']}
+                        </td>
+                        <td class="text-left text-truncate my-auto">
+                            ${element['addr_ward']}
+                        </td>
+                        <td class="text-left text-truncate my-auto">
+                            ${element['schedules'].length}
+                        </td>
+                        <td class="flex justify-center">
+                            <button class="btn btn-info text-truncate my-auto" value="${element['id']}">
+                                View schedules »
+                            </button>
+                        </td>
                     </tr>`
                 )
             }
