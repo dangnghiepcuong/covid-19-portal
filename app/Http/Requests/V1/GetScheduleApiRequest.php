@@ -28,8 +28,12 @@ class GetScheduleApiRequest extends FormRequest
         $vaccineIds = Vaccine::pluck('id')->toArray();
 
         return [
-            'from_date' => [Rule::when($this->from_date && $this->to_date, ['date', 'before_or_equal:' . $this->to_date])],
-            'to_date' => [Rule::when($this->from_date && $this->to_date, ['date', 'after_or_equal:' . $this->from_date])],
+            'from_date' => [
+                Rule::when($this->from_date && $this->to_date, ['date', 'before_or_equal:' . $this->to_date]),
+            ],
+            'to_date' => [
+                Rule::when($this->from_date && $this->to_date, ['date', 'after_or_equal:' . $this->from_date]),
+            ],
             'vaccine_id' => [Rule::when($this->vaccine_id !== null, ['numeric', Rule::in($vaccineIds)])],
         ];
     }
