@@ -1,13 +1,13 @@
 $(document).ready(function () {
     $('#table_business_list tbody').on('click', 'tr td button', function () {
         let business_id = $(this).val()
-        let from_date = $('#from_date')
-        let to_date = $('#to_date')
-        let vaccine_id = $('#vaccine_id')
+        let from_date = $('#from_date').val()
+        let to_date = $('#to_date').val()
+        let vaccine_id = $('#vaccine_id').val()
 
         $.ajax({
             cache: false,
-            url: "http://127.0.0.1:8000/api/v1/schedules/",
+            url: "api/v1/schedules",
             method: 'GET',
             data: {
                 business_id: business_id,
@@ -21,14 +21,14 @@ $(document).ready(function () {
                 if (result.data == '') {
                     $('#table_schedule_list tbody').append(
                         `<tr>
-                            <td>No data</td>
-                            <td>No data</td>
-                            <td>No data</td>
-                            <td>No data</td>
-                            <td>No data</td>
-                            <td>No data</td>
-                            <td>No data</td>
-                            <td>No data</td>
+                            <td>${window.trans('message.no_data')}</td>
+                            <td>${window.trans('message.no_data')}</td>
+                            <td>${window.trans('message.no_data')}</td>
+                            <td>${window.trans('message.no_data')}</td>
+                            <td>${window.trans('message.no_data')}</td>
+                            <td>${window.trans('message.no_data')}</td>
+                            <td>${window.trans('message.no_data')}</td>
+                            <td>${window.trans('message.no_data')}</td>
                         </tr>`
                     )
                     return

@@ -25,7 +25,7 @@ $(document).ready(function () {
 var getProvinceList = function (addr_province) {
     $.ajax({
         cache: false,
-        url: "http://127.0.0.1:8000/local/province_list",
+        url: "/local/province_list",
         type: 'GET',
         success: function (result) {
             if (result == null) {
@@ -50,7 +50,7 @@ var getProvinceList = function (addr_province) {
 
 var getDistrictList = function (addr_province, addr_district) {
     $.ajax({
-        url: "http://127.0.0.1:8000/local/district_list",
+        url: "/local/district_list",
         type: 'GET',
         data: { addr_province: addr_province },
         success: function (result) {
@@ -76,7 +76,7 @@ var getDistrictList = function (addr_province, addr_district) {
 
 var getWardList = function (addr_province, addr_district, addr_ward) {
     $.ajax({
-        url: "http://127.0.0.1:8000/local/ward_list",
+        url: "/local/ward_list",
         type: 'GET',
         data: { addr_province: addr_province, addr_district: addr_district },
         success: function (result) {
