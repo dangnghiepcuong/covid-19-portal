@@ -27,4 +27,3 @@ mix.js('resources/js/app.js', 'public/js')
     .postCss('resources/css/size.css', 'public/css')
     .postCss('resources/css/color.css', 'public/css')
     .sass('resources/sass/app.scss', 'public/css');
-    
