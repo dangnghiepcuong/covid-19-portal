@@ -17,7 +17,10 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', [UserController::class, 'currentUser']);
 
 // api/v1
-Route::group(['prefix' => 'v1', 'namespace' => 'App\Http\Controllers\Api\V1'], function () {
-    Route::apiResource('businesses', BusinessController::class);
-    Route::apiResource('schedules', ScheduleController::class);
-});
+Route::middleware('auth:sanctum')
+    ->group(function () {
+        Route::group(['prefix' => 'v1', 'namespace' => 'App\Http\Controllers\Api\V1'], function () {
+            Route::apiResource('businesses', BusinessController::class);
+            Route::apiResource('schedules', ScheduleController::class);
+        });
+    });
