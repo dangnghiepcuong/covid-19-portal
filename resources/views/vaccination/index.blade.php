@@ -131,29 +131,62 @@
                         @endforeach
                     </select>
                 </div>
+
+                {{-- Apply --}}
+                <div>
+                    <button id="btn_apply_schedule_filter" class="btn btn-secondary mt-2">
+                        {{ __('btn.apply') }}
+                    </button>
+                </div>
             </div>
-            <div>
-                <button id="btn_apply_filter" class="btn btn-secondary mt-2">
-                    {{ __('btn.apply') }}
-                </button>
+
+            <br>
+            <div id="chosen_business" class="h-6">
             </div>
             <br>
+
             <!-- TABLE -->
-            <table id="table_schedule_list" class="table table-hover">
-                <thead>
-                    <tr>
-                        <th class="text-center">#</th>
-                        <th class="text-center">{{ __('schedule.on_date') }}</th>
-                        <th class="text-center">{{ __('vaccine.name') }}</th>
-                        <th class="text-center">{{ __('vaccine-lot.vaccine_lot') }}</th>
-                        <th class="text-center">{{ __('schedule.day_shift') }}</th>
-                        <th class="text-center">{{ __('schedule.noon_shift') }}</th>
-                        <th class="text-center">{{ __('schedule.night_shift') }}</th>
-                        <th class="text-center">{{ __('btn.action') }}</th>
-                    </tr>
-                </thead>
-                <tbody></tbody>
-            </table>
+            <div class="overflow-x-scroll">
+                <table id="table_schedule_list" class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th class="text-center text-truncate">#</th>
+                            <th class="text-center text-truncate">{{ __('schedule.on_date') }}</th>
+                            <th class="text-center text-truncate">{{ __('vaccine.name') }}</th>
+                            <th class="text-center text-truncate">{{ __('vaccine-lot.vaccine_lot') }}</th>
+                            <th class="text-center text-truncate">{{ __('schedule.day_shift') }}</th>
+                            <th class="text-center text-truncate">{{ __('schedule.noon_shift') }}</th>
+                            <th class="text-center text-truncate">{{ __('schedule.night_shift') }}</th>
+                            <th class="text-center text-truncate">{{ __('btn.action') }}</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+            {{-- PAGINATING --}}
+            <div class="row mt-2 justify-content-between">
+                <div class="col-md-auto me-auto ">
+                    <div class="dt-info" aria-live="polite" id="table_schedule_list_info" role="status"></div>
+                </div>
+                <div class="col-md-auto ms-auto">
+                    <div class="dt-paging paging_full_numbers">
+                        <ul id="table_schedule_list_paginating" class="pagination">
+                            <li class="dt-paging-button page-item"><a class="page-link first"
+                                    aria-controls="table_schedule_list" aria-label="First" data-dt-idx="first"
+                                    tabindex="-1">«</a></li>
+                            <li class="dt-paging-button page-item"><a class="page-link previous"
+                                    aria-controls="table_schedule_list" aria-label="Previous" data-dt-idx="previous"
+                                    tabindex="-1">‹</a></li>
+                            <li class="dt-paging-button page-item"><a class="page-link next"
+                                    aria-controls="table_schedule_list" aria-label="Next" data-dt-idx="next"
+                                    tabindex="-1">›</a></li>
+                            <li class="dt-paging-button page-item"><a class="page-link last"
+                                    aria-controls="table_schedule_list" aria-label="Last" data-dt-idx="last"
+                                    tabindex="-1">»</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -171,3 +204,4 @@
 </script>
 <script src="{{ asset('js/getLocalRegion.js') }}" defer></script>
 <script src="{{ asset('js/getBusinessList.js') }}" defer></script>
+<script src="{{ asset('js/getScheduleList.js') }}" defer></script>
