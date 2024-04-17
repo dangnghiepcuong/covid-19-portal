@@ -190,18 +190,19 @@
         </div>
     </div>
 
-    @if (Session::get('success'))
-        <div class="alert alert-success">
-            <ul>
-                <li>{{ __('message.success', ['action' => __('btn.delete')]) }}</li>
-            </ul>
+    <div id="alert">
+        <div class="alert">
+            <ul></ul>
         </div>
-    @endif
+    </div>
 </x-app-layout>
 <script>
+    window.csrf_token = {!! '"' . csrf_token() . '"' !!}
+    window.shifts = {!! json_encode($shifts::allCases()) !!}
     window.lang = {!! '"' . ($lang === null ? 'en' : $lang) . '"' !!}
     window.translations = {!! $translation !!}
 </script>
 <script src="{{ asset('js/getLocalRegion.js') }}" defer></script>
 <script src="{{ asset('js/getBusinessList.js') }}" defer></script>
 <script src="{{ asset('js/getScheduleList.js') }}" defer></script>
+<script src="{{ asset('js/registerVaccination.js') }}" defer></script>

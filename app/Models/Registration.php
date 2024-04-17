@@ -9,6 +9,7 @@ class Registration extends Pivot
 {
     use HasFactory;
 
+    protected $table = 'registrations';
     public $incrementing = true;
 
     protected $guarded = [

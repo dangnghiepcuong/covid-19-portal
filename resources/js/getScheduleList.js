@@ -53,7 +53,13 @@ function getPaginatingSchedule(url)
     window.callApiGetScheduleList(url, business_id, from_date, to_date, vaccine_id)
 }
 
-window.callApiGetScheduleList = function (url, business_id, from_date, to_date, vaccine_id) {
+window.callApiGetScheduleList = function (
+    url,
+    business_id,
+    from_date,
+    to_date,
+    vaccine_id
+) {
     $.ajax({
         cache: false,
         url: url,
@@ -81,6 +87,11 @@ window.callApiGetScheduleList = function (url, business_id, from_date, to_date, 
                     </tr>`
                 )
             } else {
+                let shiftInput = `<select name="shift" class="block mt-1">`
+                window.shifts.forEach(element => {
+                    shiftInput += `<option value="${element}">${window.trans(`schedule.${element}`)}</option>`
+                });
+                shiftInput += `</select>`
                 for (let element of result.data) {
                     $('#table_schedule_list tbody').append(
                         `<tr>
@@ -91,7 +102,12 @@ window.callApiGetScheduleList = function (url, business_id, from_date, to_date, 
                             <td class="text-center">${element['day_shift']}</td>
                             <td class="text-center">${element['noon_shift']}</td>
                             <td class="text-center">${element['night_shift']}</td>
-                            <td class="text-center"></td>
+                            <td class="text-center flex justify-between flex-gap-3px">
+                                ${shiftInput}
+                                <button class="btn btn-primary text-truncate my-auto" value="${element['id']}">
+                                    Register
+                                </button>
+                            </td>
                         </tr>`
                     )
                 }

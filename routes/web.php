@@ -118,5 +118,6 @@ Route::middleware('auth')->group(function () {
         ->middleware([CheckUser::class])
         ->group(function () {
             Route::get('', 'index')->name('vaccination.index');
+            Route::post('', 'register')->name('vaccination.register');
         });
 });
