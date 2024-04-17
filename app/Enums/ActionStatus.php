@@ -4,12 +4,11 @@ namespace App\Enums;
 
 use ReflectionClass;
 
-class RegistrationStatus
+class ActionStatus
 {
-    public const REGISTERED = 'registered';
-    public const CHECKED_IN = 'checked_in';
-    public const SHOT = 'shot';
-    public const CANCELED = 'canceled';
+    public const WARNING = 'warning';
+    public const ERROR = 'error';
+    public const SUCCESS = 'success';
 
     private static function getConstants()
     {

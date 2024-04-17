@@ -9,6 +9,7 @@ use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\LocalRegionController;
 use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\UserRegistrationController;
 use App\Http\Controllers\VaccinationController;
 use App\Http\Controllers\VaccineController;
 use App\Http\Controllers\VaccineLotController;
@@ -75,6 +76,8 @@ Route::middleware('auth')->group(function () {
         ->group(function () {
             Route::get('profile', 'profile')->name('users.profile');
             Route::patch('', 'updateProfile')->name('users.update-profile');
+
+            Route::resource('registrations', UserRegistrationController::class);
         });
     Route::resource('users', UserController::class)
         ->middleware([CheckUser::class]);

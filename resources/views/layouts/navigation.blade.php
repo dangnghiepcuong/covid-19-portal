@@ -41,6 +41,10 @@
                                 <x-nav-link :href="route('vaccination.index')">
                                     {{ __('vaccination.vaccination') }}
                                 </x-nav-link>
+                                
+                                <x-nav-link :href="route('registrations.index')">
+                                    {{ __('registration.log') }}
+                                </x-nav-link>
                             @break
 
                             @default
