@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\ActionStatus;
 use App\Http\Requests\VaccineLotRequest;
-use App\Models\Account;
 use App\Models\Vaccine;
 use App\Models\VaccineLot;
-use Exception;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
@@ -17,12 +17,35 @@ class VaccineLotController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $account = Account::findOrFail(Auth::user()->id);
-        $vaccineLots = VaccineLot::where('business_id', $account->business()->first()->id)->get();
+        $business = Auth::user()->business;
+        $vaccines = Vaccine::isAllow()->get();
+        $vaccineLots = VaccineLot::where('business_id', $business->id);
 
-        return view('vaccine-lot.index', ['vaccineLots' => $vaccineLots]);
+        if ($request->vaccine_id !== null) {
+            $vaccineLots = $vaccineLots->where('vaccine_id', $request->vaccine_id);
+        }
+
+        if ($request->quantity !== null) {
+            $vaccineLots = $vaccineLots->where('quantity', '>=', $request->quantity);
+        }
+
+        if ($request->import_date !== null) {
+            $vaccineLots = $vaccineLots->whereDate('import_date', '>=', $request->import_date);
+        }
+
+        if ($request->expiry_date !== null) {
+            $vaccineLots = $vaccineLots->whereDate('expiry_date', '<=', $request->expiry_date);
+        }
+
+        $vaccineLots = $vaccineLots->paginate(config('parameters.DEFAULT_PAGINATING_NUMBER'));
+
+        return view('vaccine-lot.index', [
+            'vaccineLots' => $vaccineLots,
+            'vaccines' => $vaccines,
+            'attributes' => $request,
+        ]);
     }
 
     /**
@@ -35,6 +58,26 @@ class VaccineLotController extends Controller
         $vaccines = Vaccine::isAllow()->get();
 
         return view('vaccine-lot.create', ['vaccines' => $vaccines]);
+    }
+
+    protected function checkLotNumber(Request $request, $businessId)
+    {
+        $vaccineLot = VaccineLot::where([
+            'business_id' => $businessId,
+            'lot' => $request->lot,
+        ])->first();
+
+        if ($vaccineLot !== null) {
+            return [
+                'check' => false,
+                'message' => __('vaccine-lot.message.lot_existed'),
+            ];
+        }
+
+        return [
+            'check' => true,
+            'message' => __('message.success'),
+        ];
     }
 
     /**
@@ -50,6 +93,18 @@ class VaccineLotController extends Controller
             $request->validated();
             $business = Auth::user()->business;
 
+            $checkLotNumber = $this->checkLotNumber($request, $business->id);
+            if ($checkLotNumber['check'] === false) {
+                DB::rollBack();
+
+                return redirect()->back()->with(
+                    [
+                        'status' => ActionStatus::WARNING,
+                        'message' => $checkLotNumber['message'],
+                    ]
+                )->withInput();
+            }
+
             VaccineLot::create([
                 'vaccine_id' => $request->vaccine_id,
                 'lot' => $request->lot,
@@ -58,17 +113,28 @@ class VaccineLotController extends Controller
                 'import_date' => $request->import_date,
                 'expiry_date' => $request->dte,
             ]);
-        } catch (Exception $exception) {
+        } catch (\Exception $e) {
             DB::rollBack();
 
-            return redirect()->back()->withErrors(['msg' => __('message.failed')]);
+            return redirect()->back()->with([
+                'status' => ActionStatus::ERROR,
+                'message' => __('message.failed'),
+                // 'message' => $e->getMessage(),
+            ])->withInput();
         }
 
         DB::commit();
 
         return redirect()->back()->with([
-            'success' => true,
-            'action' => __('btn.store'),
+            'status' => ActionStatus::SUCCESS,
+            'message' => __(
+                'message.success',
+                [
+                    'action' => __('btn.import', [
+                        'object' => __('vaccine-lot.vaccine_lot'),
+                    ]),
+                ],
+            ),
         ]);
     }
 
@@ -112,25 +178,49 @@ class VaccineLotController extends Controller
         DB::beginTransaction();
         try {
             $request->validated();
+            $business = Auth::user()->business;
 
-            VaccineLot::findOrFail($id)
+            $checkLotNumber = $this->checkLotNumber($request, $business->id);
+            if ($checkLotNumber['check'] === false) {
+                DB::rollBack();
+
+                return redirect()->back()->with(
+                    [
+                        'status' => ActionStatus::WARNING,
+                        'message' => $checkLotNumber['message'],
+                    ]
+                )->withInput();
+            }
+
+            $business->vaccineLots()->findOrFail($id)
                 ->update([
                     'lot' => $request->lot,
                     'quantity' => $request->quantity,
                     'import_date' => $request->import_date,
                     'expiry_date' => $request->dte,
                 ]);
-        } catch (Exception $exception) {
+        } catch (\Exception $e) {
             DB::rollBack();
 
-            return redirect()->back()->withErrors(['msg' => __('message.failed')]);
+            return redirect()->back()->with([
+                'status' => ActionStatus::ERROR,
+                'message' => __('message.failed'),
+                // 'message' => $e->getMessage(),
+            ])->withInput();
         }
 
         DB::commit();
 
         return redirect()->back()->with([
-            'success' => true,
-            'action' => __('btn.update'),
+            'status' => ActionStatus::SUCCESS,
+            'message' => __(
+                'message.success',
+                [
+                    'action' => __('btn.update', [
+                        'object' => __('vaccine-lot.vaccine_lot'),
+                    ]),
+                ],
+            ),
         ]);
     }
 
@@ -142,40 +232,65 @@ class VaccineLotController extends Controller
      */
     public function destroy($id)
     {
-        VaccineLot::destroy($id);
+        $business = Auth::user()->business;
+        $business->vaccineLots()->findOrFail($id)->delete();
 
         return redirect()->back()->with([
-            'success' => true,
-            'action' => __('btn.delete'),
+            'status' => ActionStatus::SUCCESS,
+            'message' => __('message.success', ['action' => __('btn.delete')]),
         ]);
     }
 
-    public function trashed()
+    public function trashed(Request $request)
     {
-        $vaccineLots = VaccineLot::onlyTrashed()->get();
+        $business = Auth::user()->business;
+        $vaccines = Vaccine::isAllow()->get();
+        $vaccineLots = $business->vaccineLots()->onlyTrashed();
 
-        return view('vaccine-lot.trashed', ['vaccineLots' => $vaccineLots]);
+        if ($request->vaccine_id !== null) {
+            $vaccineLots = $vaccineLots->where('vaccine_id', $request->vaccine_id);
+        }
+
+        if ($request->quantity !== null) {
+            $vaccineLots = $vaccineLots->where('quantity', '>=', $request->quantity);
+        }
+
+        if ($request->import_date !== null) {
+            $vaccineLots = $vaccineLots->whereDate('import_date', '>=', $request->import_date);
+        }
+
+        if ($request->expiry_date !== null) {
+            $vaccineLots = $vaccineLots->whereDate('expiry_date', '<=', $request->expiry_date);
+        }
+
+        $vaccineLots = $vaccineLots->paginate(config('DEFAULT_PAGINATING_NUMBER'));
+
+        return view('vaccine-lot.trashed', [
+            'vaccineLots' => $vaccineLots,
+            'vaccines' => $vaccines,
+            'attributes' => $request,
+        ]);
     }
 
     public function restore($id)
     {
-        VaccineLot::withTrashed($id)
-            ->restore();
+        $business = Auth::user()->business;
+        $business->vaccineLots()->onlyTrashed()->findOrFail($id)->restore();
 
         return redirect()->back()->with([
-            'success' => true,
-            'action' => __('btn.restore'),
+            'status' => ActionStatus::SUCCESS,
+            'message' => __('message.success', ['action' => __('btn.restore')]),
         ]);
     }
 
     public function delete($id)
     {
-        $vaccineLot = VaccineLot::onlyTrashed()->findOrFail($id);
-        $vaccineLot->forceDelete();
+        $business = Auth::user()->business;
+        $business->vaccineLots()->onlyTrashed()->findOrFail($id)->forceDelete();
 
         return redirect()->back()->with([
-            'success' => true,
-            'action' => __('btn.delete'),
+            'status' => ActionStatus::SUCCESS,
+            'message' => __('message.success', ['action' => __('btn.delete')]),
         ]);
     }
 }
