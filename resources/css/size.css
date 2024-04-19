@@ -98,6 +98,14 @@
     max-width: 500px;
 }
 
+.max-w-600px {
+    max-width: 600px;
+}
+
+.max-w-700px {
+    max-width: 700px;
+}
+
 .min-w-100px {
     min-width: 100px;
 }
