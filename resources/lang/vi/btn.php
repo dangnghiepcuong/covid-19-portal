@@ -7,6 +7,8 @@ return [
     'apply' => 'Áp dụng',
     'cancel' => 'Hủy',
     'canceled' => 'Đã hủy',
+    'clear' => 'Xóa',
+    'clear_filter' => 'Xóa lọc',
     'create' => 'Tạo :object',
     'deactivate' => 'Hủy kích hoạt',
     'delete' => 'Xóa',
@@ -17,5 +19,6 @@ return [
     'restore' => 'Khôi phục',
     'trash' => 'Tạm xóa',
     'update' => 'Cập nhật :object',
+    'updated_at' => 'Cập nhật lúc',
     'view' => 'Xem',
 ];

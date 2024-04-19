@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use App\Enums\ActionStatus;
 use App\Enums\GenderType;
+use App\Enums\RegistrationStatus;
 use App\Enums\Role;
 use App\Enums\Shift;
 use Illuminate\Support\Facades\View;
@@ -30,9 +32,13 @@ class AppServiceProvider extends ServiceProvider
         $roles = new Role();
         $genders = new GenderType();
         $shifts = new Shift();
+        $registrationStatuses = new RegistrationStatus();
+        $actionStatuses = new ActionStatus();
 
         View::share('roles', $roles);
         View::share('genders', $genders);
         View::share('shifts', $shifts);
+        View::share('registrationStatuses', $registrationStatuses);
+        View::share('actionStatuses', $actionStatuses);
     }
 }

@@ -7,6 +7,8 @@ return [
     'apply' => 'Apply',
     'cancel' => 'Cancel',
     'canceled' => 'Canceled :object',
+    'clear' => 'Clear',
+    'clear_filter' => 'Clear filter',
     'create' => 'Create :object',
     'deactivate' => 'Deactivate',
     'delete' => 'Delete',
@@ -17,5 +19,6 @@ return [
     'restore' => 'Restore',
     'trash' => 'Trash',
     'update' => 'Update :object',
+    'updated_at' => 'Updated at',
     'view' => 'View',
 ];

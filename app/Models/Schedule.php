@@ -15,8 +15,6 @@ class Schedule extends Model
         'id',
     ];
 
-    protected $with = ['vaccineLot:lot,quantity,expiry_date,id,vaccine_id'];
-
     public function business()
     {
         return $this->belongsTo(Business::class);
