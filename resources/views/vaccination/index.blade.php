@@ -199,7 +199,6 @@
 <script>
     window.csrf_token = {!! '"' . csrf_token() . '"' !!}
     window.shifts = {!! json_encode($shifts::allCases()) !!}
-    window.lang = {!! '"' . ($lang === null ? 'en' : $lang) . '"' !!}
     window.translations = {!! $translation !!}
 </script>
 <script src="{{ asset('js/getLocalRegion.js') }}" defer></script>
