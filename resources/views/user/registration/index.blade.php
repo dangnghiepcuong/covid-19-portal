@@ -227,6 +227,5 @@
     </div>
 </x-app-layout>
 <script>
-    window.lang = {!! '"' . $lang . '"' !!}
     window.translations = {!! $translation !!}
 </script>

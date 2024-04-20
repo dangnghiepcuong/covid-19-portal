@@ -2,7 +2,6 @@
 
 namespace App\Providers;
 
-use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
@@ -70,10 +69,6 @@ class TranslationServiceProvider extends ServiceProvider
             // add a language translation
             $translation[$subfolder] = $langData;
         }
-
-        view()->composer('*', function ($view) {
-            $view->with('lang', Session::get('lang'));
-        });
 
         View::share('translation', json_encode($translation));
     }
