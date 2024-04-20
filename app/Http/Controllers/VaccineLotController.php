@@ -119,7 +119,6 @@ class VaccineLotController extends Controller
             return redirect()->back()->with([
                 'status' => ActionStatus::ERROR,
                 'message' => __('message.failed'),
-                // 'message' => $e->getMessage(),
             ])->withInput();
         }
 
@@ -205,7 +204,6 @@ class VaccineLotController extends Controller
             return redirect()->back()->with([
                 'status' => ActionStatus::ERROR,
                 'message' => __('message.failed'),
-                // 'message' => $e->getMessage(),
             ])->withInput();
         }
 
