@@ -6,6 +6,7 @@ return [
     'contact' => 'Số điện thoại liên hệ',
     'district' => 'Quận/Huyện',
     'first_name' => 'Tên',
+    'full_name' => 'Họ và tên',
     'gender' => 'Giới tính',
     'last_name' => 'Họ và tên đệm',
     'pid' => 'CCCD/CMND/Số hộ chiếu',

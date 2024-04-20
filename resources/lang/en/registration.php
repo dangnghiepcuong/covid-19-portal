@@ -13,6 +13,7 @@ return [
         'canceled' => 'Canceled',
     ],
     'message' => [
-        'action_not_allowed' => 'Action is not allowed',
+        'action_not_allowed' => 'Action is not allowed!',
+        'action_not_allowed_at_the_momment' => 'Action is not allowed at the momment!',
     ],
 ];
