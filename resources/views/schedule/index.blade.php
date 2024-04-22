@@ -91,6 +91,8 @@
                                 <td class="text-center text-truncate">{{ $schedule->night_shift }}</td>
                                 <td>
                                     <div class="flex justify-center flex-gap-3px">
+                                        <a class="btn btn-primary"
+                                            href="{{ route('schedules.show', $schedule->id) }}">{{ __('btn.view') }}</a>
                                         <a class="btn btn-secondary"
                                             href="{{ route('schedules.edit', $schedule->id) }}">{{ __('btn.edit', ['object' => '']) }}</a>
                                         <form method="POST" action="{{ route('schedules.destroy', $schedule->id) }}">
@@ -107,7 +109,7 @@
                     </tbody>
                 </table>
             </div>
-            
+
             {{ $schedules->links() }}
             <br>
             @switch (Session::get('status'))

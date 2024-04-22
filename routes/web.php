@@ -8,6 +8,7 @@ use App\Http\Controllers\LandingPageController;
 use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\LocalRegionController;
 use App\Http\Controllers\ScheduleController;
+use App\Http\Controllers\ScheduleRegsitrationController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserRegistrationController;
 use App\Http\Controllers\VaccinationController;
@@ -113,6 +114,15 @@ Route::middleware('auth')->group(function () {
             Route::post('restore/{id}', 'restore')->name('schedules.restore');
             Route::delete('permanently-delete/{id}', 'delete')->name('schedules.permanently-delete');
         });
+
+    Route::resource('registrations', ScheduleRegsitrationController::class)
+        ->name('index', 'schedules.registrations.index')
+        ->name('create', 'schedules.registrations.create')
+        ->name('store', 'schedules.registrations.store')
+        ->name('edit', 'schedules.registrations.edit')
+        ->name('update', 'schedules.registrations.update')
+        ->name('destroy', 'schedules.registrations.destroy');
+
     Route::resource('schedules', ScheduleController::class)
         ->middleware([CheckBusiness::class]);
 

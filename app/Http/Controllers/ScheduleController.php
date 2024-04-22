@@ -128,9 +128,30 @@ class ScheduleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Request $request, $id)
     {
-        //
+        $business = Auth::user()->business;
+        $schedule = $business->schedules()->findOrfail($id);
+        $registrations = $schedule->users();
+
+        if ($request->shift !== null) {
+            $registrations = $registrations->wherePivot('shift', $request->shift);
+        }
+
+        if ($request->status !== null) {
+            $registrations = $registrations->wherePivot('status', $request->status);
+        } else {
+            $registrations = $registrations->wherePivotNotIn('status', [RegistrationStatus::CANCELED]);
+        }
+
+        $registrations = $registrations->orderBy('number_order', 'DESC')
+            ->paginate(config('parameters.DEFAULT_PAGINATING_NUMBER'));
+
+        return view('schedule.registration.index', [
+            'schedule' => $schedule,
+            'registrations' => $registrations,
+            'attributes' => $request,
+        ]);
     }
 
     /**

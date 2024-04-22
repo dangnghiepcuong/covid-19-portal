@@ -42,7 +42,7 @@ class User extends Model
     public function schedules()
     {
         return $this->belongsToMany(Schedule::class, 'registrations', 'user_id', 'schedule_id')
-            ->withPivot(['created_at', 'updated_at', 'shift', 'number_order', 'status']);
+            ->withPivot(['id', 'created_at', 'updated_at', 'shift', 'number_order', 'status']);
     }
 
     public function vaccinations()
