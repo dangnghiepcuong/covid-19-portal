@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\ActionStatus;
 use App\Enums\Role;
 use App\Http\Requests\BusinessCreateRequest;
 use App\Http\Requests\BusinessRequest;
 use App\Models\Account;
 use App\Models\Business;
+use App\Models\Vaccine;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -18,11 +21,31 @@ class BusinessController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $businesses = Business::all();
+        $businesses = new Business();
+        $vaccines = Vaccine::isAllow()->get();
 
-        return view('business.index', ['businesses' => $businesses]);
+        if ($request->addr_province !== null) {
+            $businesses = $businesses->where('addr_province', $request->addr_province);
+        }
+
+        if ($request->addr_district !== null) {
+            $businesses = $businesses->where('addr_district', $request->addr_district);
+        }
+
+        if ($request->addr_ward !== null) {
+            $businesses = $businesses->where('addr_ward', $request->addr_ward);
+        }
+
+        $businesses = $businesses->orderBy('addr_province', 'ASC')
+            ->paginate(config('parameters.DEFAULT_PAGINATING_NUMBER'));
+
+        return view('business.index', [
+            'businesses' => $businesses,
+            'vaccines' => $vaccines,
+            'attributes' => $request,
+        ]);
     }
 
     /**
@@ -66,8 +89,15 @@ class BusinessController extends Controller
         });
 
         return redirect()->back()->with([
-            'success' => true,
-            'action' => __('btn.create', ['object' => '']),
+            'status' => ActionStatus::SUCCESS,
+            'message' => __(
+                'message.success',
+                [
+                    'action' => __('btn.create', [
+                        'object' => '',
+                    ]),
+                ],
+            ),
         ]);
     }
 
@@ -81,7 +111,8 @@ class BusinessController extends Controller
     {
         $business = Business::findOrFail($id);
         $account = $business->account()->select('email')->first();
-        $vaccineLots = $business->vaccineLots()->get();
+        $vaccineLots = $business->vaccineLots()
+            ->paginate(config('parameters.DEFAULT_PAGINATING_NUMBER'));
 
         return view('business.show', [
             'account' => $account,
@@ -129,8 +160,15 @@ class BusinessController extends Controller
         $business->save();
 
         return redirect()->back()->with([
-            'success' => true,
-            'action' => __('btn.update', ['object' => '']),
+            'status' => ActionStatus::SUCCESS,
+            'message' => __(
+                'message.success',
+                [
+                    'action' => __('btn.update', [
+                        'object' => '',
+                    ]),
+                ],
+            ),
         ]);
     }
 
@@ -145,26 +183,45 @@ class BusinessController extends Controller
         Business::destroy($id);
 
         return redirect()->back()->with([
-            'success' => true,
-            'action' => __('btn.delete'),
+            'status' => ActionStatus::SUCCESS,
+            'message' => __('message.success', ['action' => __('btn.delete')]),
         ]);
     }
 
-    public function trashed()
+    public function trashed(Request $request)
     {
-        $businesses = Business::onlyTrashed()->get();
+        $businesses = Business::onlyTrashed();
+        $vaccines = Vaccine::isAllow()->get();
 
-        return view('business.trashed', ['businesses' => $businesses]);
+        if ($request->addr_province !== null) {
+            $businesses = $businesses->where('addr_province', $request->addr_province);
+        }
+
+        if ($request->addr_district !== null) {
+            $businesses = $businesses->where('addr_district', $request->addr_district);
+        }
+
+        if ($request->addr_ward !== null) {
+            $businesses = $businesses->where('addr_ward', $request->addr_ward);
+        }
+
+        $businesses = $businesses->orderBy('addr_province', 'ASC')
+            ->paginate(config('parameters.DEFAULT_PAGINATING_NUMBER'));
+
+        return view('business.trashed', [
+            'businesses' => $businesses,
+            'vaccines' => $vaccines,
+            'attributes' => $request,
+        ]);
     }
 
     public function restore($id)
     {
-        Business::withTrashed($id)
-            ->restore();
+        Business::withTrashed()->findOrFail($id)->restore();
 
         return redirect()->back()->with([
-            'success' => true,
-            'action' => __('btn.restore'),
+            'status' => ActionStatus::SUCCESS,
+            'message' => __('message.success', ['action' => __('btn.restore')]),
         ]);
     }
 
