@@ -18,6 +18,7 @@ $(document).ready(function () {
 })
 
 window.callApiRegisterVaccination = function (url, schedule_id, shift) {
+    $('#alert').addClass('hidden');
     $.ajax({
         cache: false,
         url: url,
@@ -30,19 +31,20 @@ window.callApiRegisterVaccination = function (url, schedule_id, shift) {
         success: function (result) {
             console.log(result)
             $('#alert div ul').html(`<li>${result['message']}</li>`)
+            $('#alert div').removeClass()
             switch (result['status']) {
             case 'success':
-                $('#alert div').addClass('alert-success')
+                $('#alert div').addClass(['alert', 'alert-success'])
                 $('#alert').removeClass('hidden')
                 break
 
             case 'warning':
-                $('#alert div').addClass('alert-warning')
+                $('#alert div').addClass(['alert', 'alert-warning'])
                 $('#alert').removeClass('hidden')
                 break
 
             case 'failed':
-                $('#alert div').addClass('alert-danger')
+                $('#alert div').addClass(['alert', 'alert-danger'])
                 $('#alert').removeClass('hidden')
                 break
             }
