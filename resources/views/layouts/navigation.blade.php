@@ -29,7 +29,7 @@
 
                             @case($roles::ROLE_BUSINESS)
                                 <x-nav-link :href="route('vaccine-lots.index')">
-                                    {{ __('object.management', ['object' => __('vaccine.vaccine')]) }}
+                                    {{ __('object.management', ['object' => __('vaccine-lot.vaccine_lot')]) }}
                                 </x-nav-link>
 
                                 <x-nav-link :href="route('schedules.index')">

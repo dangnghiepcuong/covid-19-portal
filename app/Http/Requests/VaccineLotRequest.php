@@ -33,7 +33,6 @@ class VaccineLotRequest extends FormRequest
             'quantity' => ['required', 'numeric'],
             'import_date' => ['required', 'date'],
             'dte' => ['required', 'numeric', 'gte:0'],
-            'expiry_date' => [],
         ];
     }
 }
