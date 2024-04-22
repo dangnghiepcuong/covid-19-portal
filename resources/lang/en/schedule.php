@@ -15,5 +15,7 @@ return [
     'on_date' => 'Date',
     'over_limit' => 'Limit can not be under registrations',
     'schedule' => 'Schedule',
+    'schedule_info' => 'Schedule | Date: :on_date; Vaccine: :vaccine; Vaccine-lot: :vaccine-lot',
+    'schedule_slots' => 'Day shift: :day_shift; Noon shift: :noon_shift; Night shift: :night_shift',
     'to_date' => 'To date',
 ];

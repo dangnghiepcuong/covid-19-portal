@@ -9,18 +9,18 @@
     <div class="w-80pc h-50pc mx-auto mt-4">
         <div class="w-full h-50pc">
             <div>
-                {{ 
-                    __('schedule.schedule') . ' | ' . __('schedule.on_date') . ': ' . $schedule->on_date . '; '
-                     . __('vaccine.vaccine') . ': ' . $schedule->vaccineLot->vaccine->name . '; '
-                     . __('vaccine-lot.vaccine_lot') . ': ' . $schedule->vaccineLot->lot
-                }}
+                {{ __('schedule.schedule_info', [
+                    'on_date' => $schedule->on_date,
+                    'vaccine' => $schedule->vaccineLot->vaccine->name,
+                    'vaccine-lot' => $schedule->vaccineLot->lot,
+                ]) }}
             </div>
             <div>
-                {{
-                    __('schedule.day_shift') . ': ' . $schedule->day_shift . '; '
-                    . __('schedule.noon_shift') . ': ' . $schedule->noon_shift . '; '
-                    . __('schedule.night_shift') . ': ' . $schedule->night_shift
-                }}
+                {{ __('schedule.schedule_slots', [
+                    'day_shift' => $schedule->day_shift,
+                    'noon_shift' => $schedule->noon_shift,
+                    'night_shift' => $schedule->night_shift,
+                ]) }}
             </div>
             <!-- FILTER -->
             <div>
@@ -47,7 +47,7 @@
                             @endforeach
                         </select>
                     </div>
-                    
+
                     <!-- status -->
                     <div class="min-w-150px max-w-30pc">
                         <x-label for="status" :value="__('registration.status.status')" />
@@ -119,12 +119,9 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @php
-                            $i = 0;
-                        @endphp
-                        @foreach ($registrations as $registration)
+                        @foreach ($registrations as $index => $registration)
                             <td class="text-left text-truncate">
-                                {{ ++$i }}
+                                {{ ++$index }}
                             </td>
                             <td class="text-left text-truncate">
                                 {{ $registration->full_name }}
@@ -162,7 +159,8 @@
                                                 @csrf
                                                 @method('patch')
                                                 <input type="hidden" name="schedule_id" value="{{ $schedule->id }}">
-                                                <input type="hidden" name="status" value="{{ $registrationStatuses::CHECKED_IN }}">
+                                                <input type="hidden" name="status"
+                                                    value="{{ $registrationStatuses::CHECKED_IN }}">
                                                 <input class="btn btn-success color-success" type="submit"
                                                     value="{{ __('registration.status.' . $registrationStatuses::CHECKED_IN) }}"
                                                     onclick="return confirm(trans('message.confirm', {'action': trans('btn.update', {'object': ''})}))" />
@@ -172,7 +170,8 @@
                                                 @csrf
                                                 @method('patch')
                                                 <input type="hidden" name="schedule_id" value="{{ $schedule->id }}">
-                                                <input type="hidden" name="status" value="{{ $registrationStatuses::CANCELED }}">
+                                                <input type="hidden" name="status"
+                                                    value="{{ $registrationStatuses::CANCELED }}">
                                                 <input class="btn btn-danger color-danger" type="submit"
                                                     value="{{ __('registration.status.' . $registrationStatuses::CANCELED) }}"
                                                     onclick="return confirm(trans('message.confirm', {'action': trans('btn.update', {'object': ''})}))" />
@@ -195,7 +194,8 @@
                                                 @csrf
                                                 @method('patch')
                                                 <input type="hidden" name="schedule_id" value="{{ $schedule->id }}">
-                                                <input type="hidden" name="status" value="{{ $registrationStatuses::CANCELED }}">
+                                                <input type="hidden" name="status"
+                                                    value="{{ $registrationStatuses::CANCELED }}">
                                                 <input class="btn btn-danger color-danger" type="submit"
                                                     value="{{ __('registration.status.' . $registrationStatuses::CANCELED) }}"
                                                     onclick="return confirm(trans('message.confirm', {'action': trans('btn.update', {'object': ''})}))" />
