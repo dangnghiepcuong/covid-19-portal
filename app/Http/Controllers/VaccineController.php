@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\ActionStatus;
 use App\Http\Requests\VaccineRequest;
 use App\Models\Vaccine;
+use Illuminate\Http\Request;
 
 class VaccineController extends Controller
 {
@@ -12,11 +14,20 @@ class VaccineController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $vaccines = Vaccine::all();
+        $vaccines = new Vaccine();
 
-        return view('vaccine.index', ['vaccines' => $vaccines]);
+        if ($request->is_allow !== null) {
+            $vaccines = $vaccines->where('is_allow', $request->is_allow);
+        }
+
+        $vaccines = $vaccines->paginate(config('parameters.DEFAULT_PAGINATING_NUMBER'));
+
+        return view('vaccine.index', [
+            'vaccines' => $vaccines,
+            'attributes' => $request,
+        ]);
     }
 
     /**
@@ -47,7 +58,17 @@ class VaccineController extends Controller
             'is_allow' => $request->is_allow,
         ]);
 
-        return redirect()->back()->with('success', true);
+        return redirect()->back()->with([
+            'status' => ActionStatus::SUCCESS,
+            'message' => __(
+                'message.success',
+                [
+                    'action' => __('btn.import', [
+                        'object' => __('vaccine.vaccine'),
+                    ]),
+                ],
+            ),
+        ]);
     }
 
     /**
@@ -94,7 +115,17 @@ class VaccineController extends Controller
 
         $vaccine->save();
 
-        return redirect()->back()->with('success', true);
+        return redirect()->back()->with([
+            'status' => ActionStatus::SUCCESS,
+            'message' => __(
+                'message.success',
+                [
+                    'action' => __('btn.update', [
+                        'object' => __('vaccine.vaccine'),
+                    ]),
+                ],
+            ),
+        ]);
     }
 
     /**
@@ -107,6 +138,9 @@ class VaccineController extends Controller
     {
         Vaccine::destroy($id);
 
-        return redirect()->back()->with('success', true);
+        return redirect()->back()->with([
+            'status' => ActionStatus::SUCCESS,
+            'message' => __('message.success', ['action' => __('btn.delete')]),
+        ]);
     }
 }

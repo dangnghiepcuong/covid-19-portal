@@ -4,7 +4,7 @@ return [
     'vaccine' => 'Vaccine',
     'name' => 'Vaccine name',
     'supplier' => 'Supplier',
-    'technology' => 'production technology',
+    'technology' => 'Production technology',
     'country' => 'Made in country',
     'is_allow' => 'Permission',
     'allow' => 'Allow',
