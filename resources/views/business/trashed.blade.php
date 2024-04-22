@@ -82,13 +82,10 @@
                     </thead>
                     <tbody>
                         @if ($businesses !== null)
-                            @php
-                                $i = 0;
-                            @endphp
-                            @foreach ($businesses as $business)
+                            @foreach ($businesses as $index => $business)
                                 <tr>
                                     <td class="text-left text-truncate">
-                                        {{ ++$i }}
+                                        {{ ++$index }}
                                     </td>
                                     <th class="text-left text-truncate">
                                         {{ $business->account->email }}

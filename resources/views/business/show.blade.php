@@ -42,12 +42,9 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @php
-                                $i = 0;
-                            @endphp
-                            @foreach ($vaccineLots as $vaccineLot)
+                            @foreach ($vaccineLots as $index => $vaccineLot)
                                 <tr>
-                                    <td class="text-left text-truncate">{{ ++$i }}</td>
+                                    <td class="text-left text-truncate">{{ ++$index }}</td>
                                     <td class="text-left text-truncate">{{ $vaccineLot->vaccine->name }}</td>
                                     <td class="text-left text-truncate">{{ $vaccineLot->lot }}</td>
                                     <td class="text-left text-truncate">{{ $vaccineLot->quantity }}</td>
