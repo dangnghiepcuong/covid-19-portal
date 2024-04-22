@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Enums\ActionStatus;
 use App\Enums\RegistrationStatus;
-use App\Enums\Shift;
 use App\Models\Vaccine;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -130,8 +129,8 @@ class UserRegistrationController extends Controller
         DB::beginTransaction();
         try {
             $user = Auth::user()->user;
-            $registration = $user->schedules()->findOrFail($id);
-            // dd($registration);
+            $registration = $user->schedules()->wherePivot('id', $id)->first();
+
             $checkStatus = $this->checkCurrentStatus($registration->pivot->status);
             if ($checkStatus['check'] === false) {
                 DB::rollBack();
@@ -142,30 +141,17 @@ class UserRegistrationController extends Controller
                 ], 200);
             }
 
-            switch ($registration->pivot->shift) {
-                case Shift::DAY_SHIFT:
-                    $registration->day_shift_registration--;
-
-                    break;
-                case Shift::NOON_SHIFT:
-                    $registration->noon_shift_registration--;
-
-                    break;
-                case Shift::NIGHT_SHIFT:
-                    $registration->night_shift_registration--;
-
-                    break;
-                default:
-                    return redirect()->back()->with([
-                        'status' => ActionStatus::WARNING,
-                        'message' => __('vaccination.invalid_shift'),
-                    ]);
+            // Decrease the schedule registration number
+            $dec = $registration->decreaseRegistration($registration->pivot->shift);
+            if ($dec === false) {
+                return redirect()->back()->with([
+                    'status' => ActionStatus::ERROR,
+                    'message' => __('vaccination.message.invalid_shift'),
+                ], 200);
             }
 
-            $user->schedules()->updateExistingPivot($id, [
-                'status' => RegistrationStatus::CANCELED,
-            ]);
-            $registration->save();
+            $registration->pivot->status = RegistrationStatus::CANCELED;
+            $registration->pivot->save();
         } catch (\Exception $e) {
             DB::rollBack();
 

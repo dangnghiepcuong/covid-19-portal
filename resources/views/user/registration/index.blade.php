@@ -182,7 +182,7 @@
                                 <div class="flex justify-center">
                                     @if ($registration->pivot->status == $registrationStatuses::REGISTERED)
                                         <form method="POST"
-                                            action="{{ route('registrations.update', $registration->id) }}">
+                                            action="{{ route('registrations.update', $registration->pivot->id) }}">
                                             @csrf
                                             @method('patch')
                                             <input class="btn btn-danger color-danger" type="submit"
