@@ -26,7 +26,7 @@ class UpdateRegistrationsShiftColumn extends Migration
     public function down()
     {
         Schema::table('registrations', function (Blueprint $table) {
-            //
+            $table->string('shift', 10)->change();
         });
     }
 }
