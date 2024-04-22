@@ -83,13 +83,10 @@
                         <th class="text-center text-truncate">{{ __('btn.action') }}</th>
                     </tr>
                 </thead>
-                @php
-                    $i = 0;
-                @endphp
-                @foreach ($vaccineLots as $vaccineLot)
+                @foreach ($vaccineLots as $index => $vaccineLot)
                     <tbody>
                         <tr>
-                            <td class="text-center text-truncate">{{ ++$i }}</td>
+                            <td class="text-center text-truncate">{{ ++$index }}</td>
                             <td class="text-left text-truncate">{{ $vaccineLot->vaccine->name }}</td>
                             <td class="text-left text-truncate">{{ $vaccineLot->lot }}</td>
                             <td class="text-right text-truncate">{{ $vaccineLot->quantity }}</td>
