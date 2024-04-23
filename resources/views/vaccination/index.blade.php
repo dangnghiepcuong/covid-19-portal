@@ -191,7 +191,7 @@
     </div>
 
     <div id="alert">
-        <div class="alert">
+        <div>
             <ul></ul>
         </div>
     </div>
