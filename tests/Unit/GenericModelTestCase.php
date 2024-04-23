@@ -19,9 +19,8 @@ class GenericModelTestCase extends TestCase
         $connection = null,
         $table = null,
         $primaryKey = 'id',
-        $collectionClass = Collection::class,
+        $collectionClass = Collection::class
     ) {
-        $this->assertTrue(true);
         if (!($model instanceof Model)) {
             $model = new $model();
         }
