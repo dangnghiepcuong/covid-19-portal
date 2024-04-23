@@ -12,7 +12,7 @@ class AccountFactory extends Factory
         return [
             'email' => $this->faker->unique()->safeEmail(),
             'password' => '123',
-            'role' => 2,
+            'role_id' => 2,
             'email_verified_at' => now(),
             'remember_token' => Str::random(10),
         ];
