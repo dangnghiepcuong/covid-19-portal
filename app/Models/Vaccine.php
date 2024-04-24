@@ -23,10 +23,10 @@ class Vaccine extends Model
     public function getIsAllowAttribute($value)
     {
         if ($value) {
-            return 'Allowed';
+            return __('vaccine.allow');
         }
 
-        return 'Not allow';
+        return __('vaccine.not_allow');
     }
 
     public function scopeIsAllow($query)
