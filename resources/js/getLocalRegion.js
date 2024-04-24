@@ -40,20 +40,15 @@ var getProvinceList = function (addr_province) {
                 $('#addr_province').val(addr_province)
             }
         },
-        error: function (error) {
-            console.log(error)
-        }
     })
 }
 
 var getDistrictList = function (addr_province, addr_district) {
-    console.log(addr_province)
     $.ajax({
         url: "/local/district_list",
         type: 'GET',
         data: { addr_province: addr_province },
         success: function (result) {
-            console.log(result)
             if (result == null) {
                 return;
             }
@@ -66,9 +61,6 @@ var getDistrictList = function (addr_province, addr_district) {
                 $('#addr_district').val(addr_district)
             }
         },
-        error: function (error) {
-            console.log(error)
-        }
     })
 }
 
@@ -78,11 +70,9 @@ var getWardList = function (addr_province, addr_district, addr_ward) {
         type: 'GET',
         data: { addr_province: addr_province, addr_district: addr_district },
         success: function (result) {
-            console.log(result)
             if (result == null) {
                 return;
             }
-            console.log(result)
             let optionStr = '<option value=""></option>'
             $.each(result, function (index, element) {
                 optionStr += `<option value="${index}">${element}</option>`
@@ -93,8 +83,5 @@ var getWardList = function (addr_province, addr_district, addr_ward) {
                 $('#addr_ward').val(addr_ward)
             }
         },
-        error: function (error) {
-            console.log(error)
-        }
     })
 }
