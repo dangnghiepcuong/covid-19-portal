@@ -101,13 +101,13 @@
                                         {{ $business->name }}
                                     </td>
                                     <td class="text-left text-truncate">
-                                        {{ $business->addr_province }}
+                                        {{ $business->addr_province_name }}
                                     </td>
                                     <td class="text-left text-truncate">
-                                        {{ $business->addr_district }}
+                                        {{ $business->addr_district_name }}
                                     </td>
                                     <td class="text-left text-truncate">
-                                        {{ $business->addr_ward }}
+                                        {{ $business->addr_ward_name }}
                                     </td>
                                     <td class="flex justify-center flex-gap-3px">
                                         <a class="btn btn-primary"

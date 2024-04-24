@@ -32,7 +32,7 @@
                 </form>
 
                 <!-- Change Password (feature for business role) -->
-                @if (Auth::user()->role === $roles::ROLE_BUSINESS)
+                @if (Auth::user()->role_id === $roles::ROLE_BUSINESS)
                     <br>
                     <form method="POST" action="{{ route('accounts.password.update') }}">
                         <div>
@@ -79,14 +79,32 @@
                 </x-button>
             </form>
         </div>
-        @if (Session::get('success'))
-            <div class="alert alert-success">
-                <ul>
-                    <li>{{ __('message.success', ['action' => __('btn.update', ['object' => ''])]) }}</li>
-                </ul>
-            </div>
-        @endif
-    </x-auth-card>
+        <br>
+            @switch (Session::get('status'))
+                @case ($actionStatuses::WARNING)
+                    <div class="alert alert-warning">
+                        <ul>
+                            <li>{{ Session::get('message') }}</li>
+                        </ul>
+                    </div>
+                @break
 
+                @case ($actionStatuses::ERROR)
+                    <div class="alert alert-danger">
+                        <ul>
+                            <li>{{ Session::get('message') }}</li>
+                        </ul>
+                    </div>
+                @break
+
+                @case ($actionStatuses::SUCCESS)
+                    <div class="alert alert-success">
+                        <ul>
+                            <li>{{ Session::get('message') }}</li>
+                        </ul>
+                    </div>
+                @break
+            @endswitch
+    </x-auth-card>
 </x-app-layout>
 <script src="{{ asset('js/getLocalRegion.js') }}" defer></script>

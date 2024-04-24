@@ -15,7 +15,7 @@
     <div class="max-w-30pc">
         <x-label class="text-truncate" for="addr_province" :value="__('business.province')" />
         <select name="addr_province" id="addr_province" class="block mt-1 w-full"
-            value="{{ $business->getAttributes()['addr_province'] }}">
+            value="{{ $business->addr_province }}">
         </select>
     </div>
 
@@ -23,7 +23,7 @@
     <div class="max-w-30pc">
         <x-label class="text-truncate" for="addr_district" :value="__('business.district')" />
         <select name="addr_district" id="addr_district" class="block mt-1 w-full"
-            value="{{ $business->getAttributes()['addr_district'] }}">
+            value="{{ $business->addr_district }}">
         </select>
     </div>
 
@@ -31,7 +31,7 @@
     <div class="max-w-30pc">
         <x-label class="text-truncate" for="addr_ward" :value="__('business.ward')" />
         <select name="addr_ward" id="addr_ward" class="block mt-1 w-full"
-            value="{{ $business->getAttributes()['addr_ward'] }}">
+            value="{{ $business->addr_ward }}">
         </select>
     </div>
 </div>
