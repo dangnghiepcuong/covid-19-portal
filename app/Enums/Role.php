@@ -2,18 +2,29 @@
 
 namespace App\Enums;
 
+use ReflectionClass;
+
 class Role
 {
     public const ROLE_ADMIN = 1;
     public const ROLE_BUSINESS = 2;
     public const ROLE_USER = 3;
 
+    private static function getConstants()
+    {
+        $oClass = new ReflectionClass(self::class);
+
+        return $oClass->getConstants();
+    }
+
     public static function allCases()
     {
-        $object = new Role();
+        $consts = self::getConstants();
         $array = [];
-        foreach ($object as $properties => $value) {
+        foreach ($consts as $properties => $value) {
             array_push($array, $value);
         }
+
+        return $array;
     }
 }
