@@ -16,7 +16,7 @@
                         {{ __('navigation.dashboard') }}
                     </x-nav-link>
                     @auth
-                        @switch(Auth::user()->role)
+                        @switch(Auth::user()->role_id)
                             @case($roles::ROLE_ADMIN)
                                 <x-nav-link :href="route('businesses.index')">
                                     {{ __('object.management', ['object' => __('business.business')]) }}
@@ -85,7 +85,7 @@
                         </x-slot>
 
                         <x-slot name="content">
-                            @switch(Auth::user()->role)
+                            @switch(Auth::user()->role_id)
                                 @case($roles::ROLE_ADMIN)
                                 @case($roles::ROLE_BUSINESS)
                                     <x-dropdown-link :href="route('businesses.profile')">

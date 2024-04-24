@@ -18,7 +18,7 @@ class CheckAdmin
      */
     public function handle(Request $request, Closure $next)
     {
-        if (Auth::user()->role !== Role::ROLE_ADMIN) {
+        if (Auth::user()->role_id !== Role::ROLE_ADMIN) {
             abort(403);
         }
 
