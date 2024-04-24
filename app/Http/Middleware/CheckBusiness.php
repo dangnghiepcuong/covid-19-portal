@@ -18,7 +18,7 @@ class CheckBusiness
      */
     public function handle(Request $request, Closure $next)
     {
-        if (Auth::user()->role === Role::ROLE_USER) {
+        if (Auth::user()->role_id === Role::ROLE_USER) {
             abort(403);
         }
 
