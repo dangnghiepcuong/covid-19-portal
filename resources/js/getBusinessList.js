@@ -59,13 +59,13 @@ window.callApiGetBusinessList = function (url, addr_province, addr_district, add
                             ${element['name']}
                         </td>
                         <td class="text-left text-truncate my-auto">
-                            ${element['addr_province']}
+                            ${element['addr_province_name']}
                         </td>
                         <td class="text-left text-truncate my-auto">
-                            ${element['addr_district']}
+                            ${element['addr_district_name']}
                         </td>
                         <td class="text-left text-truncate my-auto">
-                            ${element['addr_ward']}
+                            ${element['addr_ward_name']}
                         </td>
                         <td class="text-left text-truncate my-auto">
                             ${element['schedules'].length}

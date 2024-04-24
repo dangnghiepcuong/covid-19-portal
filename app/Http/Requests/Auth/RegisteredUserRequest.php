@@ -3,7 +3,7 @@
 namespace App\Http\Requests\Auth;
 
 use App\Enums\GenderType;
-use App\Http\Controllers\LocalRegionController;
+use App\Helpers\LocalRegionHelper;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -26,9 +26,9 @@ class RegisteredUserRequest extends FormRequest
      */
     public function rules()
     {
-        $provinceList = LocalRegionController::getProvinceCodeList();
-        $districtList = LocalRegionController::getDistrictCodeList($this);
-        $wardList = LocalRegionController::getWardCodeList($this);
+        $provinceList = LocalRegionHelper::getProvinceList(true);
+        $districtList = LocalRegionHelper::getDistrictList($this->addr_province, true);
+        $wardList = LocalRegionHelper::getWardList($this->addr_province, $this->addr_district, true);
 
         return [
             'email' => ['required', 'string', 'email', 'max:255', 'unique:accounts'],
