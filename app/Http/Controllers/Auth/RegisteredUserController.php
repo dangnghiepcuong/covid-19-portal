@@ -41,7 +41,7 @@ class RegisteredUserController extends Controller
             Account::create([
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
-                'role' => Role::ROLE_USER,
+                'role_id' => Role::ROLE_USER,
             ]);
 
             $accountId = Account::where('email', $request->email)->first()->id;
