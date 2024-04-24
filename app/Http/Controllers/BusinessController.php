@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Enums\ActionStatus;
 use App\Enums\Role;
+use App\Helpers\LocalRegionHelper;
 use App\Http\Requests\BusinessCreateRequest;
 use App\Http\Requests\BusinessRequest;
 use App\Models\Account;
@@ -75,14 +76,28 @@ class BusinessController extends Controller
                 'role' => Role::ROLE_BUSINESS,
             ]);
 
+            $addrProvinceName = LocalRegionHelper::getProvinceName($request->addr_province);
+            $addrDistrictName = LocalRegionHelper::getDistrictName(
+                $request->addr_province,
+                $request->addr_district
+            );
+            $addrWardName = LocalRegionHelper::getWardName(
+                $request->addr_province,
+                $request->addr_district,
+                $request->addr_ward
+            );
+
             $accountId = Account::where('email', $request->email)->first()->id;
             Business::create([
                 'account_id' => $accountId,
                 'name' => $request->name,
                 'tax_id' => $request->tax_id,
                 'addr_province' => $request->addr_province,
+                'addr_province_name' => $addrProvinceName,
                 'addr_district' => $request->addr_district,
+                'addr_district_name' => $addrDistrictName,
                 'addr_ward' => $request->addr_ward,
+                'addr_ward_name' => $addrWardName,
                 'address' => $request->address,
                 'contact' => $request->contact,
             ]);
@@ -148,12 +163,26 @@ class BusinessController extends Controller
     {
         $request->validated();
 
+        $addrProvinceName = LocalRegionHelper::getProvinceName($request->addr_province);
+        $addrDistrictName = LocalRegionHelper::getDistrictName(
+            $request->addr_province,
+            $request->addr_district
+        );
+        $addrWardName = LocalRegionHelper::getWardName(
+            $request->addr_province,
+            $request->addr_district,
+            $request->addr_ward
+        );
+
         $business = Business::findOrFail($id);
         $business->tax_id = $request->tax_id;
         $business->name = $request->name;
         $business->addr_province = $request->addr_province;
+        $business->addr_province_name = $addrProvinceName;
         $business->addr_district = $request->addr_district;
+        $business->addr_district_name = $addrDistrictName;
         $business->addr_ward = $request->addr_ward;
+        $business->addr_ward_name = $addrWardName;
         $business->address = $request->address;
         $business->contact = $request->contact;
 

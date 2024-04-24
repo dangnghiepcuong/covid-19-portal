@@ -32,19 +32,14 @@ var getProvinceList = function (addr_province) {
                 return;
             }
             let optionStr = '<option value=""></option>'
-            let i = 0;
-            result.forEach(element => {
-                optionStr += '<option value="' + indexToCode(i, 2) + '">' + element + '</option>'
-                i++
-            });
+            $.each(result, function (index, element) {
+                optionStr += `<option value="${index}">${element}</option>`
+            })
             $('#addr_province').html(optionStr)
             if (addr_province != null) {
                 $('#addr_province').val(addr_province)
             }
         },
-        error: function (error) {
-            $('body').html(error.responseText)
-        }
     })
 }
 
@@ -58,19 +53,14 @@ var getDistrictList = function (addr_province, addr_district) {
                 return;
             }
             let optionStr = '<option value=""></option>'
-            let i = 0
-            result.forEach(element => {
-                optionStr += '<option value="' + addr_province + indexToCode(i, 2) + '">' + element + '</option>'
-                i++
-            });
+            $.each(result, function (index, element) {
+                optionStr += `<option value="${index}">${element}</option>`
+            })
             $('#addr_district').html(optionStr)
             if (addr_district != null) {
                 $('#addr_district').val(addr_district)
             }
         },
-        error: function (error) {
-            $('body').html(error.responseText)
-        }
     })
 }
 
@@ -84,27 +74,14 @@ var getWardList = function (addr_province, addr_district, addr_ward) {
                 return;
             }
             let optionStr = '<option value=""></option>'
-            let i = 0
-            result.forEach(element => {
-                optionStr += '<option value="' + addr_district + indexToCode(i, 2) + '">' + element + '</option>'
-                i++
-            });
+            $.each(result, function (index, element) {
+                optionStr += `<option value="${index}">${element}</option>`
+            })
             $('#addr_ward').html(optionStr)
 
             if (addr_ward != null) {
                 $('#addr_ward').val(addr_ward)
             }
         },
-        error: function (error) {
-            $('body').html(error.responseText)
-        }
     })
-}
-
-var indexToCode = function (i, code_len) {
-    let index = i.toString()
-    while (index.length < code_len) {
-        index = '0' + index
-    }
-    return index
 }
