@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Enums\Role;
+use App\Enums\Role as RoleEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -23,7 +23,7 @@ class Account extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function roles()
+    public function role()
     {
         return $this->belongsTo(Role::class);
     }
@@ -45,6 +45,6 @@ class Account extends Authenticatable
 
     public function scopeIsAdmin($query)
     {
-        return $query->where('role', Role::ROLE_ADMIN);
+        return $query->where('role_id', RoleEnum::ROLE_ADMIN);
     }
 }

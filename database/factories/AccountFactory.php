@@ -2,8 +2,9 @@
 
 namespace Database\Factories;
 
+use App\Enums\Role;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Hash;
 
 class AccountFactory extends Factory
 {
@@ -11,10 +12,9 @@ class AccountFactory extends Factory
     {
         return [
             'email' => $this->faker->unique()->safeEmail(),
-            'password' => '123',
-            'role' => 2,
+            'password' => Hash::make('Aa@123456'),
+            'role_id' => $this->faker->randomElement(Role::allCases()),
             'email_verified_at' => now(),
-            'remember_token' => Str::random(10),
         ];
     }
 }
