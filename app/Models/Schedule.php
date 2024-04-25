@@ -17,7 +17,7 @@ class Schedule extends Model
     ];
 
     protected $with = [
-        'vaccineLot:id,lot,vaccine_id',
+        'vaccineLot',
         'vaccineLot.vaccine:id,name',
     ];
 

@@ -17,5 +17,11 @@ return [
     'schedule' => 'Lịch tiêm',
     'schedule_info' => 'Lịch tiêm | Ngày: :on_date; Vắc-xin: :vaccine; Số lô: :vaccine-lot',
     'schedule_slots' => 'Ca ngày: :day_shift; Ca chiều: :noon_shift; Ca đêm: :night_shift',
+    'time' => [
+        'time' => 'Thời gian',
+        'old' => 'Lịch tiêm cũ',
+        'today' => 'Lịch tiêm hôm nay',
+        'onward' => 'Lịch tiêm mới',
+    ],
     'to_date' => 'Đến ngày',
 ];
