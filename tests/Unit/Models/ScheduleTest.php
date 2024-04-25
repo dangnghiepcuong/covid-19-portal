@@ -61,21 +61,30 @@ class ScheduleTest extends GenericModelTestCase
     {
         $schedule = new Schedule();
 
-        $this->assertEquals("{$schedule->day_shift_registration} / {$schedule->day_shift_limit}", $schedule->day_shift);
+        $this->assertEquals(
+            "{$schedule->day_shift_registration} / {$schedule->day_shift_limit}",
+            $schedule->day_shift
+        );
     }
 
     public function testGetNoonShiftAttribute()
     {
         $schedule = new Schedule();
 
-        $this->assertEquals("{$schedule->noon_shift_registration} / {$schedule->noon_shift_limit}", $schedule->noon_shift);
+        $this->assertEquals(
+            "{$schedule->noon_shift_registration} / {$schedule->noon_shift_limit}",
+            $schedule->noon_shift
+        );
     }
 
     public function testGetNightShiftAttribute()
     {
         $schedule = new Schedule();
 
-        $this->assertEquals("{$schedule->night_shift_registration} / {$schedule->night_shift_limit}", $schedule->night_shift);
+        $this->assertEquals(
+            "{$schedule->night_shift_registration} / {$schedule->night_shift_limit}",
+            $schedule->night_shift
+        );
     }
 
     public function testScopeIsAvailable()
