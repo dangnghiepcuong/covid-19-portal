@@ -142,7 +142,7 @@ class UserRegistrationController extends Controller
             }
 
             // Decrease the schedule registration number
-            $dec = $registration->decreaseRegistration($registration->pivot->shift);
+            $dec = $registration->decreaseRegistration($registration->pivot->shift)->save();
             if ($dec === false) {
                 return redirect()->back()->with([
                     'status' => ActionStatus::ERROR,

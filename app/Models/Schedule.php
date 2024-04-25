@@ -81,6 +81,6 @@ class Schedule extends Model
                 return false;
         }
 
-        return $this->save();
+        return $this;
     }
 }
