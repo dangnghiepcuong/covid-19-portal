@@ -2,14 +2,10 @@
 
 namespace Tests\Unit\Models;
 
-use App\Models\Account;
-use App\Models\Role;
 use App\Models\User;
-use Database\Seeders\RoleSeeder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Support\Facades\DB;
 use Tests\Unit\GenericModelTestCase;
 
 class UserTest extends GenericModelTestCase
@@ -42,15 +38,7 @@ class UserTest extends GenericModelTestCase
 
     public function testRelationships()
     {
-        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
-        Account::truncate();
-        Role::truncate();
-        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
-
-        $roleSeeder = new RoleSeeder();
-        $roleSeeder->run();
-
-        $user = User::factory()->make();
+        $user = new User();
 
         $this->assertInstanceOf(BelongsTo::class, $user->account());
         $this->assertEquals('account_id', $user->account()->getForeignKeyName());
@@ -62,11 +50,6 @@ class UserTest extends GenericModelTestCase
         $this->assertEquals('user_id', $user->schedules()->getForeignPivotKeyName());
 
         $this->assertInstanceOf(HasMany::class, $user->vaccinations());
-
-        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
-        Account::truncate();
-        Role::truncate();
-        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
     }
 
     public function testGetFullNameAttribute()

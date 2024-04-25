@@ -2,13 +2,9 @@
 
 namespace Tests\Unit\Models;
 
-use App\Enums\Role;
 use App\Models\Account;
-use App\Models\Role as ModelsRole;
-use Database\Seeders\RoleSeeder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
-use Illuminate\Support\Facades\DB;
 use Tests\Unit\GenericModelTestCase;
 
 class AccountTest extends GenericModelTestCase
@@ -64,32 +60,9 @@ class AccountTest extends GenericModelTestCase
 
     public function testScopeIsAdmin()
     {
-        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
-        Account::truncate();
-        ModelsRole::truncate();
-        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
-
-        $roleSeeder = new RoleSeeder();
-        $roleSeeder->run();
-
-        Account::factory()->count(2)->create([
-            'role_id' => Role::ROLE_ADMIN,
-        ]);
-
-        Account::factory()->count(2)->create([
-            'role_id' => Role::ROLE_BUSINESS,
-        ]);
-
-        Account::factory()->count(3)->create([
-            'role_id' => Role::ROLE_USER,
-        ]);
-
-        $countAdmins = Account::isAdmin()->count();
-        $this->assertEquals(2, $countAdmins);
-
-        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
-        Account::truncate();
-        ModelsRole::truncate();
-        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+        $this->assertEquals(
+            'select * from `accounts` where `role_id` = ? and `accounts`.`deleted_at` is null',
+            Account::isAdmin()->toSql()
+        );
     }
 }

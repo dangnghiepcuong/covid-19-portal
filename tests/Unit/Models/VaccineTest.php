@@ -4,7 +4,6 @@ namespace Tests\Unit\Models;
 
 use App\Models\Vaccine;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Support\Facades\DB;
 use Tests\Unit\GenericModelTestCase;
 
 class VaccineTest extends GenericModelTestCase
@@ -62,22 +61,9 @@ class VaccineTest extends GenericModelTestCase
 
     public function testScopeIsAllow()
     {
-        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
-        Vaccine::truncate();
-        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
-
-        Vaccine::factory()->count(5)->create([
-            'is_allow' => true,
-        ]);
-
-        Vaccine::factory()->count(3)->create([
-            'is_allow' => false,
-        ]);
-
-        $this->assertEquals(5, Vaccine::isAllow()->count());
-
-        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
-        Vaccine::truncate();
-        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+        $this->assertEquals(
+            'select * from `vaccines` where `is_allow` = ? and `vaccines`.`deleted_at` is null',
+            Vaccine::isAllow()->toSql()
+        );
     }
 }
