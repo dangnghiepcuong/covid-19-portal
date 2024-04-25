@@ -127,7 +127,7 @@ class ScheduleRegsitrationController extends Controller
             // If the updating status is canceled,
             // then decrease the schedule registration number
             if ($request->status === RegistrationStatus::CANCELED) {
-                $dec = $schedule->decreaseRegistration($registration->pivot->shift);
+                $dec = $schedule->decreaseRegistration($registration->pivot->shift)->save();
                 if ($dec === false) {
                     return redirect()->back()->with([
                         'status' => ActionStatus::ERROR,
