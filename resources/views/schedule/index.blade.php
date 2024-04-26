@@ -34,7 +34,7 @@
                         <select name="vaccine_id" id="vaccine_id" class="block mt-1 w-full">
                             @foreach ($vaccines as $vaccine)
                                 @if ($vaccine->id == $attributes->vaccine_id)
-                                    <option value="{{ $vaccine->id }}">{{ $vaccine->name }}</option>
+                                    <option value="{{ $attributes->vaccine_id }}">{{ $vaccine->name }}</option>
                                 @endif
                             @endforeach
 
@@ -48,13 +48,30 @@
                         </select>
                     </div>
 
+                    <div class="min-w-150px max-w-30pc">
+                        <x-label for="time" :value="__('schedule.time.time')" />
+                        <select name="time" id="time" class="block mt-1 w-full">
+                            @if ($attributes->time)
+                                <option value="{{ $attributes->time }}">{{ __('schedule.time.' . $attributes->time) }}
+                                </option>
+                            @endif
+                            <option value=""></option>
+                            @foreach ($scheduleTimes::allCases() as $property => $value)
+                                @if ($value !== $attributes->time)
+                                    <option value="{{ $value }}">{{ __('schedule.time.' . $value) }}</option>
+                                @endif
+                            @endforeach
+                        </select>
+                    </div>
+
                     {{-- Apply --}}
                     <x-button>
                         {{ __('btn.apply') }}
                     </x-button>
 
                     {{-- Clear --}}
-                    <a class="btn btn-secondary" href="{{ route('schedules.index') }}">{{ __('btn.clear_filter') }}</a>
+                    <a class="btn btn-secondary"
+                        href="{{ route('schedules.index') }}">{{ __('btn.clear_filter') }}</a>
                 </div>
             </form>
 
