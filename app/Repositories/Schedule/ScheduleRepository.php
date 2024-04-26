@@ -14,7 +14,7 @@ class ScheduleRepository extends BaseRepository implements ScheduleRepositoryInt
 {
     public function getModel()
     {
-        return \App\Models\Schedule::class;
+        return Schedule::class;
     }
 
     public function getSchedulesOfABusiness(
