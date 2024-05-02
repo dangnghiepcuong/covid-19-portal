@@ -87,7 +87,7 @@
                 <br>
                 <div class="flex justify-center">
                     <!-- Submit -->
-                    <x-button class="ml-4">
+                    <x-button id="btn-create" name="btn-create" class="ml-4">
                         {{ __('btn.create', ['object' => __('schedule.schedule')]) }}
                     </x-button>
                 </div>
