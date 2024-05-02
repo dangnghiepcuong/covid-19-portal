@@ -2,7 +2,6 @@
 
 namespace Database\Factories;
 
-use App\Models\VaccineLot;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class ScheduleFactory extends Factory
@@ -14,12 +13,11 @@ class ScheduleFactory extends Factory
      */
     public function definition()
     {
-        $vaccineLot = VaccineLot::factory()->make();
-
         return [
-            'business_id' => $vaccineLot->business()->id,
-            'vaccine_lot_id' => $vaccineLot->id,
-            'on_date' => $this->faker,    
+            'on_date' => now(),
+            'day_shift_limit' => 100,
+            'noon_shift_limit' => 100,
+            'night_shift_limit' => 100,
         ];
     }
 }
