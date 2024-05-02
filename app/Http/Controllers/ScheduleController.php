@@ -3,16 +3,21 @@
 namespace App\Http\Controllers;
 
 use App\Enums\ActionStatus;
-use App\Enums\RegistrationStatus;
 use App\Http\Requests\ScheduleRequest;
-use App\Models\Schedule;
 use App\Models\Vaccine;
+use App\Repositories\Schedule\ScheduleRepositoryInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 
 class ScheduleController extends Controller
 {
+    protected $scheduleRepo;
+
+    public function __construct(ScheduleRepositoryInterface $scheduleRepo)
+    {
+        $this->scheduleRepo = $scheduleRepo;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -20,23 +25,16 @@ class ScheduleController extends Controller
      */
     public function index(Request $request)
     {
-        $schedules = Auth::user()->business->schedules()->isAvailable();
+        $account = Auth::user();
+        $businessId = $account->business->id;
+        $schedules = $this->scheduleRepo->getSchedulesOfABusiness(
+            $businessId,
+            $request->from_date,
+            $request->to_date,
+            $request->vaccine_id,
+            $request->time
+        );
         $vaccines = Vaccine::isAllow()->get();
-
-        if ($request->from_date !== null) {
-            $schedules = $schedules->whereDate('on_date', '>=', $request->from_date);
-        }
-
-        if ($request->to_date !== null) {
-            $schedules = $schedules->whereDate('on_date', '<=', $request->to_date);
-        }
-
-        if ($request->vaccine_id !== null) {
-            $schedules = $schedules->whereRelation('vaccineLot', 'vaccine_id', $request->vaccine_id);
-        }
-
-        $schedules = $schedules->orderBy('on_date', 'desc')
-            ->paginate(config('parameters.DEFAULT_PAGINATING_NUMBER'));
 
         return view('schedule.index', [
             'schedules' => $schedules,
@@ -67,59 +65,27 @@ class ScheduleController extends Controller
     {
         $request->validated();
 
-        DB::beginTransaction();
+        $result = $this->scheduleRepo->storeSchedule(
+            Auth::user()->business->id,
+            $request->vaccine_lot_id,
+            $request->on_date,
+            $request->day_shift_limit,
+            $request->noon_shift_limit,
+            $request->night_shift_limit
+        );
 
-        try {
-            $business = Auth::user()->business;
-            $vaccineLot = $business->vaccineLots()->findOrFail($request->vaccine_lot_id);
-
-            $vaccineLot->quantity = $vaccineLot->quantity
-                - ($request->day_shift_limit
-                    + $request->noon_shift_limit
-                    + $request->night_shift_limit);
-
-            if ($vaccineLot->quantity < 0) {
-                DB::rollBack();
-
+        switch ($result['status']) {
+            case ActionStatus::WARNING:
+            case ActionStatus::ERROR:
+                return redirect()->back()->with($result)->withInput();
+            case ActionStatus::SUCCESS:
+                return redirect()->back()->with($result);
+            default:
                 return redirect()->back()->with([
-                    'status' => ActionStatus::WARNING,
-                    'message' => __('schedule.total_limit'),
-                ])->withInput();
-            }
-
-            $vaccineLot->save();
-
-            Schedule::create([
-                'business_id' => Auth::user()->business->id,
-                'vaccine_lot_id' => $request->vaccine_lot_id,
-                'on_date' => $request->on_date,
-                'day_shift_limit' => $request->day_shift_limit,
-                'noon_shift_limit' => $request->noon_shift_limit,
-                'night_shift_limit' => $request->night_shift_limit,
-            ]);
-        } catch (\Exception $e) {
-            DB::rollBack();
-
-            return redirect()->back()->with([
-                'status' => ActionStatus::ERROR,
-                'message' => __('message.failed'),
-                // 'message' => $e->getMessage(),
-            ])->withInput();
+                    'status' => ActionStatus::ERROR,
+                    'message' => __('message.failed'),
+                ]);
         }
-
-        DB::commit();
-
-        return redirect()->back()->with([
-            'status' => ActionStatus::SUCCESS,
-            'message' => __(
-                'message.success',
-                [
-                    'action' => __('btn.create', [
-                        'object' => __('schedule.schedule'),
-                    ]),
-                ],
-            ),
-        ]);
     }
 
     /**
@@ -130,25 +96,15 @@ class ScheduleController extends Controller
      */
     public function show(Request $request, $id)
     {
-        $business = Auth::user()->business;
-        $schedule = $business->schedules()->findOrfail($id);
-        $registrations = $schedule->users();
-
-        if ($request->shift !== null) {
-            $registrations = $registrations->wherePivot('shift', $request->shift);
-        }
-
-        if ($request->status !== null) {
-            $registrations = $registrations->wherePivot('status', $request->status);
-        } else {
-            $registrations = $registrations->wherePivotNotIn('status', [RegistrationStatus::CANCELED]);
-        }
-
-        $registrations = $registrations->orderBy('number_order', 'DESC')
-            ->paginate(config('parameters.DEFAULT_PAGINATING_NUMBER'));
+        $registrations = $this->scheduleRepo->getRegistrations(
+            Auth::user()->business->id,
+            $id,
+            $request->shift,
+            $request->status
+        );
 
         return view('schedule.registration.index', [
-            'schedule' => $schedule,
+            'schedule' => $this->scheduleRepo->findOrFail($id),
             'registrations' => $registrations,
             'attributes' => $request,
         ]);
@@ -162,7 +118,7 @@ class ScheduleController extends Controller
      */
     public function edit($id)
     {
-        $schedule = Schedule::findOrFail($id);
+        $schedule = $this->scheduleRepo->findOrFail($id);
         $vaccineLots = Auth::user()->business->vaccineLots()->inStock()->get();
 
         return view('schedule.edit', ['schedule' => $schedule, 'vaccineLots' => $vaccineLots]);
@@ -179,76 +135,28 @@ class ScheduleController extends Controller
     {
         $request->validated();
 
-        DB::beginTransaction();
-        try {
-            $business = Auth::user()->business;
-            $schedule = $business->schedules()->findOrFail($id);
+        $result = $this->scheduleRepo->updateSchedule(
+            Auth::user()->business->id,
+            $id,
+            $request->vaccine_lot_id,
+            $request->on_date,
+            $request->day_shift_limit,
+            $request->noon_shift_limit,
+            $request->night_shift_limit
+        );
 
-            $vaccineLot = $business->vaccineLots()->findOrFail($schedule->vaccine_lot_id);
-            $vaccineLot->quantity = $vaccineLot->quantity
-                + ($schedule->day_shift_limit
-                    + $schedule->noon_shift_limit
-                    + $schedule->night_shift_limit);
-            $vaccineLot->save();
-
-            if (
-                $request->day_shift_limit < $schedule->day_shift_registration
-                || $request->noon_shift_limit < $schedule->noon_shift_registration
-                || $request->night_shift_limit < $schedule->night_shift_registration
-            ) {
-                DB::rollBack();
-
+        switch ($result['status']) {
+            case ActionStatus::WARNING:
+            case ActionStatus::ERROR:
+                return redirect()->back()->with($result)->withInput();
+            case ActionStatus::SUCCESS:
+                return redirect()->back()->with($result);
+            default:
                 return redirect()->back()->with([
-                    'status' => ActionStatus::WARNING,
-                    'message' => __('schedule.over_limit'),
-                ])->withInput();
-            }
-
-            $vaccineLot = $business->vaccineLots()->findOrFail($request->vaccine_lot_id);
-            $vaccineLot->quantity = $vaccineLot->quantity
-                - ($request->day_shift_limit
-                    + $request->noon_shift_limit
-                    + $request->night_shift_limit);
-
-            if ($vaccineLot->quantity < 0) {
-                DB::rollBack();
-
-                return redirect()->back()->with([
-                    'status' => ActionStatus::WARNING,
-                    'message' => __('schedule.total_limit'),
-                ])->withInput();
-            }
-
-            $vaccineLot->save();
-            $schedule->vaccine_lot_id = $request->vaccine_lot_id;
-            $schedule->on_date = $request->on_date;
-            $schedule->day_shift_limit = $request->day_shift_limit;
-            $schedule->noon_shift_limit = $request->noon_shift_limit;
-            $schedule->night_shift_limit = $request->night_shift_limit;
-            $schedule->save();
-        } catch (\Exception $e) {
-            DB::rollBack();
-
-            return redirect()->back()->with([
-                'status' => ActionStatus::ERROR,
-                'message' => __('message.failed'),
-                // 'message' => $e->getMessage(),
-            ])->withInput();
+                    'status' => ActionStatus::ERROR,
+                    'message' => __('message.failed'),
+                ]);
         }
-
-        DB::commit();
-
-        return redirect()->back()->with([
-            'status' => ActionStatus::SUCCESS,
-            'message' => __(
-                'message.success',
-                [
-                    'action' => __('btn.update', [
-                        'object' => __('schedule.schedule'),
-                    ]),
-                ],
-            ),
-        ]);
     }
 
     /**
@@ -259,69 +167,31 @@ class ScheduleController extends Controller
      */
     public function destroy($id)
     {
-        DB::beginTransaction();
-        try {
-            $business = Auth::user()->business;
-            $schedule = $business->schedules()->findOrFail($id);
+        $result = $this->scheduleRepo->destroySchedule(Auth::user()->business->id, $id);
 
-            $schedule->users()->update([
-                'status' => RegistrationStatus::CANCELED,
-            ]);
-
-            $vaccineLot = $business->vaccineLots()->findOrFail($schedule->vaccine_lot_id);
-            $vaccineLot->quantity = $vaccineLot->quantity
-                + ($schedule->day_shift_limit
-                    + $schedule->noon_shift_limit
-                    + $schedule->night_shift_limit);
-            $vaccineLot->save();
-
-            $schedule->day_shift_registration = 0;
-            $schedule->noon_shift_registration = 0;
-            $schedule->night_shift_registration = 0;
-            $schedule->day_shift_limit = 0;
-            $schedule->noon_shift_limit = 0;
-            $schedule->night_shift_limit = 0;
-            $schedule->save();
-
-            $business->schedules()->findOrFail($id)->delete();
-        } catch (\Exception $e) {
-            DB::rollBack();
-
-            return redirect()->back()->with([
-                'status' => ActionStatus::ERROR,
-                'message' => __('message.failed'),
-                // 'message' => $e->getMessage(),
-            ])->withInput();
+        switch ($result['status']) {
+            case ActionStatus::WARNING:
+            case ActionStatus::ERROR:
+                return redirect()->back()->with($result)->withInput();
+            case ActionStatus::SUCCESS:
+                return redirect()->back()->with($result);
+            default:
+                return redirect()->back()->with([
+                    'status' => ActionStatus::ERROR,
+                    'message' => __('message.failed'),
+                ]);
         }
-
-        DB::commit();
-
-        return redirect()->back()->with([
-            'status' => ActionStatus::SUCCESS,
-            'message' => __('message.success', ['action' => __('btn.delete')]),
-        ]);
     }
 
     public function trashed(Request $request)
     {
-        $business = Auth::user()->business;
-        $schedules = $business->schedules()->onlyTrashed();
+        $schedules = $this->scheduleRepo->getTrashed(
+            Auth::user()->business->id,
+            $request->from_date,
+            $request->to_date,
+            $request->vaccine_id
+        );
         $vaccines = Vaccine::isAllow()->get();
-
-        if ($request->from_date !== null) {
-            $schedules = $schedules->whereDate('on_date', '>=', $request->from_date);
-        }
-
-        if ($request->to_date !== null) {
-            $schedules = $schedules->whereDate('on_date', '<=', $request->to_date);
-        }
-
-        if ($request->vaccine_id !== null) {
-            $schedules = $schedules->whereRelation('vaccineLot', 'vaccine_id', $request->vaccine_id);
-        }
-
-        $schedules = $schedules->orderBy('on_date', 'desc')
-            ->paginate(config('parameters.DEFAULT_PAGINATING_NUMBER'));
 
         return view('schedule.trashed', [
             'schedules' => $schedules,
@@ -332,23 +202,17 @@ class ScheduleController extends Controller
 
     public function restore($id)
     {
-        $business = Auth::user()->business;
-        $business->schedules()->onlyTrashed()->findOrFail($id)->restore();
-
-        return redirect()->back()->with([
-            'status' => ActionStatus::SUCCESS,
-            'message' => __('message.success', ['action' => __('btn.restore')]),
-        ]);
+        return redirect()->back()->with($this->scheduleRepo->restore(
+            Auth::user()->business->id,
+            $id
+        ));
     }
 
     public function delete($id)
     {
-        $schedule = Schedule::onlyTrashed()->findOrFail($id);
-        $schedule->forceDelete();
-
-        return redirect()->back()->with([
-            'status' => ActionStatus::SUCCESS,
-            'message' => __('message.success', ['action' => __('btn.delete')]),
-        ]);
+        return redirect()->back()->with($this->scheduleRepo->forceDelete(
+            Auth::user()->business->id,
+            $id
+        ));
     }
 }
