@@ -63,8 +63,6 @@ class ScheduleController extends Controller
      */
     public function store(ScheduleRequest $request)
     {
-        $request->validated();
-
         $result = $this->scheduleRepo->storeSchedule(
             Auth::user()->business->id,
             $request->vaccine_lot_id,
@@ -133,8 +131,6 @@ class ScheduleController extends Controller
      */
     public function update(ScheduleRequest $request, $id)
     {
-        $request->validated();
-
         $result = $this->scheduleRepo->updateSchedule(
             Auth::user()->business->id,
             $id,
