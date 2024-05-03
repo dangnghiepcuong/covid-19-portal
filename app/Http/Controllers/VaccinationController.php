@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\ActionStatus;
 use App\Enums\RegistrationStatus;
 use App\Enums\Shift;
 use App\Http\Requests\BusinessSearchRequest;
@@ -10,7 +11,9 @@ use App\Models\Registration;
 use App\Models\Schedule;
 use App\Models\User;
 use App\Models\Vaccine;
+use App\Notifications\VaccinationRegistered as VaccinationRegisteredNoti;
 use Illuminate\Support\Facades\DB;
+use Pusher\Pusher;
 
 class VaccinationController extends Controller
 {
@@ -177,6 +180,40 @@ class VaccinationController extends Controller
         }
 
         DB::commit();
+
+        $options = [
+            'cluster' => 'ap1',
+            'encrypted' => true,
+        ];
+
+        $pusher = new Pusher(
+            env('PUSHER_APP_KEY'),
+            env('PUSHER_APP_SECRET'),
+            env('PUSHER_APP_ID'),
+            $options
+        );
+
+        $pusher->trigger('account.' . $account->id, 'vaccination-registered', [
+            'status' => ActionStatus::SUCCESS,
+            'title' => __('vaccination.message.registered_successfully'),
+            'content' => __('schedule.schedule_info', [
+                'on_date' => $schedule->on_date,
+                'vaccine' => $schedule->vaccineLot->vaccine->name,
+                'vaccine-lot' => $schedule->vaccineLot->lot,
+            ]) . '. ' . __('registration.info', [
+                'shift' => __('schedule.' . $request->shift),
+                'number_order' => $numberOrder,
+                'status' => __('registration.status.' . RegistrationStatus::REGISTERED),
+            ]),
+        ]);
+
+        $account->notify(new VaccinationRegisteredNoti(
+            $schedule,
+            $numberOrder,
+            $request->shift,
+            RegistrationStatus::REGISTERED
+        ));
+
         $response = [
             'status' => 'success',
             'message' => __('message.success', ['action' => __('btn.register')]),
