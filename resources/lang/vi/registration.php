@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'info' => 'Lượt đăng ký: Ca-:shift; STT-:number_order; Trạng thái-:status',
     'log' => 'Lịch sử ĐKTC',
     'number_order' => 'STT',
     'registration' => 'Lượt đăng ký',

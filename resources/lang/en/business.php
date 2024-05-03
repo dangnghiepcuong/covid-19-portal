@@ -9,4 +9,5 @@ return [
     'ward' => 'Ward',
     'address' => 'Address',
     'contact' => 'Contact number',
+    'info' => ':name (:address, :addr_ward, :addr_district, :addr_province)',
 ];

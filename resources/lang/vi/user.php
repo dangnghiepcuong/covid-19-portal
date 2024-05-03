@@ -9,6 +9,7 @@ return [
     'full_name' => 'Họ và tên',
     'gender' => 'Giới tính',
     'last_name' => 'Họ và tên đệm',
+    'location' => ':address, :addr_ward, :addr_district, :addr_province',
     'pid' => 'CCCD/CMND/Số hộ chiếu',
     'profile' => 'Thông tin cá nhân',
     'province' => 'Tỉnh/Thành phố',

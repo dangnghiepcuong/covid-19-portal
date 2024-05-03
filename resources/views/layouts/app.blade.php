@@ -13,13 +13,26 @@
 
     <!-- Styles -->
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <link rel="stylesheet" href="{{ asset('css/layout.css') }}">
     <link rel="stylesheet" href="{{ asset('css/size.css') }}">
     <link rel="stylesheet" href="{{ asset('css/color.css') }}">
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('css/toastr.min.css') }}" />
+    <link rel="stylesheet" href="{{ asset('css/notification.css') }}" />
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
+    <script src="{{ asset('js/notification.js') }}" defer></script>
+    <script src="{{ asset('js/toastr.min.js') }}" defer></script>
+    <script src="{{ asset('js/pusher.js') }}" defer></script>
+    <script src="{{ asset('js/pusher.min.js') }}" defer></script>
+    <script src="https://kit.fontawesome.com/b99e675b6e.js"></script>
+    <script defer>
+        window.PUSHER_APP_KEY = `{{ env('PUSHER_APP_KEY') }}`
+        window.PUSHER_APP_CLUSTER = `{{ env('PUSHER_APP_CLUSTER') }}`
+        window.USER_PRIVATE_CHANNEL = `account.{{ Auth::user()->id }}`
+        window.EVENT_VACCINATION_REGISTERED = `vaccination-registered`
+    </script>
 </head>
 
 <body class="font-sans antialiased">

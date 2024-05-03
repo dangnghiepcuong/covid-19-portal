@@ -22,5 +22,6 @@ Route::middleware('auth:sanctum')
         Route::group(['prefix' => 'v1', 'namespace' => 'App\Http\Controllers\Api\V1'], function () {
             Route::apiResource('businesses', BusinessController::class);
             Route::apiResource('schedules', ScheduleController::class);
+            Route::apiResource('notifications', NotificationController::class);
         });
     });
