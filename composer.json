@@ -13,7 +13,8 @@
         "laravel/framework": "^8.75",
         "laravel/sanctum": "^2.11",
         "laravel/tinker": "^2.5",
-        "merry-goblin/casterlith": "^1.0"
+        "merry-goblin/casterlith": "^1.0",
+        "pusher/pusher-php-server": "^7.2"
     },
     "require-dev": {
         "facade/ignition": "^2.5",
