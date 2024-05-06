@@ -17,7 +17,11 @@ mix.js('resources/js/app.js', 'public/js')
     .js('resources/js/getBusinessList.js', 'public/js')
     .js('resources/js/getScheduleList.js', 'public/js')
     .js('resources/js/registerVaccination.js', 'public/js')
-    .postCss('resources/css/custom.css', 'public/css')
+    .js('resources/js/notification.js', 'public/js')
+    .js('node_modules/toastr/build/toastr.min.js', 'public/js')
+    .js('node_modules/pusher-js/dist/web/pusher.min.js', 'public/js')
+    .js('node_modules/pusher-js/dist/web/pusher.js', 'public/js')
+mix.postCss('resources/css/custom.css', 'public/css')
     .postCss('resources/css/app.css', 'public/css', [
         require('tailwindcss'),
         require('autoprefixer'),
@@ -25,4 +29,6 @@ mix.js('resources/js/app.js', 'public/js')
     .postCss('resources/css/layout.css', 'public/css')
     .postCss('resources/css/size.css', 'public/css')
     .postCss('resources/css/color.css', 'public/css')
+    .postCss('resources/css/notification.css', 'public/css')
+    .postCss('node_modules/toastr/build/toastr.min.css', 'public/css')
     .sass('resources/sass/app.scss', 'public/css');

@@ -9,4 +9,5 @@ return [
     'ward' => 'Xã/Phường/Thị trấn',
     'address' => 'Địa chỉ',
     'contact' => 'Số ĐT liên hệ',
+    'info' => ':name (:address, :addr_ward, :addr_district, :addr_province)',
 ];

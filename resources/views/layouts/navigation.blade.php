@@ -41,7 +41,7 @@
                                 <x-nav-link :href="route('vaccination.index')">
                                     {{ __('vaccination.vaccination') }}
                                 </x-nav-link>
-                                
+
                                 <x-nav-link :href="route('registrations.index')">
                                     {{ __('registration.log') }}
                                 </x-nav-link>
@@ -56,6 +56,18 @@
 
             <!-- NAV RIGHT SIDE -->
             <div class="flex">
+                <div class="notifications">
+                    <div class="icon_wrap"><i class="far fa-bell"></i></div>
+                    <div class="notification_dd">
+                        <input id="markAsReadToken" type="hidden" value="{{ csrf_token() }}">
+                        <ul id="notification_ul" class="notification_ul">
+                            <li class="show_all">
+                                <p class="link">{{ __('notification.show_all') }}</p>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
                 <a href="{{ route('locale', ['lang' => 'vi']) }}" class="mx-1 my-auto">
                     <img class="w-25px" alt="VN"
                         src="http://purecatamphetamine.github.io/country-flag-icons/3x2/VN.svg" />
@@ -136,9 +148,44 @@
     <!-- Responsive Navigation Menu -->
     <div :class="{ 'block': open, 'hidden': !open }" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
-            <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                {{ __('navigation.dashboard') }}
-            </x-responsive-nav-link>
+            @auth
+                <x-responsive-nav-link :href="route('dashboard')">
+                    {{ __('navigation.dashboard') }}
+                </x-responsive-nav-link>
+                @switch(Auth::user()->role_id)
+                    @case($roles::ROLE_ADMIN)
+                        <x-responsive-nav-link :href="route('businesses.index')">
+                            {{ __('object.management', ['object' => __('business.business')]) }}
+                        </x-responsive-nav-link>
+
+                        <x-responsive-nav-link :href="route('vaccines.index')">
+                            {{ __('object.management', ['object' => __('vaccine.vaccine')]) }}
+                        </x-responsive-nav-link>
+                    @break
+
+                    @case($roles::ROLE_BUSINESS)
+                        <x-responsive-nav-link :href="route('vaccine-lots.index')">
+                            {{ __('object.management', ['object' => __('vaccine-lot.vaccine_lot')]) }}
+                        </x-responsive-nav-link>
+
+                        <x-responsive-nav-link :href="route('schedules.index')">
+                            {{ __('object.management', ['object' => __('schedule.schedule')]) }}
+                        </x-responsive-nav-link>
+                    @break
+
+                    @case($roles::ROLE_USER)
+                        <x-responsive-nav-link :href="route('vaccination.index')">
+                            {{ __('vaccination.vaccination') }}
+                        </x-responsive-nav-link>
+
+                        <x-responsive-nav-link :href="route('registrations.index')">
+                            {{ __('registration.log') }}
+                        </x-responsive-nav-link>
+                    @break
+
+                    @default
+                @endswitch
+            @endauth
         </div>
 
         <!-- Responsive Settings Options -->
@@ -162,3 +209,18 @@
         </div>
     </div>
 </nav>
+
+<div class="popup">
+    <div class="shadow"></div>
+    <div class="inner_popup">
+        <div class="notification_dd">
+            <ul id="all_notifications_ul" class="notification_ul">
+                <li class="title">
+                    <p>{{ __('notification.all_notifications') }}</p>
+                    <p class="close"><i class="fas fa-times" aria-hidden="true"></i></p>
+                </li> 
+            </ul>
+        </div>
+    </div>
+  </div>
+  
