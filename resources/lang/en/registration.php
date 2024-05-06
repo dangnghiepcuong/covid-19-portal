@@ -4,6 +4,7 @@ return [
     'info' => 'Your registration: Shift-:shift; NO-:number_order; Status-:status',
     'log' => 'Registration log',
     'number_order' => 'Ordinal number',
+    'receipt' => 'Registration Receipt',
     'registration' => 'Registration',
     'shift' => 'Shift',
     'status' => [

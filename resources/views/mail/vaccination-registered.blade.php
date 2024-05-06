@@ -7,7 +7,7 @@
 
 <div class="flex justify-center overflow-hidden flex-warp">
     <div class="w-full  mx-2 max-w-30pc">
-        <div class="h3">Registration Receipt</div>
+        <div class="h3">{{ __('registration.receipt') }}</div>
         <div>
             {{ __('vaccination.message.registered_successfully') }}
         </div>

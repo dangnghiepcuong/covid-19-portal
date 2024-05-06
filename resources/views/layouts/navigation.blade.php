@@ -62,7 +62,7 @@
                         <input id="markAsReadToken" type="hidden" value="{{ csrf_token() }}">
                         <ul id="notification_ul" class="notification_ul">
                             <li class="show_all">
-                                <p class="link">Show All Activities</p>
+                                <p class="link">{{ __('notification.show_all') }}</p>
                             </li>
                         </ul>
                     </div>
@@ -216,10 +216,11 @@
         <div class="notification_dd">
             <ul id="all_notifications_ul" class="notification_ul">
                 <li class="title">
-                    <p>All Notifications</p>
+                    <p>{{ __('notification.all_notifications') }}</p>
                     <p class="close"><i class="fas fa-times" aria-hidden="true"></i></p>
                 </li> 
             </ul>
         </div>
     </div>
   </div>
+  
