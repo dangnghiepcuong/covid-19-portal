@@ -2,6 +2,11 @@
 
 return [
     'registration' => 'Registration',
+    'reminder' => [
+        'title' => 'Vaccination Reminder',
+        'message' => 'You have a vacciantion schedule tomorrow!',
+        'note' => 'Remember to bring your ID along',
+    ],
     'vaccination' => 'Vaccination',
     'message' => [
         'full_slot' => 'Shift was fully registered!',
