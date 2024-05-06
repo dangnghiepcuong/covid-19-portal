@@ -2,6 +2,11 @@
 
 return [
     'registration' => 'Đăng ký',
+    'reminder' => [
+        'title' => 'Lời nhắc tiêm chủng',
+        'message' => 'Bạn có một lịch tiêm chủng vắc-xin diễn ra vào ngày mai!',
+        'note' => 'Công dân phải mang theo CMND/CCCD đến địa điểm tiêm',
+    ],
     'vaccination' => 'Tiêm chủng',
     'message' => [
         'full_slot' => 'Ca tiêm đã hết lượt!',

@@ -218,9 +218,8 @@
                 <li class="title">
                     <p>{{ __('notification.all_notifications') }}</p>
                     <p class="close"><i class="fas fa-times" aria-hidden="true"></i></p>
-                </li> 
+                </li>
             </ul>
         </div>
     </div>
-  </div>
-  
+</div>
