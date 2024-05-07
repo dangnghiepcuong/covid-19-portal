@@ -37,11 +37,6 @@ class Schedule extends Model
             ->withPivot(['id', 'created_at', 'updated_at', 'shift', 'number_order', 'status']);
     }
 
-    public function vaccinations()
-    {
-        return $this->hasMany(Vaccination::class);
-    }
-
     public function getDayShiftAttribute()
     {
         return "{$this->day_shift_registration} / {$this->day_shift_limit}";

@@ -30,7 +30,7 @@ class ScheduleControllerTest extends TestCase
     {
         parent::setUp();
         $this->mockScheduleRepo = Mockery::mock(ScheduleRepository::class);
-        $this->app->instance('\App\Repositories\Schedule\ScheduleRepository', $this->mockScheduleRepo);
+        // $this->app->instance('\App\Repositories\Schedule\ScheduleRepository', $this->mockScheduleRepo);
         $this->controller = new ScheduleController($this->mockScheduleRepo);
     }
 

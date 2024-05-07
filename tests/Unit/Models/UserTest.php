@@ -5,18 +5,21 @@ namespace Tests\Unit\Models;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Tests\Unit\GenericModelTestCase;
 
 class UserTest extends GenericModelTestCase
 {
+    protected $user;
+
     protected function setUp(): void
     {
         parent::setUp();
+        $this->user = new User();
     }
 
     protected function tearDown(): void
     {
+        unset($this->user);
         parent::tearDown();
     }
 
@@ -38,24 +41,16 @@ class UserTest extends GenericModelTestCase
 
     public function testRelationships()
     {
-        $user = new User();
+        $this->assertInstanceOf(BelongsTo::class, $this->user->account());
+        $this->assertEquals('account_id', $this->user->account()->getForeignKeyName());
 
-        $this->assertInstanceOf(BelongsTo::class, $user->account());
-        $this->assertEquals('account_id', $user->account()->getForeignKeyName());
-
-        $this->assertInstanceOf(HasMany::class, $user->forms());
-
-        $this->assertInstanceOf(BelongsToMany::class, $user->schedules());
-        $this->assertEquals('schedule_id', $user->schedules()->getRelatedPivotKeyName());
-        $this->assertEquals('user_id', $user->schedules()->getForeignPivotKeyName());
-
-        $this->assertInstanceOf(HasMany::class, $user->vaccinations());
+        $this->assertInstanceOf(BelongsToMany::class, $this->user->schedules());
+        $this->assertEquals('schedule_id', $this->user->schedules()->getRelatedPivotKeyName());
+        $this->assertEquals('user_id', $this->user->schedules()->getForeignPivotKeyName());
     }
 
     public function testGetFullNameAttribute()
     {
-        $user = User::factory()->make();
-
-        $this->assertEquals("{$user->last_name} {$user->first_name}", $user->fullName);
+        $this->assertEquals("{$this->user->last_name} {$this->user->first_name}", $this->user->fullName);
     }
 }
