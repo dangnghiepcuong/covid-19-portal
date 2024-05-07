@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\Api\V1\DashboardController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -23,5 +24,16 @@ Route::middleware('auth:sanctum')
             Route::apiResource('businesses', BusinessController::class);
             Route::apiResource('schedules', ScheduleController::class);
             Route::apiResource('notifications', NotificationController::class);
+        });
+
+        Route::group(['prefix' => 'v1/dashboard', 'namespace' => 'App\Http\Controllers\Api\V1'], function () {
+            Route::get('totalDoses', [DashboardController::class, 'getTotalDoses'])
+                ->name('dashboard.total_dose');
+            Route::get('totalPeopleWithOnlyFirstDose', [DashboardController::class, 'getTotalPeopleWithOnlyFirstDose'])
+                ->name('dashboard.total_people_with_only_first_dose');
+            Route::get('totalPeopleWithOverOneDose', [DashboardController::class, 'getTotalPeopleWithOverOneDose'])
+                ->name('dashboard.total_people_with_over_one_dose');
+            Route::get('totalPeopleWithNoDose', [DashboardController::class, 'getTotalPeopleWithNoDose'])
+                ->name('dashboard.total_people_with_no_dose');
         });
     });

@@ -29,6 +29,8 @@
         "tailwindcss": "^3.0.18"
     },
     "dependencies": {
+        "chart.js": "^4.4.2",
+        "startbootstrap-sb-admin": "^7.0.7",
         "toastr": "^2.1.4"
     }
 }
