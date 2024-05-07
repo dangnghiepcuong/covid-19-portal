@@ -40,7 +40,6 @@ window.getTotalPeopleWithNoDose = function () {
         url: 'api/v1/dashboard/totalPeopleWithNoDose',
         method: 'GET',
         success: function (result) {
-            console.log(result)
             $('#card-danger').text(result)
         }
     })
