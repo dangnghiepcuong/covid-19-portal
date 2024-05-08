@@ -9,13 +9,17 @@ use Tests\Unit\GenericModelTestCase;
 
 class AccountTest extends GenericModelTestCase
 {
+    protected $account;
+
     protected function setUp(): void
     {
         parent::setUp();
+        $this->account = new Account();
     }
 
     protected function tearDown(): void
     {
+        unset($this->account);
         parent::tearDown();
     }
 
@@ -41,21 +45,18 @@ class AccountTest extends GenericModelTestCase
 
     public function testRelationships()
     {
-        $account = Account::factory()->make();
+        $this->assertInstanceOf(BelongsTo::class, $this->account->role());
+        $this->assertEquals('role_id', $this->account->role()->getForeignKeyName());
 
-        $this->assertInstanceOf(BelongsTo::class, $account->role());
-        $this->assertEquals('role_id', $account->role()->getForeignKeyName());
-
-        $this->assertInstanceOf(HasOne::class, $account->user());
-        $this->assertInstanceOf(HasOne::class, $account->business());
+        $this->assertInstanceOf(HasOne::class, $this->account->user());
+        $this->assertInstanceOf(HasOne::class, $this->account->business());
     }
 
     public function testSetEmailAttribute()
     {
-        $account = new Account();
-        $account->setEmailAttribute('TesT@example.com');
+        $this->account->setEmailAttribute('TesT@example.com');
 
-        $this->assertEquals('test@example.com', $account->email);
+        $this->assertEquals('test@example.com', $this->account->email);
     }
 
     public function testScopeIsAdmin()

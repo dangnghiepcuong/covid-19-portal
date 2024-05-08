@@ -2,20 +2,23 @@
 
 namespace Tests\Unit\Models;
 
-use App\Models\Account;
 use App\Models\Role;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Tests\Unit\GenericModelTestCase;
 
 class RoleTest extends GenericModelTestCase
 {
+    protected $role;
+
     protected function setUp(): void
     {
         parent::setUp();
+        $this->role = new Role();
     }
 
     protected function tearDown(): void
     {
+        unset($this->role);
         parent::tearDown();
     }
 
@@ -37,11 +40,8 @@ class RoleTest extends GenericModelTestCase
 
     public function testRelationships()
     {
-        $role = Role::factory()->make();
-        Account::factory()->make([
-            'role_id' => $role->id,
-        ]);
+        $this->role = Role::factory()->make();
 
-        $this->assertInstanceOf(HasMany::class, $role->accounts());
+        $this->assertInstanceOf(HasMany::class, $this->role->accounts());
     }
 }

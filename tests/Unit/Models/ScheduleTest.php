@@ -6,18 +6,21 @@ use App\Enums\Shift;
 use App\Models\Schedule;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Tests\Unit\GenericModelTestCase;
 
 class ScheduleTest extends GenericModelTestCase
 {
+    protected $schedule;
+
     protected function setUp(): void
     {
         parent::setUp();
+        $this->schedule = new Schedule();
     }
 
     protected function tearDown(): void
     {
+        unset($this->schedule);
         parent::tearDown();
     }
 
@@ -42,48 +45,38 @@ class ScheduleTest extends GenericModelTestCase
 
     public function testRelationships()
     {
-        $schedule = new Schedule();
+        $this->assertInstanceOf(BelongsTo::class, $this->schedule->business());
+        $this->assertEquals('business_id', $this->schedule->business()->getForeignKeyName());
 
-        $this->assertInstanceOf(BelongsTo::class, $schedule->business());
-        $this->assertEquals('business_id', $schedule->business()->getForeignKeyName());
+        $this->assertInstanceOf(BelongsTo::class, $this->schedule->vaccineLot());
+        $this->assertEquals('vaccine_lot_id', $this->schedule->vaccineLot()->getForeignKeyName());
 
-        $this->assertInstanceOf(BelongsTo::class, $schedule->vaccineLot());
-        $this->assertEquals('vaccine_lot_id', $schedule->vaccineLot()->getForeignKeyName());
-
-        $this->assertInstanceOf(BelongsToMany::class, $schedule->users());
-        $this->assertEquals('user_id', $schedule->users()->getRelatedPivotKeyName());
-        $this->assertEquals('schedule_id', $schedule->users()->getForeignPivotKeyName());
-
-        $this->assertInstanceOf(HasMany::class, $schedule->vaccinations());
+        $this->assertInstanceOf(BelongsToMany::class, $this->schedule->users());
+        $this->assertEquals('user_id', $this->schedule->users()->getRelatedPivotKeyName());
+        $this->assertEquals('schedule_id', $this->schedule->users()->getForeignPivotKeyName());
     }
 
     public function testGetDayShiftAttribute()
     {
-        $schedule = new Schedule();
-
         $this->assertEquals(
-            "{$schedule->day_shift_registration} / {$schedule->day_shift_limit}",
-            $schedule->day_shift
+            "{$this->schedule->day_shift_registration} / {$this->schedule->day_shift_limit}",
+            $this->schedule->day_shift
         );
     }
 
     public function testGetNoonShiftAttribute()
     {
-        $schedule = new Schedule();
-
         $this->assertEquals(
-            "{$schedule->noon_shift_registration} / {$schedule->noon_shift_limit}",
-            $schedule->noon_shift
+            "{$this->schedule->noon_shift_registration} / {$this->schedule->noon_shift_limit}",
+            $this->schedule->noon_shift
         );
     }
 
     public function testGetNightShiftAttribute()
     {
-        $schedule = new Schedule();
-
         $this->assertEquals(
-            "{$schedule->night_shift_registration} / {$schedule->night_shift_limit}",
-            $schedule->night_shift
+            "{$this->schedule->night_shift_registration} / {$this->schedule->night_shift_limit}",
+            $this->schedule->night_shift
         );
     }
 
@@ -97,18 +90,17 @@ class ScheduleTest extends GenericModelTestCase
 
     public function testDecreaseRegistration()
     {
-        $schedule = new Schedule();
+        $this->schedule->day_shift_registration = 1;
+        $this->schedule->noon_shift_registration = 2;
+        $this->schedule->night_shift_registration = 3;
 
-        $schedule->day_shift_registration = 1;
-        $schedule->noon_shift_registration = 2;
-        $schedule->night_shift_registration = 3;
+        $this->schedule->decreaseRegistration(Shift::DAY_SHIFT);
+        $this->schedule->decreaseRegistration(Shift::NOON_SHIFT);
+        $this->schedule->decreaseRegistration(Shift::NIGHT_SHIFT);
 
-        $schedule->decreaseRegistration(Shift::DAY_SHIFT);
-        $schedule->decreaseRegistration(Shift::NOON_SHIFT);
-        $schedule->decreaseRegistration(Shift::NIGHT_SHIFT);
-
-        $this->assertEquals(0, $schedule->day_shift_registration);
-        $this->assertEquals(1, $schedule->noon_shift_registration);
-        $this->assertEquals(2, $schedule->night_shift_registration);
+        $this->assertEquals(0, $this->schedule->day_shift_registration);
+        $this->assertEquals(1, $this->schedule->noon_shift_registration);
+        $this->assertEquals(2, $this->schedule->night_shift_registration);
+        $this->assertEquals(false, $this->schedule->decreaseRegistration(Shift::allCases()));
     }
 }

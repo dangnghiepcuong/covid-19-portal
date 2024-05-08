@@ -9,13 +9,19 @@ use Tests\Unit\GenericModelTestCase;
 
 class VaccineLotTest extends GenericModelTestCase
 {
+    protected $vaccineLot;
+
     protected function setUp(): void
     {
         parent::setUp();
+        $this->vaccineLot = new VaccineLot();
+        $this->vaccineLot->import_date = '2024-07-03';
+        $this->vaccineLot->expiry_date = 10;
     }
 
     protected function tearDown(): void
     {
+        unset($this->vaccineLot);
         parent::tearDown();
     }
 
@@ -37,35 +43,23 @@ class VaccineLotTest extends GenericModelTestCase
 
     public function testRelationships()
     {
-        $vaccineLot = VaccineLot::factory()->make();
+        $this->assertInstanceOf(BelongsTo::class, $this->vaccineLot->vaccine());
+        $this->assertEquals('vaccine_id', $this->vaccineLot->vaccine()->getForeignKeyName());
 
-        $this->assertInstanceOf(BelongsTo::class, $vaccineLot->vaccine());
-        $this->assertEquals('vaccine_id', $vaccineLot->vaccine()->getForeignKeyName());
+        $this->assertInstanceOf(BelongsTo::class, $this->vaccineLot->business());
+        $this->assertEquals('business_id', $this->vaccineLot->business()->getForeignKeyName());
 
-        $this->assertInstanceOf(BelongsTo::class, $vaccineLot->business());
-        $this->assertEquals('business_id', $vaccineLot->business()->getForeignKeyName());
-
-        $this->assertInstanceOf(HasMany::class, $vaccineLot->schedules());
+        $this->assertInstanceOf(HasMany::class, $this->vaccineLot->schedules());
     }
 
     public function testSetExpiryDateAttribute()
     {
-        $vaccineLot = VaccineLot::factory()->make([
-            'import_date' => '2024-07-03',
-            'expiry_date' => 10,
-        ]);
-
-        $this->assertEquals('2024-07-13', $vaccineLot->expiry_date);
+        $this->assertEquals('2024-07-13', $this->vaccineLot->expiry_date);
     }
 
     public function testGetDteAttribute()
     {
-        $vaccineLot = VaccineLot::factory()->make([
-            'import_date' => '2024-07-03',
-            'expiry_date' => 10,
-        ]);
-
-        $this->assertEquals(10, $vaccineLot->dte);
+        $this->assertEquals(10, $this->vaccineLot->dte);
     }
 
     public function testScopeInStock()

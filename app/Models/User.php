@@ -24,20 +24,10 @@ class User extends Model
         return $this->belongsTo(Account::class);
     }
 
-    public function forms()
-    {
-        return $this->hasMany(Form::class);
-    }
-
     public function schedules()
     {
         return $this->belongsToMany(Schedule::class, 'registrations', 'user_id', 'schedule_id')
             ->withPivot(['id', 'created_at', 'updated_at', 'shift', 'number_order', 'status']);
-    }
-
-    public function vaccinations()
-    {
-        return $this->hasMany(Vaccination::class);
     }
 
     public function getFullNameAttribute($value)

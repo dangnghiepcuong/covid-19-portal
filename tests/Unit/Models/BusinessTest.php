@@ -9,13 +9,17 @@ use Tests\Unit\GenericModelTestCase;
 
 class BusinessTest extends GenericModelTestCase
 {
+    protected $business;
+
     protected function setUp(): void
     {
         parent::setUp();
+        $this->business = new Business();
     }
 
     protected function tearDown(): void
     {
+        unset($this->business);
         parent::tearDown();
     }
 
@@ -37,12 +41,12 @@ class BusinessTest extends GenericModelTestCase
 
     public function testRelationships()
     {
-        $business = new Business();
+        $this->business = new Business();
 
-        $this->assertInstanceOf(BelongsTo::class, $business->account());
-        $this->assertEquals('account_id', $business->account()->getForeignKeyName());
+        $this->assertInstanceOf(BelongsTo::class, $this->business->account());
+        $this->assertEquals('account_id', $this->business->account()->getForeignKeyName());
 
-        $this->assertInstanceOf(HasMany::class, $business->vaccineLots());
-        $this->assertInstanceOf(HasMany::class, $business->schedules());
+        $this->assertInstanceOf(HasMany::class, $this->business->vaccineLots());
+        $this->assertInstanceOf(HasMany::class, $this->business->schedules());
     }
 }
