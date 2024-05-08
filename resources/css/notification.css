@@ -1,13 +1,16 @@
-.notifications{
+.notifications {
     margin: auto 0;
 }
-.notifications .icon_wrap{
+
+.notifications .icon_wrap {
     font-size: 28px;
 }
-.notifications{
+
+.notifications {
     position: relative;
 }
-.notification_dd{
+
+.notification_dd {
     position: absolute;
     z-index: 10;
     top: 48px;
@@ -16,14 +19,15 @@
     background: #fff;
     border: 1px solid #c7d8e2;
     width: 350px;
-    height: auto;
+    max-height: 624px;
     display: none;
     border-radius: 3px;
-    box-shadow: 10px 10px 35px rgba(0,0,0,0.125),
-    -10px -10px 35px rgba(0,0,0,0.125);
+    box-shadow: 10px 10px 35px rgba(0, 0, 0, 0.125),
+    -10px -10px 35px rgba(0, 0, 0, 0.125);
+    overflow: auto;
 }
 
-.notification_dd:before{
+.notification_dd:before {
     content: "";
     position: absolute;
     top: -20px;
@@ -32,7 +36,7 @@
     border-color: transparent transparent #fff transparent;
 }
 
-.notification_dd:before{
+.notification_dd:before {
     content: "";
     position: absolute;
     top: -20px;
@@ -41,11 +45,11 @@
     border-color: transparent transparent #fff transparent;
 }
 
-.notifications.active .icon_wrap{
+.notifications.active .icon_wrap {
     color: #3b80f9;
 }
 
-.notifications.active .notification_dd{
+.notifications.active .notification_dd {
     display: block;
 }
 
@@ -57,50 +61,50 @@
 }
 
 .notification_dd li.read {
-    background-color: #F7F7F7;
+    background-color: #f1f2f4;
 }
 
 .notification_dd li.unread {
     background-color: #FFFFFF;
 }
 
-.notification_dd li .notify_icon{
+.notification_dd li .notify_icon {
     display: flex;
 }
 
-.notification_dd li .notify_icon .icon{
+.notification_dd li .notify_icon .icon {
     display: inline-block;
     background: url('https://i.imgur.com/MVJNkqW.png') no-repeat 0 0;
     width: 40px;
     height: 42px;
 }
 
-.notification_dd li.baskin_robbins .notify_icon .icon{
+.notification_dd li.baskin_robbins .notify_icon .icon {
     background-position: 0 -43px;
 }
 
-.notification_dd li.mcd .notify_icon .icon{
+.notification_dd li.mcd .notify_icon .icon {
     background-position: 0 -86px;
 }
 
-.notification_dd li.pizzahut .notify_icon .icon{
+.notification_dd li.pizzahut .notify_icon .icon {
     background-position: 0 -129px;
 }
 
-.notification_dd li.kfc .notify_icon .icon{
+.notification_dd li.kfc .notify_icon .icon {
     background-position: 0 -178px;
 }
 
-.notification_dd li .notify_data{
+.notification_dd li .notify_data {
     width: 100%;
 }
 
-.notification_dd li .notify_data .title{
+.notification_dd li .notify_data .title {
     color: #000;
     font-weight: 600;
 }
 
-.notification_dd li .notify_data .sub_title{
+.notification_dd li .notify_data .sub_title {
     font-size: 16px;
     white-space: nowrap;
     overflow: hidden;
@@ -108,98 +112,52 @@
     margin-top: 5px;
 }
 
-.notification_dd li .notify_time p{
+.notification_dd li .notify_time p {
     font-size: 12px;
 }
 
-.notification_dd li .notify_status p{
+.notification_dd li .notify_status p {
     font-size: 12px;
 }
 
-.notification_dd li.success .notify_status p{
+.notification_dd li.success .notify_status p {
     color: #47da89;
 }
 
-.notification_dd li.failed .notify_status p{
+.notification_dd li.failed .notify_status p {
     color: #fb0001;
 }
 
-.notification_dd li.show_all{
+.notification_dd li.show_all {
     padding: 10px 20px;
     display: flex;
     justify-content: center;
 }
 
-.notification_dd li.show_all p{
+.notification_dd li.show_all p {
     font-weight: 700;
     color: #3b80f9;
     cursor: pointer;
 }
 
-.notification_dd li.show_all p:hover{
+.notification_dd li.show_all p:hover {
     text-decoration: underline;
 }
 
 .navbar .profile.active .profile_dd,
-.navbar .notifications.active .notification_dd{
+.navbar .notifications.active .notification_dd {
     display: block;
 }
 
-.popup {
-    position: absolute;
-    z-index: 20;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    transition: all 0.2s ease;
+.new_notification_dot {
     display: none;
-}
-
-.popup .shadow {
-    width: 100%;
-    height: 100%;
-    background: #000;
-    opacity: 0.5;
-}
-
-.popup .inner_popup {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%,-50%);
-    width: 100%;
-    height: auto;
-}
-
-.popup .notification_dd{
-    display: block;
-    position: static;
-    margin: 0 auto;
-    height: 357px;
-    overflow: auto;
-}
-
-.popup .notification_dd:before{
-    display: none;
-}
-
-.popup .notification_dd li.title{
-    font-weight: 700;
-    color: #3b80f9;
-    display: flex;
-    justify-content: center;
-    position: relative;
-}
-
-.popup .notification_dd li.title .close{
-    position: absolute;
-    top: 2px;
-    right: 10px;
-    font-size: 20px;
-    cursor: pointer;
-}
-
-.popup .notification_dd li.title .close:hover{
-    opacity: 0.5;
+    height: 1.2rem;
+    width: 1.2rem;
+    text-align: center;
+    vertical-align: middle;
+    font-size: 14px;
+    font-weight: 600;
+    color: #fff;
+    background-color: #fb0001;
+    border-radius: 100%;
 }

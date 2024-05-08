@@ -56,13 +56,19 @@
 
             <!-- NAV RIGHT SIDE -->
             <div class="flex">
+                {{-- NOTIFICATION BELL --}}
                 <div class="notifications">
-                    <div class="icon_wrap"><i class="far fa-bell"></i></div>
-                    <div class="notification_dd">
-                        <input id="markAsReadToken" type="hidden" value="{{ csrf_token() }}">
+                    <div class="flex icon_wrap">
+                        <i class="far fa-bell"></i>
+                        <div id="new_notification_dot" class="new_notification_dot"></div>
+                    </div>
+                    <div id="notification_dd" class="notification_dd">
+                        <input id="markAllAsReadToken" type="hidden" value="{{ csrf_token() }}">
+                        <input type="hidden" id="last_page" value="0">
+                        <input type="hidden" id="current_page" value="-1">
                         <ul id="notification_ul" class="notification_ul">
                             <li class="show_all">
-                                <p class="link">{{ __('notification.show_all') }}</p>
+                                <p class="link">{{ __('notification.mark_all_as_read') }}</p>
                             </li>
                         </ul>
                     </div>
@@ -209,17 +215,3 @@
         </div>
     </div>
 </nav>
-
-<div class="popup">
-    <div class="shadow"></div>
-    <div class="inner_popup">
-        <div class="notification_dd">
-            <ul id="all_notifications_ul" class="notification_ul">
-                <li class="title">
-                    <p>{{ __('notification.all_notifications') }}</p>
-                    <p class="close"><i class="fas fa-times" aria-hidden="true"></i></p>
-                </li>
-            </ul>
-        </div>
-    </div>
-</div>
