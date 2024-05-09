@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Controllers\Api\UserController;
-use App\Http\Controllers\Api\V1\DashboardController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -34,7 +33,7 @@ Route::middleware('auth:sanctum')
                     });
 
                 Route::prefix('dashboard')
-                    ->controller(DashboardController::class)
+                    ->controller('DashboardController')
                     ->group(function () {
                         Route::get('totalDoses', 'getTotalDoses')
                             ->name('dashboard.total_dose');
@@ -44,6 +43,10 @@ Route::middleware('auth:sanctum')
                             ->name('dashboard.total_people_with_over_one_dose');
                         Route::get('totalPeopleWithNoDose', 'getTotalPeopleWithNoDose')
                             ->name('dashboard.total_people_with_no_dose');
+                        Route::get('monthlyVaccinationData', 'getMonthlyVaccinationData')
+                            ->name('dashboard.monthly_vaccination_data');
+                        Route::get('vaccinationUsageData', 'getVaccinationUsageData')
+                            ->name('dashboard.vaccination_usage_data');
                     });
             });
     });
