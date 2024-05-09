@@ -88,9 +88,6 @@
     <script src="{{ asset('js/chart-bar.js') }}" defer></script>
     <script src="{{ asset('js/chart-line.js') }}" defer></script>
     <script src="{{ asset('js/dashboard.js') }}" defer></script>
-
-    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js"
-        crossorigin="anonymous"></script>
 </x-app-layout>
 <script>
     window.translations = {!! $translation !!}

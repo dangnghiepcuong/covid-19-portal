@@ -14,7 +14,6 @@ window.getVaccineUsageData = function () {
         url: 'api/v1/dashboard/vaccinationUsageData',
         method: 'GET',
         success: function (result) {
-            console.log(result)
             let labels = []
             let vaccineUsageData = []
             for (let element of result) {
