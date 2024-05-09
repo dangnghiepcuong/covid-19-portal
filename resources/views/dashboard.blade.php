@@ -57,20 +57,22 @@
                         <div class="col-xl-6">
                             <div class="card mb-4">
                                 <div class="card-header">
-                                    <i class="fas fa-chart-area me-1"></i>
-                                    {{ __('dashboard.area_chart') }}
+                                    <i class="fas fa-chart-bar me-1"></i>
+                                    {{ __('dashboard.bar_chart') }}
                                 </div>
-                                <div class="card-body"><canvas id="myAreaChart"></canvas>
+                                <div class="card-body">
+                                    <canvas id="barChart" class="w-full"></canvas>
                                 </div>
                             </div>
                         </div>
                         <div class="col-xl-6">
                             <div class="card mb-4">
                                 <div class="card-header">
-                                    <i class="fas fa-chart-bar me-1"></i>
-                                    {{ __('dashboard.bar_chart') }}
+                                    <i class="fas fa-chart-line me-1"></i>
+                                    {{ __('dashboard.line_chart') }}
                                 </div>
-                                <div class="card-body" width="100%" height="40"><canvas id="myBarChart"></canvas>
+                                <div class="card-body">
+                                    <canvas id="lineChart" class="w-full"></canvas>
                                 </div>
                             </div>
                         </div>
@@ -83,10 +85,10 @@
     </script>
     <script src="{{ asset('js/scripts.js') }}"></script>
     <script src="{{ asset('js/chart.umd.js') }}"></script>
-    <script src="{{ asset('js/chart-area-demo.js') }}" defer></script>
     <script src="{{ asset('js/chart-bar.js') }}" defer></script>
-    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js"
-        crossorigin="anonymous"></script>
-    <script src="{{ asset('js/datatables-simple-demo.js') }}"></script>
+    <script src="{{ asset('js/chart-line.js') }}" defer></script>
     <script src="{{ asset('js/dashboard.js') }}" defer></script>
 </x-app-layout>
+<script>
+    window.translations = {!! $translation !!}
+</script>
